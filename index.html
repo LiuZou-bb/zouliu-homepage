@@ -1,0 +1,495 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邹柳 — 个人主页</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+    </button>
+
+    <nav class="navbar">
+        <div class="container nav-inner">
+            <a href="#" class="logo">邹柳</a>
+            <ul class="nav-links">
+                <li><a href="#about">关于</a></li>
+                <li><a href="#personality">人格测试</a></li>
+                <li><a href="#philosophy">理念</a></li>
+                <li><a href="#body">身体</a></li>
+                <li><a href="#skills">技能</a></li>
+                <li><a href="#moments">朋友圈</a></li>
+                <li><a href="#interview">访谈</a></li>
+                <li><a href="#contact">联系</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <div class="avatar">
+                <img src="images/avatar.jpg" alt="邹柳" class="avatar-img">
+            </div>
+            <h1>你好，我是 <span class="highlight">邹柳</span></h1>
+            <p class="hero-desc">认识自己是认识世界的第一步。</p>
+            <p class="hero-subtitle">正如古希腊德尔斐神庙上的箴言：&ldquo;认识你自己（Gnothi Seauton）&rdquo;&mdash;&mdash;这不是一个命令，而是一条邀请：邀请你进入一场与自己最深邃、最诚实的对话。</p>
+            <div class="hero-actions">
+                <a href="#contact" class="btn btn-primary">联系我</a>
+                <a href="#personality" class="btn btn-secondary">了解我</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">关于我</h2>
+            <div class="about-content">
+                <p>认识自己是认识世界的第一步。相信世界是流动的、成长是复利的、实践是检验的唯一标准。</p>
+                <p>通过运动保持身体与心灵的活力；通过阅读和思考不断扩展认知边界。每一天都是一次新的自我强化。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="personality" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">人格测试量表</h2>
+            <p class="section-intro">三份量表，三种视角，让你更全面地认识我。</p>
+            <div class="personality-grid" id="personalityGrid">
+                <div class="personality-card" data-test="16PF">
+                    <div class="personality-image">
+                        <img src="images/16PF.jpg" alt="16PF">
+                    </div>
+                    <div class="personality-info">
+                        <h3>16PF</h3>
+                        <p>卡特尔16种人格因素问卷</p>
+                    </div>
+                </div>
+                <div class="personality-card" data-test="EPQ-R">
+                    <div class="personality-image">
+                        <img src="images/EPQ-R.jpg" alt="EPQ-R">
+                    </div>
+                    <div class="personality-info">
+                        <h3>EPQ-R</h3>
+                        <p>艾森克人格问卷修订版</p>
+                    </div>
+                </div>
+                <div class="personality-card" data-test="NEO-PI-R">
+                    <div class="personality-image">
+                        <img src="images/NEO-PI-R.jpg" alt="NEO-PI-R">
+                    </div>
+                    <div class="personality-info">
+                        <h3>NEO-PI-R</h3>
+                        <p>大五人格量表修订版</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="personalityDetail" class="section detail-section">
+        <div class="container">
+            <div class="detail-image">
+                <img id="detailImg" src="" alt="">
+            </div>
+            <div class="detail-content" id="detailContent"></div>
+            <div class="detail-back">
+                <button class="btn btn-secondary" id="detailBack">← 返回列表</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="philosophy" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">我的理念</h2>
+            <p class="section-intro">我理解世界的方式，亦是安放自己的坐标。</p>
+            <div class="philosophy-grid">
+                <div class="philosophy-card">
+                    <div class="philosophy-number">01</div>
+                    <h3>World Is Fluid</h3>
+                    <p>世界是流动的——没有一成不变的事物，适应变化是生存与成长的根本。</p>
+                </div>
+                <div class="philosophy-card">
+                    <div class="philosophy-number">02</div>
+                    <h3>Growth Is Compound</h3>
+                    <p>成长是复利的——每天进步1%，一年后就是37.8倍的自己。</p>
+                </div>
+                <div class="philosophy-card">
+                    <div class="philosophy-number">03</div>
+                    <h3>Practice Is the Only Standard</h3>
+                    <p>实践是检验的唯一标准——行动胜过空想，结果说明一切。</p>
+                </div>
+            </div>
+            <div class="philosophy-more">
+                <button class="btn btn-outline" id="friendToggle">
+                    <span class="btn-icon">🤝</span> 我希望和这样的人交朋友
+                </button>
+                <button class="btn btn-outline" id="loveToggle">
+                    <span class="btn-icon">❤️</span> 我对爱的理解
+                </button>
+                
+                
+                <button class="btn btn-outline" id="childhoodToggle">
+                    <span class="btn-icon">🧒</span> 对童年塑造的理解
+                </button>
+                <button class="btn btn-outline" id="dreamToggle">
+                    <span class="btn-icon">🌙</span> 我梦的解析
+                </button>
+                <button class="btn btn-outline" id="sorryToggle">
+                    <span class="btn-icon">💌</span> 想对你说
+                </button><div class="philosophy-divider">
+                    <span>📡 公众号文章</span>
+                </div><a href="https://mp.weixin.qq.com/s/P7GhObsAs9v48y5Bc6jjAA" target="_blank" rel="noopener" class="btn btn-outline wx-link">
+                    <span class="btn-icon">🧭</span> 人生主线：别再跟着别人的剧本活了
+                </a>
+                <a href="https://mp.weixin.qq.com/s?__biz=MzYzNDQ2MTMxMg==&mid=2247483696&idx=1&sn=c8054ce4a7166da204df7e17aceaa447" target="_blank" rel="noopener" class="btn btn-outline wx-link">
+                    <span class="btn-icon">🤔</span> 人与人的差距在哪？
+                </a>
+            </div>
+        </div>
+    </section>
+
+    
+    <section id="friend" class="section friend-section">
+        <div class="container">
+            <h2 class="section-title">我希望和这样的人交朋友</h2>
+            <div class="friend-content">
+                <div class="friend-block">
+                    <h3>板块一：基础要求</h3>
+                    <p>1. 诚信负责：说到做到，有变动提前说，事事有交代。</p>
+                    <p>2. 责任担当：遇事先解决再复盘，不甩锅不推诿。</p>
+                    <p>3. 情绪稳定：就事论事，不宣泄情绪不人身攻击。</p>
+                    <p>4. 共赢思维：愿意分享、双向付出，不搞单方面索取。</p>
+                    <p>5. 底线原则：守规矩、有敬畏，凭本事不搞歪门邪道。</p>
+                    <p>6. 真诚坦荡：当面沟通不藏事，不搞背后小动作。</p>
+                </div>
+                <div class="friend-block">
+                    <h3>板块二：核心要求</h3>
+                    <p>1. 主动学习：保持输入，不局限于课本，对新知识有好奇心。</p>
+                    <p>2. 持续成长：有自己的成长节奏，能复盘迭代自我。</p>
+                    <p>3. 辩证思维：理性全面看问题，能听不同意见。</p>
+                    <p>4. 靠谱回应：约好的事不鸽、答应的事不沉，有进度会说一声。</p>
+                    <p>5. 边界尊重：有边界也尊重别人，不绑架不越界。</p>
+                    <p>6. 开放心态：包容新想法，敢试错能从挫折中成长。</p>
+                    <p>7. 健康管理：规律作息，不长期透支身体；规律运动，保持稳定精力。</p>
+                    <p>8. 时间管理：能掌控碎片化时间，做事时保持长时间专注状态。</p>
+                </div>
+                <div class="friend-block">
+                    <h3>板块三：一票否决</h3>
+                    <p>1. 习惯性失信：经常放鸽子、答应的事没下文还无所谓。</p>
+                    <p>2. 遇事甩锅：有好处就抢、出问题就躲，从不反思。</p>
+                    <p>3. 情绪攻击：一点就炸，冷暴力或当众撒气。</p>
+                    <p>4. 极度自私：只想躺赢蹭好处，从不付出。</p>
+                    <p>5. 无底线者：作弊抄袭造假，可能出卖朋友。</p>
+                    <p>6. 两面派：背后挑拨煽动情绪，当面不沟通。</p>
+                </div>
+            </div>
+            <div class="love-back">
+                <a href="#philosophy" class="btn btn-secondary">← 返回理念</a>
+            </div>
+        </div>
+    </section>
+<section id="love" class="section love-section">
+        <div class="container">
+            <h2 class="section-title">爱之实，爱之死</h2>
+            <div class="love-content">
+                <div class="love-block"><p>为什么有的人对爱忠贞不渝，甚至殉情，而有的人肆意滥交，却从未爱过。为什么明明爱令人那么痛苦，人们却对它趋之若鹜？</p></div>
+                <h3>爱的起源：进化——一切为了生存与延续</h3>
+                <div class="love-block"><p>历经无数年的生存和繁衍，利于生存的基因被保留，不利于生存的基因载体死亡，不断演化，最终在大约400万年前，浪漫爱情的神经元第一次在人科祖先中出现。在那时，爱的职能为提高繁殖成功率、为后代提供稳定的养育环境、促进合作和群体凝聚力、提高生存适应性。若仅仅是如此，爱又如何影响现代人的生活形成丰富多彩的形态？</p></div>
+                <h3>爱的机制——激素、神经与正向反馈</h3>
+                <div class="love-block"><p>在与爱人相处时，大脑中富含多巴胺的区域会激活，这一区域与快乐、一般唤醒、专注注意力和追求获得奖赏的动机相关。催产素和血管加压素升高，降低焦虑、增强信任、抑制背叛、增强亲密接触。</p><p>当人们被爱人看见、尊重、偏爱、接纳时，多巴胺、催产素、血管加压素等物质都会促使人们产生快乐、温暖、心安、甜蜜的感觉，这些感觉又会促使人们采取看见他人、尊重他人、偏爱他人、接纳他人的行为，形成正向反馈，循环往复，爱就出现了并在彼此间流动。</p><p>因此我们可以爱任何人，也可以被任何人所爱。那么我们是如何选择爱人的？我们又为什么反复爱上同一类人？</p></div>
+                <h3>爱的个体呈现——依恋</h3>
+                <div class="love-block"><p>依恋是具有生存价值的本能行为系统，旨在保护幼体免受威胁。照顾者在幼体采取不同的养育策略会使其形成不同的依恋类型：安全型、回避型和焦虑－矛盾型。安全型依恋的成人在爱情中表现出信任、稳定和积极的期待；回避型依恋的成人倾向于保持情感距离，对亲密关系感到不适；焦虑-矛盾型依恋的成人则表现出对关系的过度关注和不安全感。</p><p>比外貌优先的情感互动。抚养者是人生第一个爱的样本，我们会天然亲近于外貌、性格、神态、语气、动作、对待方式与抚养者相似的人。在后续不断喜欢上其他人的过程中，样本不断更新，某些特质的神经区域被增强，并在见到某些特定的人时，这块神经区域会激活，并连锁激活与爱相关的模块，于是一见钟情，或是日久生情。</p></div>
+                <h3>爱之殇——惯性与执念</h3>
+                <div class="love-block"><p>爱的反义词不是恨，而是痛。个体会天然贪恋熟悉与安全的环境与体验，当被看见、被重视、被偏爱、被接纳成为习惯，大脑会将这段关系默认为"安全区"，当关系结束时，个体仍会本能地想待在原地，无法跳出固有的情感模式。</p><p>人们畏惧亲人的死亡，亦是如此。死亡对于活在世界上的人来说，是少了一个爱他的人，少了一个看见、照顾、理解、接纳他的人。我们恐惧的不是死亡，而是不被爱，爱得越深执念越深。</p><p>执念是今天新引入的概念，并无多少研究与思考。它是人的一部分，也是爱的一部分，它无处不在。</p><p>执念很深的人，也是坚持不懈，坚韧不拔的人。苏轼说"古之立大事者，不惟有超世之才，亦必有坚忍不拔之志。"世间大部分人都没有，亦是普通人。纯粹的理性思考而不考虑情感的因素是不可取的，希望通过此篇文章，让你认识爱之实，在理性与情感中、痛苦与爱中寻得一条中庸之道，而不被执念所困。</p></div>
+                <h3>爱的唯一性</h3>
+                <div class="love-block"><p>形而上之美，被理性解构成形而下具象逻辑，那份诗意就此消散。</p><p>人可以轻易喜欢任何人，不过是分泌激素本能；也能爱众生万物，只需拥有足够的慈悲。</p><p>爱的唯一性，就是人的唯一性——扎根于灵魂，沉淀于经历。</p><p>人真的无可替代吗？形而下看：基因有双胞胎复刻，容貌有路人撞脸相似，学识、能力、财富等外在特质，皆可被他人比肩甚至替代。</p><p>唯独灵魂不可复刻。形而上往下看：自生命降生伊始，每一分每一秒都无限动态演化，你每次抉择、每番思考、每段亲身亲历，所有独属于你的生命轨迹交织累积，无人能够复制，最终塑成了独一无二的你🫵</p><p>人们如何爱唯一的人，在ta有缺时如同亲人父母般不离不弃，而非移情别恋，想必就是爱构成ta过往的独特经历，以及爱曾经或未来和ta一起创造的独特经历罢。</p></div>
+            </div>
+            <div class="love-back">
+                <a href="#philosophy" class="btn btn-secondary">← 返回理念</a>
+            </div>
+        </div>
+    </section>
+    <section id="childhood" class="section childhood-section">
+        <div class="container">
+            <h2 class="section-title">对童年塑造的理解</h2>
+            <div class="childhood-content">
+                <div class="childhood-block">
+                    <p>小时候我不懂这句话，因为我是站在被审视的那一端。高中时只觉得是无稽之谈——人的一生明明有无数变量，怎么可能凭幼年的模样，就定了终身的走向。</p>
+                    <p>这句俗语的核心，从来不是预判孩子的先天素质与人生上限，而是揭示了一个朴素本质：孩子的一言一行、心性底色，就是他所处的家庭、养育环境等所有社会关系共同作用的结果。正应了马克思那句经典之言：人是一切社会关系的总和。孩子的模样，正是他所处的一切社会关系的综合缩影。（基因决定论的迷信已经是上一个世纪的产物了，当被扫进历史的尘埃）</p>
+                    <p>今天在外吃饭，亲戚小孩千姿百态，我观察思考，突然回想我小时候，总有一些大人，会带着与我如今一模一样的特殊目光看向你，那目光的名字叫审视——审视你值不值得他倾注自己的思想与教育，审视这份心思花在你身上，能否有预期的成效，而非白费。</p>
+                    <p>可那时的我于他们而言，终究是个外人。外人能做的事太少，有时忍不住多说两句，有时又恨铁不成钢，最后只能劝自己别多管闲事，干脆抽离出来，如今我也成为了这个外人。</p>
+                    <p>站在审视的另一端才明白，这种审视，无关性别、年龄、学历，更不是长辈居高临下的评判特权，它的本质，是对儿童人格发展、行为背后的心理、家庭与环境乃至社会的塑造、人与人交往边界的基础认知，是对内的不被孩子情绪影响的定力、是对外穿透表象看见孩子需求的共情能力、以及不妄加评判的中立觉察能力。</p>
+                    <p>透过孩子的行为，往往能窥见其背后的情绪逻辑，支撑这份情绪的固有行为模式，还有以家庭教育为核心的成长环境，为他塑造的处世底层机制。这套机制会在幼年时期打下深刻的人生底色，成为他面对世界时最本能的下意识反应，影响贯穿成长全程，后续想要重塑调整，绝非易事。</p>
+                    <p>也正应了"江山易改，本性难移"的老话。这套处世机制的深度重塑，本质上是对自身固有认知与本能反应的彻底改写，这个过程需要消耗极大的心力，辅以长期坚定的行动，才有可能真正达成。</p>
+                </div>
+            </div>
+            <div class="love-back">
+                <a href="#philosophy" class="btn btn-secondary">← 返回理念</a>
+            </div>
+        </div>
+    </section>
+
+        <section id="body" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">身体快速使用手册</h2>
+            <p class="section-intro">身是心的容器。保持身体的最佳状态，才能承载更深的思考。</p>
+
+            <h3 class="body-h3 body-toggle">高效休息方法 <span class="body-arrow">▾</span></h3>
+            <div class="body-group">
+                <div class="body-block">
+                    <h4 class="body-sub-toggle">一. NSDR（非睡眠深度休息） <span class="body-arrow-sm">▾</span></h4>
+                    <div class="body-sub">
+                        <h5>操作步骤</h5>
+                        <p>1. 找安静环境，平躺</p>
+                        <p>2. 闭眼，深呼吸，放松身体。</p>
+                        <p>3. 从脚趾开始，依次将注意力移至全身各处直至头顶，呼气时感受部位放松，走神无需刻意纠正。</p>
+                        <p>4. 结束后先活动手脚、伸懒腰，再慢慢睁眼起身。</p>
+                        <h5>效果</h5>
+                        <p>1. 快速恢复精力，不会出现睡醒发懵的情况，改善午后困倦。</p>
+                        <p>2. 舒缓压力、平复焦虑，减少思绪内耗。</p>
+                        <p>3. 放松肌肉，缓解久坐引发的肩颈、腰背僵硬酸痛。</p>
+                        <p>4. 提升专注力，让思维更清晰。</p>
+                        <p>5. 调节神经状态，帮助改善夜间睡眠。</p>
+                        <p>6. 门槛低，零基础也能轻松练习。</p>
+                    </div>
+                </div>
+                <div class="body-block">
+                    <h4 class="body-sub-toggle">二. 4-7-8呼吸法 <span class="body-arrow-sm">▾</span></h4>
+                    <div class="body-sub">
+                        <h5>操作步骤</h5>
+                        <p>1. 舌尖抵住上门牙后方的牙龈。</p>
+                        <p>2. 闭上嘴巴，用鼻子缓慢吸气4秒。</p>
+                        <p>3. 屏住呼吸7秒。</p>
+                        <p>4. 嘴巴撅嘴缓慢吹气8秒，。</p>
+                        <p>5. 以上为1次完整呼吸，重复4-6次为一组。</p>
+                        <h5>效果</h5>
+                        <p>1. 快速平复情绪，缓解焦虑、紧张和恐慌发作。</p>
+                        <p>2. 激活副交感神经，帮助快速入睡，改善失眠。</p>
+                        <p>3. 降低皮质醇水平，减轻身体压力反应。</p>
+                        <p>4. 调节心率，缓解心慌、胸闷等躯体症状。</p>
+                        <p>5. 随时随地可做，无需任何工具，零门槛。</p>
+                        <p>6. 长期练习可改善整体呼吸模式，提升心肺功能。</p>
+                        <p>7.短暂停止思考。</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="body-h3 body-toggle">快速激活大脑方法 <span class="body-arrow">▾</span></h3>
+            <div class="body-group">
+                <div class="body-block">
+                    <h4 class="body-sub-toggle">一. 快走 <span class="body-arrow-sm">▾</span></h4>
+                    <div class="body-sub">
+                        <h5>操作步骤</h5>
+                        <p>1.基础快走：抬头挺胸，手臂自然摆动，步幅适中，速度以能说话但不能唱歌为宜。</p>
+                        <p>2. 路线：走到走廊尽头可上楼或下楼循环路线</p>
+                        <p>3. 节奏：越快激活越快</p>
+                        <p>4.tips：可以使用八步赶蝉+轻哼小调效果更加</p>
+                        <h5>效果</h5>
+                        <p>1. 快速激活大脑，提升专注力和思维清晰度，效果持续1-2小时。</p>
+                        <p>2. 促进血液循环，缓解久坐导致的大脑缺氧和午后昏沉。</p>
+                        <p>3. 锻炼心肺功能，同时增强下肢肌肉力量。</p>
+                        <p>4. 释放压力，改善情绪，减少焦虑和精神疲劳。</p>
+                        <p>5. 上下楼梯结合能提升代谢效率，比单纯平地快走效果更好。</p>
+                        <p>6. 随时随地可进行，无需特殊场地和器材。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<section id="skills" class="section">
+        <div class="container">
+            <h2 class="section-title">我的技能</h2>
+            <p class="section-intro">一些让生活更有温度与节奏的事。</p>
+            <div class="skills-grid">
+                <div class="skill-card"><div class="skill-icon">🏃</div><h3>跑步</h3><p>用脚步丈量城市，保持身体与意志的韧性。</p></div>
+                <div class="skill-card"><div class="skill-icon">🚴</div><h3>骑车</h3><p>两轮之上，感受风与自由，探索未知路径。</p></div>
+                <div class="skill-card"><div class="skill-icon">🚶</div><h3>散步</h3><p>大自然里散步很放松。</p></div>
+                <div class="skill-card"><div class="skill-icon">🎾</div><h3>网球</h3><p>在球场上挥洒汗水，专注与爆发的一瞬即永恒。</p></div>
+                <div class="skill-card"><div class="skill-icon">💻</div><h3>使用电子产品</h3><p>善用工具提升效率，保持对科技的好奇与掌控。</p></div>
+                <div class="skill-card"><div class="skill-icon">📚</div><h3>阅读</h3><p>书籍是认知的阶梯，持续输入、持续内化。</p></div>
+                <div class="skill-card"><div class="skill-icon">🎮</div><h3>游戏</h3><p>人生就是最真实的游戏。</p></div>
+                <div class="skill-card"><div class="skill-icon">🪞</div><h3>内省</h3><p>善于将心剖开审视，追本溯源。</p></div>
+                <div class="skill-card"><div class="skill-icon">🔄</div><h3>自我迭代</h3><p>学习强化，每日精进。复利思维驱动长期成长。</p></div>
+            </div>
+        </div>
+
+
+    <section id="moments" class="section">
+        <div class="container">
+            <h2 class="section-title">朋友圈</h2>
+            <p class="section-intro">从 2023 到 2026，四年来的心路与足迹。点击查看全文与图片。</p>
+            <div class="moments-grid" id="momentsGrid"></div>
+        </div>
+    </section>
+
+    <section id="interview" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">正在做的事</h2>
+            <p class="section-intro">访谈 · 用 31 个问题，开启一场真诚的对话。</p>
+            <div class="interview-list">
+                <div class="interview-item">1. 如果你可以邀请任何一位名人共进晚餐，你会选谁？你最想问他/她什么问题？</div>
+                <div class="interview-item">2. 你最近一次不经意间跟着哼歌或舞动是在什么时候？是什么歌？</div>
+                <div class="interview-item">3. 最近有没有尝试什么让你觉得有趣或新鲜的小事？感觉怎么样？</div>
+                <div class="interview-item">4. 你目前最感兴趣或花时间最多的一件事是什么？是怎么开始对它产生兴趣的？</div>
+                <div class="interview-item">5. 有没有什么小技能或爱好是你一直想学但还没开始的？是什么吸引你想学它？</div>
+                <div class="interview-item">6. 如果你突然得到一个意外的三天小长假，你会怎么安排？</div>
+                <div class="interview-item">7. 如果你突然有一个月的带薪假期，并且预算充足，你最想用它来实现什么？</div>
+                <div class="interview-item">8. 如果必须在"永远活力充沛的身体"和"永远睿智平和的心智"之间选择，你会选哪个？为什么？</div>
+                <div class="interview-item">9. 你现在如何定义"成功"？这个定义发生过变化吗？</div>
+                <div class="interview-item">10. 你最感恩的三件事是什么？</div>
+                <div class="interview-item">11. 你目前的生活中，最让你感到满足和快乐的是什么？</div>
+                <div class="interview-item">12. 有什么人事物是太严重，不能随便开玩笑的？</div>
+                <div class="interview-item">13. 一段友情/感情中，你最看重的是什么？</div>
+                <div class="interview-item">14. 你希望自己成为一个什么样的人？你觉得你正在朝这个方向前进吗？</div>
+                <div class="interview-item">15. 你现在最大的个人挑战是什么？你打算如何面对它？</div>
+                <div class="interview-item">16. 你目前是如何处理压力或负面情绪的？</div>
+                <div class="interview-item">17. 过去几个月里，有没有发生什么让你觉得"还挺幸运的"小事？</div>
+                <div class="interview-item">18. 你童年中最快乐的一段记忆是什么？</div>
+                <div class="interview-item">19. 分享一个你最近遇到的、有点尴尬但无伤大雅的小事。</div>
+                <div class="interview-item">20. 如果你的房子着火了，在确保家人和宠物安全后，你还有时间安全地拿一样东西，你会拿什么？为什么？</div>
+                <div class="interview-item">21. 关于你的家庭，有什么是你觉得最值得分享的？</div>
+                <div class="interview-item">22. 你最近有没有学到什么让你眼前一亮的新知识或观点？</div>
+                <div class="interview-item">23. 轮流分享你认为对方拥有的一个很好的性格特点。</div>
+                <div class="interview-item">24. 根据我们刚才的简短交流，你觉得我们之间最快能达成的共识或共同点可能是什么？</div>
+                <div class="interview-item">25. 爱对你来说意味着什么？</div>
+                <div class="interview-item">26. 你希望未来你的伴侣/最好的朋友如何评价你？</div>
+                <div class="interview-item">27. 完成这个句子："我希望有一天，我能......"</div>
+                <div class="interview-item">28. 为了你想要的未来，你愿意在当下做出最大的牺牲是什么？</div>
+                <div class="interview-item">29. 你对衰老最大的恐惧或最大的期待是什么？</div>
+                <div class="interview-item">30. 关于死亡，你有什么想法？它改变了你的人生观吗？</div>
+                <div class="interview-item">31. 你认为什么样的"共同经历"最能巩固一段关系？</div>
+                <p class="interview-invite">
+                    <strong>以上 31 个问题，不只是我问你——它是我们相互理解的桥梁。</strong><br><br>
+                    许多人在聊完之后发现，原来自己从未这样认真地审视过自己；<br>
+                    而我也会在这个过程中，更深入地认识你。<br><br>
+                    在回答中<span class="trait-label">重新认识自己</span>，<br>
+                    在对话中<span class="trait-label">彼此照见</span>。<br><br>
+                    如果你愿意花一小时坐下来，<br>
+                    来一场面对面的真诚对话——<br>
+                    <strong>我洗耳恭听，也保证你会有意外的收获。</strong>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 朋友圈全文弹窗 -->
+    <div class="moments-modal" id="momentsModal">
+        <div class="moments-modal-bg"></div>
+        <div class="moments-modal-content">
+            <button class="moments-modal-close" id="momentsModalClose">&times;</button>
+            <div class="moments-modal-body" id="momentsModalBody"></div>
+        </div>
+    </div>
+    <section id="sorry" class="section sorry-section">
+        <div class="container">
+            <h2 class="section-title">想对你说</h2>
+            <div class="sorry-content">
+                <div class="sorry-poem">
+                    <h3>如果我曾经伤害了你</h3>
+                    <p class="sorry-subtitle">《对不起》</p>
+                    <p>对不起啊。</p>
+                    <p>我伤害了你，<br>对不起。</p>
+                    <p>第一次来这人间，<br>第一次学着做人，<br>却伤害了你。<br>对不起啊。</p>
+                    <p>我伤害过的人，<br>对不起啊。</p>
+                </div>
+                <div class="sorry-poem">
+                    <h3>如果我曾经被你伤害</h3>
+                    <p class="sorry-subtitle">《原谅》</p>
+                    <p>我原谅了。</p>
+                    <p>你带给我的伤害，<br>我已经原谅了。</p>
+                    <p>你也是啊，<br>第一次来到这世界上，<br>懵懵懂懂地，<br>第一次学着做人。</p>
+                    <p>你带给我的伤害，<br>我原谅了。</p>
+                </div>
+            </div>
+            <div class="love-back">
+                <a href="#philosophy" class="btn btn-secondary">← 返回理念</a>
+            </div>
+        </div>
+    </section>
+</section>
+
+
+
+
+
+
+
+
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">联系我</h2>
+            <p class="contact-intro">若有共鸣，不妨来信。点击复制邮箱。</p>
+            <div class="contact-links">
+                <button class="contact-item" id="emailCopy">
+                    <span class="contact-icon">✉️</span>
+                    <span>zouliu520@outlook.com</span>
+                    <span class="copy-tip" id="copyTip">已复制 ✓</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container"><p>&copy; 2026 邹柳. 路漫漫其修远，虚心学习，小心求证。</p></div>
+    </footer>    <script src="moments-data.js"></script>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
