@@ -688,7 +688,7 @@ body {
 
 /* 响应式 */
 @media (max-width: 768px) {
-    .nav-links { gap: 18px; }
+    .nav-links { gap: 14px; flex-wrap: wrap; }
     .hero { padding: 100px 0 48px; }
     .section { padding: 72px 0; }
     .personality-grid { grid-template-columns: repeat(2, 1fr); }
@@ -697,6 +697,14 @@ body {
     .philosophy-more { flex-direction: column; align-items: center; }
 }
 @media (max-width: 480px) {
+    .container { padding: 0 14px; }
+    .navbar { padding-right: 40px; }
+    .nav-links { gap: 8px; flex-wrap: wrap; }
+    .nav-links a { font-size: 0.76rem; letter-spacing: 1px; }
+    .theme-toggle { top: 72px; right: 6px; width: 32px; height: 32px; }
+    .section-title { font-size: 1.2rem; letter-spacing: 3px; }
+    .hero h1 { font-size: 1.6rem; }
+    .hero-subtitle { font-size: 0.85rem; }
     .nav-links { gap: 10px; font-size: 0.78rem; }
     .skills-grid, .personality-grid { grid-template-columns: 1fr; }
     .hero-actions { flex-direction: column; align-items: center; }
@@ -708,6 +716,7 @@ body {
     .moments-entry-thumb { width: 100%; height: 140px; }
     .section-title { font-size: 1.5rem; letter-spacing: 4px; }
 }
+
 
 
 
