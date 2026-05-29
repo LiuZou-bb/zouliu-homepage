@@ -199,7 +199,7 @@ var conclusions = {
             if (!isOpen) {
                 section.classList.add('visible');
                 btn.innerHTML = '<span class="btn-icon">' + p.icon + '</span> 收起';
-                section.scrollIntoView({ behavior: 'smooth' });
+                setTimeout(function () { section.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
             } else {
                 window.location.hash = '#philosophy';
             }
@@ -479,6 +479,7 @@ var conclusions = {
         if (e.key === 'Escape' && intimacyModal.classList.contains('visible')) closeIntimacy();
     });
 })();
+
 
 
 
