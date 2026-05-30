@@ -1,6 +1,0 @@
-在你电脑上打开 PowerShell（Win 键 → 搜 PowerShell），粘贴：
-cd "D:\AI\codex\ds\个人主页"
-git add .; git commit -m "更新"; git push
-
-cd "D:\AI\codex\ds\个人主页"
-git push --set-upstream origin master
