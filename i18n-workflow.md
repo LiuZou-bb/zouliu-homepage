@@ -11,7 +11,7 @@
 rg '[\u4e00-\u9fff]+' index.html | rg -v 'data-i=' | rg -v '<!--'
 
 # JS中硬编码中文
-rg '[\u4e00-\u9fff]+' js/ui.js js/moments.js js/auth.js
+rg '[\u4e00-\u9fff]+' js/ui.js js/moments.js js/interview.js
 ```
 
 ### 2. 添加到 zh.js
@@ -59,7 +59,7 @@ rg '[\u4e00-\u9fff]+' js/ui.js js/moments.js js/auth.js
 
 ```bash
 # 语法检查
-node -c js/zh.js && node -c js/en.js
+node -c js/zh.js && node -c js/en.js && node -c js/i18n.js && node -c js/ui.js && node -c js/moments.js && node -c js/interview.js
 # key数量一致
 rg -c '^\s+\w+:' js/zh.js && rg -c '^\s+\w+:' js/en.js
 # 浏览器中点击 EN/中 按钮测试切换

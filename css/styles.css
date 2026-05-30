@@ -67,9 +67,8 @@ body {
 
 /* ===== 婵炴垶鎸搁…鐑姐€傛禒瀣闁搞儯鍔屾惔?===== */
 
-
 /* 浮动按钮：竖排 */
-.theme-toggle, .login-btn, .lang-btn {
+.theme-toggle, .lang-btn {
     position: fixed; z-index: 1001; right: 16px;
     width: 40px; height: 40px;
     border-radius: 50%;
@@ -83,24 +82,24 @@ body {
 }
 .theme-toggle { top: 72px; }
 .lang-btn { top: 120px; font-size: 0.65rem; font-weight: 700; }
-.login-btn { top: 168px; font-size: 0.9rem; }
-.theme-toggle:hover, .login-btn:hover, .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
-.login-btn.logged-in { border-color: var(--wx-accent); color: var(--wx-accent); }
+
+.theme-toggle:hover:hover, .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
+
 [data-theme="dark"] .sun-icon { display: none; }
 [data-theme="light"] .moon-icon { display: none; }
 
 @media (max-width: 768px) {
-    .theme-toggle, .login-btn, .lang-btn { right: 12px; width: 34px; height: 34px; }
+    .theme-toggle, .lang-btn { right: 12px; width: 34px; height: 34px; }
     .theme-toggle { top: 84px; }
     .lang-btn { top: 126px; font-size: 0.6rem; }
-    .login-btn { top: 168px; font-size: 0.8rem; }
+    
     .navbar { padding-right: 48px; }
 }
 @media (max-width: 480px) {
-    .theme-toggle, .login-btn, .lang-btn { right: 8px; width: 32px; height: 32px; }
+    .theme-toggle, .lang-btn { right: 8px; width: 32px; height: 32px; }
     .theme-toggle { top: 76px; }
     .lang-btn { top: 114px; }
-    .login-btn { top: 152px; }
+    
 }
 
 /* ===== 闁诲簼绲绘竟鍫ュ春?===== */
@@ -134,8 +133,10 @@ body {
     transition: width 0.3s;
 }
 .nav-links a:hover { color: var(--accent); }
+.nav-links a.active { color: var(--primary); }
 .nav-links a:hover::after { width: 100%; }
 .nav-links a:hover { color: var(--accent); }
+.nav-links a.active { color: var(--primary); }
 
 /* ===== Hero 閻?婵犮垹鐏堥弲娑橈耿閺夋埈鍤曢柍褜鍓熷畷?===== */
 .hero {
@@ -337,7 +338,7 @@ body {
 .skill-card p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.7; }
 
 /* ===== 闂佽崵鍋涘Λ妤佹償閻戣棄纭€闁挎稑瀚。?===== */
-.philosophy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.philosophy-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
 .philosophy-card {
     background: var(--card-bg);
     padding: 40px 28px;
@@ -661,6 +662,8 @@ body {
 }
 
 /* ===== 闂佽壈椴稿濠氭焾?===== */
+
+
 .contact-intro {
     text-align: center; color: var(--text-secondary);
     margin-bottom: 36px; letter-spacing: 1px;
@@ -741,7 +744,4 @@ body {
 
 
 
-
-
-
-
+.personality-note { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--text-secondary); text-align: center; letter-spacing: 1px; opacity: 0.75; }

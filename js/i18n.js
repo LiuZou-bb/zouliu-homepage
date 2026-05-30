@@ -82,6 +82,8 @@ document.addEventListener('DOMContentLoaded', function() {
     applyI18n();
     if (typeof refreshPhilButtons === 'function') refreshPhilButtons();
     if (typeof renderMoments === 'function') renderMoments();
+    if (typeof renderInterview === 'function') renderInterview();
+    if (typeof refreshInterviewToggle === 'function') refreshInterviewToggle();
     var lb = document.getElementById('langBtn');
     if (lb) {
         lb.addEventListener('click', function() {
@@ -90,6 +92,8 @@ document.addEventListener('DOMContentLoaded', function() {
             applyI18n();
             if (typeof refreshPhilButtons === 'function') refreshPhilButtons();
             if (typeof renderMoments === 'function') renderMoments();
+            if (typeof renderInterview === 'function') renderInterview();
+            if (typeof refreshInterviewToggle === 'function') refreshInterviewToggle();
         });
     }
 });

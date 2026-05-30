@@ -9,6 +9,8 @@ const TEXT = ['.html','.js','.css','.json','.txt','.svg'];
 http.createServer((req, res) => {
     let filePath = '.' + decodeURIComponent(req.url.split('?')[0]);
     if (filePath === './') filePath = './index.html';
+    filePath = path.normalize(filePath);
+    if (!filePath.startsWith('.' + path.sep) && filePath !== '.') { res.writeHead(403); res.end('Forbidden'); return; }
     const ext = path.extname(filePath);
     fs.readFile(filePath, (err, data) => {
         if (err) { res.writeHead(404); res.end('Not found'); return; }
