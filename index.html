@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>邹柳 — 个人主页</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css?v=20260901-personality-zoom">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="js/zh.js"></script>
-    <script src="js/en.js"></script>
+    <script src="js/zh.js?v=20260901-poems"></script>
+    <script src="js/en.js?v=20260901-poems"></script>
     <script src="js/i18n.js"></script>
 </head>
 <body>
@@ -109,7 +109,9 @@
     <section id="personalityDetail" class="section detail-section">
         <div class="container">
             <div class="detail-image">
-                <img id="detailImg" src="" alt="">
+                <button class="detail-image-button" id="detailImageZoom" type="button" aria-label="放大量表图片" data-i-aria="personality_zoom_aria">
+                    <img id="detailImg" src="" alt="">
+                </button>
             </div>
             <div class="detail-content" id="detailContent"></div>
             <div class="detail-back">
@@ -261,18 +263,18 @@
                 <div class="sorry-poem">
                     <h3 data-i="sorry_poem1_title">如果我曾经伤害了你</h3>
                     <p class="sorry-subtitle" data-i="sorry_subtitle1">《对不起》</p>
-                    <p>对不起啊。</p>
-                    <p>我伤害了你，<br>对不起。</p>
-                    <p>第一次来这人间，<br>第一次学着做人，<br>却伤害了你。<br>对不起啊。</p>
-                    <p>我伤害过的人，<br>对不起啊。</p>
+                    <p data-i-inner="sorry_poem1_p1">对不起啊。</p>
+                    <p data-i-inner="sorry_poem1_p2">我伤害了你，<br>对不起。</p>
+                    <p data-i-inner="sorry_poem1_p3">第一次来这人间，<br>第一次学着做人，<br>却伤害了你。<br>对不起啊。</p>
+                    <p data-i-inner="sorry_poem1_p4">我伤害过的人，<br>对不起啊。</p>
                 </div>
                 <div class="sorry-poem">
                     <h3 data-i="sorry_poem2_title">如果我曾经被你伤害</h3>
                     <p class="sorry-subtitle" data-i="sorry_subtitle2">《原谅》</p>
-                    <p>我原谅了。</p>
-                    <p>你带给我的伤害，<br>我已经原谅了。</p>
-                    <p>你也是啊，<br>第一次来到这世界上，<br>懵懵懂懂地，<br>第一次学着做人。</p>
-                    <p>你带给我的伤害，<br>我原谅了。</p>
+                    <p data-i-inner="sorry_poem2_p1">我原谅了。</p>
+                    <p data-i-inner="sorry_poem2_p2">你带给我的伤害，<br>我已经原谅了。</p>
+                    <p data-i-inner="sorry_poem2_p3">你也是啊，<br>第一次来到这世界上，<br>懵懵懂懂地，<br>第一次学着做人。</p>
+                    <p data-i-inner="sorry_poem2_p4">你带给我的伤害，<br>我原谅了。</p>
                 </div>
             </div>
             <div class="love-back">
@@ -419,6 +421,11 @@
         </div>
     </div>
 
+    <div class="img-lightbox" id="personalityLightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="量表图片预览" data-i-aria="personality_preview_aria">
+        <button class="img-lightbox-close" id="personalityLightboxClose" type="button" aria-label="关闭图片预览" data-i-aria="lightbox_close_aria">&times;</button>
+        <img id="personalityLightboxImage" alt="">
+    </div>
+
 
 
 
@@ -445,7 +452,7 @@
     </footer>    
 
 
-    <script src="js/ui.js"></script><script src="js/moments.js"></script>
+    <script src="js/ui.js?v=20260901-personality-zoom"></script><script src="js/moments.js"></script>
     <script src="js/interview.js"></script>
 </body>
 </html>

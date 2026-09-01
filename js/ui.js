@@ -76,10 +76,17 @@
     var cards = document.querySelectorAll('.personality-card');
     var detail = document.getElementById('personalityDetail');
     var detailImg = document.getElementById('detailImg');
+    var detailImageZoom = document.getElementById('detailImageZoom');
     var detailContent = document.getElementById('detailContent');
     var backBtn = document.getElementById('detailBack');
     var grid = document.getElementById('personalityGrid');
+    var lightbox = document.getElementById('personalityLightbox');
+    var lightboxImage = document.getElementById('personalityLightboxImage');
+    var lightboxClose = document.getElementById('personalityLightboxClose');
     var activeCard = null;
+    var lightboxLastFocus = null;
+    var lightboxTouchStartX = null;
+    var lightboxTouchStartY = null;
 
     if (!cards.length || !detail) return;
 
@@ -139,6 +146,52 @@
             }
         });
     });
+
+    function openDetailImage() {
+        if (!detailImg.src || !lightbox || !lightboxImage || !lightboxClose) return;
+        lightboxLastFocus = document.activeElement;
+        lightboxImage.src = detailImg.src;
+        lightboxImage.alt = detailImg.alt;
+        lightbox.classList.add('visible');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        lightboxClose.focus();
+    }
+
+    function closeDetailImage() {
+        if (!lightbox || !lightboxImage) return;
+        lightbox.classList.remove('visible');
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightboxImage.removeAttribute('src');
+        document.body.style.overflow = '';
+        if (lightboxLastFocus && typeof lightboxLastFocus.focus === 'function') lightboxLastFocus.focus();
+    }
+
+    if (detailImageZoom && lightbox && lightboxClose) {
+        detailImageZoom.addEventListener('click', openDetailImage);
+        lightboxClose.addEventListener('click', closeDetailImage);
+        lightboxImage.addEventListener('click', closeDetailImage);
+        lightboxImage.addEventListener('touchstart', function (event) {
+            var touch = event.changedTouches[0];
+            lightboxTouchStartX = touch.clientX;
+            lightboxTouchStartY = touch.clientY;
+        }, { passive: true });
+        lightboxImage.addEventListener('touchend', function (event) {
+            if (lightboxTouchStartX === null || lightboxTouchStartY === null) return;
+            var touch = event.changedTouches[0];
+            var movedX = Math.abs(touch.clientX - lightboxTouchStartX);
+            var movedY = Math.abs(touch.clientY - lightboxTouchStartY);
+            lightboxTouchStartX = null;
+            lightboxTouchStartY = null;
+            if (Math.max(movedX, movedY) >= 48) closeDetailImage();
+        }, { passive: true });
+        lightbox.addEventListener('click', function (event) {
+            if (event.target === lightbox) closeDetailImage();
+        });
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && lightbox.classList.contains('visible')) closeDetailImage();
+        });
+    }
 
     backBtn.addEventListener('click', function () {
         var cardToFocus = activeCard;
