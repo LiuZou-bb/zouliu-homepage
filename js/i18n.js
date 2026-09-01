@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
             DICT = (DICT === EN) ? ZH : EN;
             localStorage.setItem('lang', DICT === EN ? 'en' : 'zh');
             applyI18n();
+            if (typeof window.refreshPersonalityDetail === 'function') window.refreshPersonalityDetail();
             if (typeof refreshPhilButtons === 'function') refreshPhilButtons();
             if (typeof renderMoments === 'function') renderMoments();
             if (typeof renderInterview === 'function') renderInterview();

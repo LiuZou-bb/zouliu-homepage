@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">酒神精神</title>
+  <desc id="desc">以日轮、流动曲线和暖金色表现痛苦之后仍然涌动的生命力。</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8f0df"/>
+      <stop offset="1" stop-color="#ead7b4"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="45%" r="55%">
+      <stop offset="0" stop-color="#df9a35"/>
+      <stop offset="0.65" stop-color="#b94a32"/>
+      <stop offset="1" stop-color="#712b25"/>
+    </radialGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#paper)"/>
+  <circle cx="800" cy="390" r="245" fill="#c65335" opacity="0.16" filter="url(#soft)"/>
+  <circle cx="800" cy="390" r="190" fill="url(#sun)"/>
+
+  <path d="M80 735 C310 610 470 825 690 690 S1090 595 1520 760" fill="none" stroke="#241c17" stroke-width="34" stroke-linecap="round"/>
+  <path d="M60 820 C330 720 480 915 750 790 S1180 715 1540 865" fill="none" stroke="#a84931" stroke-width="13" stroke-linecap="round" opacity="0.8"/>
+
+  <text x="800" y="408" text-anchor="middle" fill="#fff8e8" font-family="'Noto Serif SC','Microsoft YaHei',serif" font-size="112" font-weight="700" letter-spacing="22">酒神精神</text>
+  <text x="800" y="505" text-anchor="middle" fill="#fff0ce" font-family="Georgia,serif" font-size="31" letter-spacing="12">DIONYSIAN SPIRIT</text>
+  <text x="800" y="930" text-anchor="middle" fill="#4c382b" font-family="'Noto Serif SC','Microsoft YaHei',serif" font-size="34" letter-spacing="8">接纳痛苦，也拥抱生命</text>
+</svg>

@@ -1,31 +1,28 @@
 // ============================================================
-// Interview Questions — 23 questions for meaningful conversation
+// Interview Questions — 20 questions for meaningful conversation
 // ============================================================
 
 var interviewQuestions = [
-    { zh: "最近一次让你不由自主跟着哼唱或扭动身体的，是哪首歌？", en: "What was the last song you found yourself humming or moving to without thinking?" },
-    { zh: "最近有没有尝试什么新东西——哪怕只是换了一条上班路线或做了一道新菜？感觉怎么样？", en: "Have you tried anything new recently\u2014even just a different commute route or a new recipe? How was it?" },
-    { zh: "过去几周里，有没有发生什么让你觉得\u201c嘿，还挺走运\u201d的小事？", en: "Over the past few weeks, has anything happened that made you think, \u201chey, that was pretty lucky\u201d?" },
-    { zh: "目前最让你着迷、花时间最多的一件事是什么？是怎么被它\u201c钩住\u201d的？", en: "What\u2019s the one thing you\u2019re most obsessed with right now? How did it hook you?" },
-    { zh: "有没有什么技能或爱好是你一直心痒想学但还没开始的？它哪里吸引你？", en: "Is there a skill or hobby you\u2019ve been itching to learn but haven\u2019t started? What draws you to it?" },
-    { zh: "最近有没有学到什么让你\u201c哇\u201d出来的新知识或观点？", en: "Have you recently learned anything new that made you go \u201cwow\u201d?" },
-    { zh: "如果突然获得一个月带薪假期，预算充足，你最想用它来实现什么？", en: "If you suddenly had a month of paid leave with ample budget, what would you most want to do with it?" },
-    { zh: "\u201c永远精力旺盛的身体\u201dvs\u201c永远平和睿智的心智\u201d，必须二选一，你选哪个？为什么？", en: "\u201cA body with boundless energy forever\u201d vs \u201ca mind of eternal peace and wisdom\u201d\u2014you must pick one. Which? Why?" },
-    { zh: "有什么人事物，是你绝对、任何时候都不能拿来开玩笑的？", en: "What people, things, or topics can you absolutely never joke about, under any circumstances?" },
-    { zh: "说出你当下最感恩的三件事。", en: "Name the three things you\u2019re most grateful for right now." },
-    { zh: "在一段亲近关系里，你最看重的核心特质是什么？", en: "In a close relationship, what core quality do you value most?" },
-    { zh: "对你来说，爱意味着什么？不用下定义，可以说说感受或画面。", en: "What does love mean to you? No need for a definition\u2014just feelings or images." },
-    { zh: "你认为什么样的\u201c共同经历\u201d最能巩固一段关系？", en: "What kind of \u201cshared experience\u201d do you think most strengthens a relationship?" },
-    { zh: "童年中最明亮、最快活的一段记忆是什么？", en: "What is your brightest, happiest childhood memory?" },
-    { zh: "关于你的家庭，你觉得最独特或最想分享的一点是什么？", en: "What is the most unique or share-worthy aspect of your family?" },
-    { zh: "你现在如何定义\u201c成功\u201d？和十年前相比，最大的变化是什么？", en: "How do you define \u201csuccess\u201d now? What\u2019s changed most compared to ten years ago?" },
-    { zh: "完成这个句子：\u201c我希望有一天，我能……\u201d——以及，为了这个\u201c有一天\u201d，你愿意在当下做出最大的取舍是什么？", en: "Complete this sentence: \u201cI hope that one day, I can\u2026\u201d\u2014and, what is the biggest trade-off you\u2019re willing to make now for that \u201cone day\u201d?" },
-    { zh: "你目前最大的个人挑战是什么？正用怎样的心态应对它？", en: "What is your biggest personal challenge right now? What mindset are you using to face it?" },
-    { zh: "当你压力大或情绪低落时，你通常怎么照顾自己？", en: "When you\u2019re stressed or feeling low, how do you usually take care of yourself?" },
-    { zh: "分享一个最近发生的、有点尴尬但回想起来挺好笑的糗事。", en: "Share a recent embarrassing-but-funny-in-hindsight moment." },
-    { zh: "家中失火，家人宠物皆安全，你可以取回一样东西，会取什么？为什么？", en: "Your house is on fire, family and pets are safe. You can grab one item. What do you take? Why?" },
-    { zh: "对于衰老，你最大的恐惧和最大的期待分别是什么？", en: "What is your greatest fear and greatest anticipation about aging?" },
-    { zh: "关于死亡，你有什么想法？它有没有影响你\u201c如何活着\u201d？", en: "What are your thoughts on death? Has it influenced how you live?" },
+    { zh: "今天聊完以后，你希望自己获得什么，或者希望我更理解你什么？", en: "After our conversation today, what do you hope to gain—or what do you hope I will understand better about you?" },
+    { zh: "最近哪个瞬间让你觉得自己很有生命力、很放松，或者“这才是我”？", en: "What recent moment made you feel fully alive, deeply relaxed, or simply, “this is who I am”?" },
+    { zh: "你现在最着迷、最愿意投入时间的事情是什么？它是怎样吸引你的？", en: "What are you most fascinated by and willing to spend time on right now? What drew you in?" },
+    { breakBefore: true, zh: "最近有没有一段经历或一个观点，真正改变了你原来的看法？", en: "Has a recent experience or idea genuinely changed the way you used to see something?" },
+    { zh: "有什么事情即使没人要求、没有奖励，你仍然愿意主动花时间去做？", en: "What do you willingly spend time doing even when no one asks you to and there is no reward?" },
+    { zh: "如果获得一个月完全自由的时间，你希望大多数普通日子怎样度过？为什么？", en: "If you had one completely free month, how would you want most ordinary days to unfold? Why?" },
+    { zh: "你现在怎样理解“成功”？这个理解是被哪段经历改变的？", en: "How do you understand “success” now? What experience changed that understanding?" },
+    { breakBefore: true, zh: "你想成为怎样的人？最近有哪些实际行为证明你正在靠近他，又有哪些行为与他矛盾？", en: "What kind of person do you want to become? What recent actions show that you are moving toward that person, and what actions contradict it?" },
+    { zh: "你身上有没有两个经常彼此拉扯的部分？例如自由与稳定、亲近与独立、感性与理性。你通常如何在它们之间做决定？", en: "Are there two parts of you that often pull in different directions—for example freedom and stability, closeness and independence, feeling and reason? How do you decide between them?" },
+    { zh: "有哪些东西是你不愿为了成功、关系或者别人的认可而牺牲的？", en: "What are you unwilling to sacrifice for success, a relationship, or someone else’s approval?" },
+    { breakBefore: true, zh: "最近一次你真正感觉“这个人理解我”，发生了什么？对方具体做了什么？", en: "Think of the last time you truly felt, “this person understands me.” What happened, and what did they actually do?" },
+    { zh: "在亲近关系中，你最需要的是什么？能否讲一个你确实感受到它，或者没有得到它的具体场景？", en: "What do you need most in a close relationship? Can you describe a specific moment when you felt it—or when it was missing?" },
+    { zh: "当关系发生冲突时，你通常会解释、回避、攻击、讨好，还是立刻解决问题？最近一次真实情况是什么？", en: "When conflict happens in a relationship, do you tend to explain, withdraw, attack, please, or solve it immediately? What happened the last time?" },
+    { zh: "冲突之后，什么样的回应能帮助你重新靠近一个人？", en: "After conflict, what kind of response helps you feel close to someone again?" },
+    { zh: "对你来说，爱更像一种什么感受、画面或行动？它和你过去理解的爱有什么不同？", en: "What does love feel, look, or act like to you? How is that different from how you understood love in the past?" },
+    { breakBefore: true, zh: "如果愿意，分享一段对你影响很深的童年记忆。它可以明亮，也可以复杂。", en: "If you are willing, share a childhood memory that deeply affected you. It can be bright, complicated, or both." },
+    { zh: "小时候，你在家庭或集体里经常承担怎样的角色？这个角色今天还在影响你吗？", en: "What role did you often take on in your family or group as a child? Does that role still shape you today?" },
+    { zh: "有哪些从家庭、学校或社会继承来的观念，是你决定继续保留的？又有哪些正在被你重新改写？", en: "Which beliefs inherited from family, school, or society have you chosen to keep, and which are you actively rewriting?" },
+    { breakBefore: true, zh: "你现在愿意分享的一个重要挑战是什么？你正在怎样应对它？压力较大时，你通常怎样照顾自己？", en: "What important challenge are you willing to share right now? How are you responding to it, and how do you care for yourself when the pressure grows?" },
+    { zh: "如果一年后的生活更接近你真正想要的状态，一个普通工作日会是什么样子？你愿意为它持续投入什么，又不愿失去什么？", en: "If your life were more aligned with what you truly want a year from now, what would an ordinary workday look like? What would you keep investing in, and what would you refuse to lose?" },
 ];
 
 window.renderInterview = function() {
@@ -35,7 +32,7 @@ window.renderInterview = function() {
     var isEn = (typeof DICT !== 'undefined' && DICT === EN);
     window.interviewQuestions.forEach(function(q, i) {
         var div = document.createElement('div');
-        div.className = 'interview-item';
+        div.className = 'interview-item' + (q.breakBefore ? ' interview-stage-gap' : '');
         div.textContent = (i + 1) + '. ' + (isEn ? q.en : q.zh);
         container.appendChild(div);
     });
@@ -50,7 +47,7 @@ window.refreshInterviewToggle = function() {
     var list = document.getElementById('interviewQuestions');
     if (!btn || !list) return;
     var open = list.style.display === 'block';
-    btn.textContent = (typeof DICT!=='undefined' && (open ? DICT.interview_collapse : DICT.interview_expand)) || (open ? '\u6536\u8d77 23 \u4e2a\u95ee\u9898 \u25b4' : '\u5c55\u5f00 23 \u4e2a\u95ee\u9898 \u25be');
+    btn.textContent = (typeof DICT!=='undefined' && (open ? DICT.interview_collapse : DICT.interview_expand)) || (open ? '\u6536\u8d77 20 \u4e2a\u95ee\u9898 \u25b4' : '\u5c55\u5f00 20 \u4e2a\u95ee\u9898 \u25be');
 };
 
 (function() {

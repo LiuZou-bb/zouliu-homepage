@@ -8,7 +8,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/zh.js"></script><script src="js/en.js"></script><script src="js/i18n.js"></script></head>
+    <script src="js/zh.js"></script>
+    <script src="js/en.js"></script>
+    <script src="js/i18n.js"></script>
+</head>
 <body>
     <button class="theme-toggle" id="themeToggle" aria-label="切换主题" data-i-aria="theme_aria">
         <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -22,13 +25,17 @@
     <nav class="navbar">
         <div class="container nav-inner">
             <a href="#" class="logo" data-i="logo">邹柳</a>
-            <ul class="nav-links">
+            <button class="nav-toggle" id="navToggle" type="button" aria-controls="primaryNav" aria-expanded="false" aria-label="打开导航菜单" data-i-aria="nav_menu_aria">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="primaryNav">
                 <li><a href="#about"><span data-i="nav_about">关于</span></a></li>
                 <li><a href="#personality"><span data-i="nav_personality">人格测试</span></a></li>
                 <li><a href="#philosophy"><span data-i="nav_philosophy">理念</span></a></li>
                 <li><a href="#body"><span data-i="nav_body">身体</span></a></li>
-                <li><a href="#skills"><span data-i="nav_skills">技能</span></a></li>
-                <li><a href="#moments"><span data-i="nav_moments">朋友圈</span></a></li>
+                <li><a href="#skills"><span data-i="nav_skills">生活</span></a></li>
+                <li><a href="#moments"><span data-i="nav_moments">微信朋友圈</span></a></li>
+                <li><a href="#growthEdges"><span data-i="nav_growth">局限</span></a></li>
                 <li><a href="#interview"><span data-i="nav_interview">访谈</span></a></li>
                 <li><a href="#contact"><span data-i="nav_contact">联系</span></a></li>
             </ul>
@@ -37,9 +44,9 @@
 
     <header class="hero">
         <div class="container">
-            <div class="avatar">
+            <button class="avatar avatar-button" id="avatarZoom" type="button" aria-label="放大头像" data-i-aria="avatar_zoom_aria">
                 <img src="images/avatar.jpg" alt="邹柳" class="avatar-img" data-i-alt="hero_name">
-            </div>
+            </button>
             <h1>你好，我是 <span class="highlight" data-i="hero_name">邹柳</span></h1>
             <p class="hero-desc" data-i="hero_desc">认识自己是认识世界的第一步。</p>
             <p class="hero-subtitle">正如古希腊德尔斐神庙上的箴言：&ldquo;认识你自己（Gnothi Seauton）&rdquo;&mdash;&mdash;这不是一个命令，而是一条邀请：邀请你进入一场与自己最深邃、最诚实的对话。</p>
@@ -54,8 +61,11 @@
         <div class="container">
             <h2 class="section-title" data-i="about_title">关于我</h2>
             <div class="about-content">
-                <p><span data-i="about_p1">认识自己是认识世界的第一步。相信世界是流动的、成长是复利的、实践是检验的唯一标准。</span></p>
-                <p><span data-i="about_p2">通过运动保持身体与心灵的活力；通过阅读和思考不断扩展认知边界。每一天都是一次新的自我强化。</span></p>
+                <p><span data-i="about_p1">认识自己，也认识世界。</span></p>
+                <p><span data-i="about_p2">在感性与理性间寻求中庸一体之道。</span></p>
+                <p><span data-i="about_p3">想成为怎样的人：有能力，有自由，有深度，有好奇心，也有生命力。</span></p>
+                <p><span data-i="about_p4">想过怎样的生活：一种稳定向上的生活。</span></p>
+                <p><span data-i="about_p5">这不是一个固定的答案，这个网站记录的，是一条仍在发生的路。</span></p>
             </div>
         </div>
     </section>
@@ -65,7 +75,7 @@
             <h2 class="section-title" data-i="personality_title">人格测试量表</h2>
             <p class="section-intro" data-i="personality_intro">三份量表，三种视角，让你更全面地认识我。</p>
             <div class="personality-grid" id="personalityGrid">
-                <div class="personality-card" data-test="16PF">
+                <div class="personality-card" data-test="16PF" role="button" tabindex="0">
                     <div class="personality-image">
                         <img src="images/16PF.jpg" alt="16PF">
                     </div>
@@ -74,7 +84,7 @@
                         <p><span data-i="personality_card_16pf">卡特尔16种人格因素问卷</span></p>
                     </div>
                 </div>
-                <div class="personality-card" data-test="EPQ-R">
+                <div class="personality-card" data-test="EPQ-R" role="button" tabindex="0">
                     <div class="personality-image">
                         <img src="images/EPQ-R.jpg" alt="EPQ-R">
                     </div>
@@ -83,7 +93,7 @@
                         <p><span data-i="personality_card_epq">艾森克人格问卷修订版</span></p>
                     </div>
                 </div>
-                <div class="personality-card" data-test="NEO-PI-R">
+                <div class="personality-card" data-test="NEO-PI-R" role="button" tabindex="0">
                     <div class="personality-image">
                         <img src="images/NEO-PI-R.jpg" alt="NEO-PI-R">
                     </div>
@@ -116,40 +126,40 @@
                 <div class="philosophy-card">
                     <div class="philosophy-number">01</div>
                     <h3 data-i="phil_fluid">World Is Fluid</h3>
-                    <span data-i="phil_fluid_desc"><p>世界是流动的——没有一成不变的事物，适应变化是生存与成长的根本。</span></p>
+                    <p><span data-i="phil_fluid_desc">世界是流动的，来过，走过，没有永恒的停驻，只是一切融入一切的短暂生命。</span></p>
                 </div>
                 <div class="philosophy-card">
                     <div class="philosophy-number">02</div>
                     <h3 data-i="phil_compound">Growth Is Compound</h3>
-                    <span data-i="phil_compound_desc"><p>成长是复利的——每天进步1%，一年后就是37.8倍的自己。</span></p>
+                    <p><span data-i="phil_compound_desc">缓慢而稳定的前进</span></p>
                 </div>
                 <div class="philosophy-card">
                     <div class="philosophy-number">03</div>
                     <h3 data-i="phil_practice">Practice Is the Only Standard</h3>
-                    <span data-i="phil_practice_desc"><p>实践是检验的唯一标准——行动胜过空想，结果说明一切。</span></p>
+                    <p><span data-i="phil_practice_desc">通过不断实践，认识，再实践，再认识的循环中接近真理。</span></p>
                 </div>
                 <div class="philosophy-card">
                     <div class="philosophy-number">04</div>
                     <h3 data-i="phil_learn">终身学习</h3>
-                    <span data-i="phil_learn_desc"><p>终身学习——求知若渴，虚心若愚。Stay hungry, stay foolish.</span></p>
+                    <p><span data-i="phil_learn_desc">书海无涯我逍遥游哇哈哈哈</span></p>
                 </div>
             </div>
             <div class="philosophy-more">
-                <button class="btn btn-outline" id="friendToggle">
+                <button class="btn btn-outline" id="friendToggle" type="button" aria-controls="friend" aria-expanded="false">
                     <span class="btn-icon">🤝</span> 我希望和这样的人交朋友
                 </button>
-                <button class="btn btn-outline" id="loveToggle">
+                <button class="btn btn-outline" id="loveToggle" type="button" aria-controls="love" aria-expanded="false">
                     <span class="btn-icon">❤️</span> 我对爱的理解
                 </button>
                 
                 
-                <button class="btn btn-outline" id="childhoodToggle">
+                <button class="btn btn-outline" id="childhoodToggle" type="button" aria-controls="childhood" aria-expanded="false">
                     <span class="btn-icon">🧒</span> 对童年塑造的理解
                 </button>
-                <button class="btn btn-outline" id="dreamToggle">
+                <button class="btn btn-outline" id="dreamToggle" type="button" aria-haspopup="dialog">
                     <span class="btn-icon">🌙</span> 我梦的解析
                 </button>
-                <button class="btn btn-outline" id="sorryToggle">
+                <button class="btn btn-outline" id="sorryToggle" type="button" aria-controls="sorry" aria-expanded="false">
                     <span class="btn-icon">💌</span> 想对你说
                 </button><div class="philosophy-divider">
                     <span><span data-i="phil_wx_label">📡 公众号文章</span></span>
@@ -217,7 +227,7 @@
                 <h3 data-i="love_loss">爱之殇——惯性与执念</h3>
                 <div class="love-block"><p data-i="love_loss_p1">爱的反义词不是恨，而是痛。个体会天然贪恋熟悉与安全的环境与体验，当被看见、被重视、被偏爱、被接纳成为习惯，大脑会将这段关系默认为"安全区"，当关系结束时，个体仍会本能地想待在原地，无法跳出固有的情感模式。</p><p data-i="love_p6">人们畏惧亲人的死亡，亦是如此。死亡对于活在世界上的人来说，是少了一个爱他的人，少了一个看见、照顾、理解、接纳他的人。我们恐惧的不是死亡，而是不被爱，爱得越深执念越深。</p><p data-i="love_p7">执念是今天新引入的概念，并无多少研究与思考。它是人的一部分，也是爱的一部分，它无处不在。</p><p data-i="love_loss_p2">执念很深的人，也是坚持不懈，坚韧不拔的人。苏轼说"古之立大事者，不惟有超世之才，亦必有坚忍不拔之志。"世间大部分人都没有，亦是普通人。纯粹的理性思考而不考虑情感的因素是不可取的，希望通过此篇文章，让你认识爱之实，在理性与情感中、痛苦与爱中寻得一条中庸之道，而不被执念所困。</p></div>
                 <h3 data-i="love_unique">爱的唯一性</h3>
-                <div class="love-block"><p>形而上之美，被理性解构成形而下具象逻辑，那份诗意就此消散。</p><p>人可以轻易喜欢任何人，不过是分泌激素本能；也能爱众生万物，只需拥有足够的慈悲。</p><p>爱的唯一性，就是人的唯一性——扎根于灵魂，沉淀于经历。</p><p data-i="love_unique_p4">人真的无可替代吗？形而下看：基因有双胞胎复刻，容貌有路人撞脸相似，学识、能力、财富等外在特质，皆可被他人比肩甚至替代。</p><p data-i="love_unique_p5">唯独灵魂不可复刻。形而上往下看：自生命降生伊始，每一分每一秒都无限动态演化，你每次抉择、每番思考、每段亲身亲历，所有独属于你的生命轨迹交织累积，无人能够复制，最终塑成了独一无二的你🫵</p><p data-i="love_p9">人们如何爱唯一的人，在ta有缺时如同亲人父母般不离不弃，而非移情别恋，想必就是爱构成ta过往的独特经历，以及爱曾经或未来和ta一起创造的独特经历罢。</p></div>
+                <div class="love-block"><p data-i="love_unique_p1">形而上之美，被理性解构成形而下具象逻辑，那份诗意就此消散。</p><p data-i="love_unique_p2">人可以轻易喜欢任何人，不过是分泌激素本能；也能爱众生万物，只需拥有足够的慈悲。</p><p data-i="love_unique_p3">爱的唯一性，就是人的唯一性——扎根于灵魂，沉淀于经历。</p><p data-i="love_unique_p4">人真的无可替代吗？形而下看：基因有双胞胎复刻，容貌有路人撞脸相似，学识、能力、财富等外在特质，皆可被他人比肩甚至替代。</p><p data-i="love_unique_p5">唯独灵魂不可复刻。形而上往下看：自生命降生伊始，每一分每一秒都无限动态演化，你每次抉择、每番思考、每段亲身亲历，所有独属于你的生命轨迹交织累积，无人能够复制，最终塑成了独一无二的你🫵</p><p data-i="love_p9">人们如何爱唯一的人，在ta有缺时如同亲人父母般不离不弃，而非移情别恋，想必就是爱构成ta过往的独特经历，以及爱曾经或未来和ta一起创造的独特经历罢。</p></div>
             </div>
             <div class="love-back">
                 <a href="#philosophy" class="btn btn-secondary" data-i="phil_back">← 返回理念</a>
@@ -276,11 +286,11 @@
             <h2 class="section-title" data-i="body_title">身体快速使用手册</h2>
             <p class="section-intro" data-i="body_intro">身是心的容器。保持身体的最佳状态，才能承载更深的思考。</p>
 
-            <h3 class="body-h3 body-toggle"><span data-i="body_rest">高效休息方法</span> <span class="body-arrow">▾</span></h3>
-            <div class="body-group">
+            <h3 class="body-h3 body-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyRestGroup"><span data-i="body_rest">高效休息方法</span> <span class="body-arrow">▾</span></h3>
+            <div class="body-group" id="bodyRestGroup">
                 <div class="body-block">
-                    <h4 class="body-sub-toggle"><span data-i="body_nsdr_title">一. NSDR（非睡眠深度休息）</span><span class="body-arrow-sm">▾</span></h4>
-                    <div class="body-sub">
+                    <h4 class="body-sub-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyNsdr"><span data-i="body_nsdr_title">一. NSDR（非睡眠深度休息）</span><span class="body-arrow-sm">▾</span></h4>
+                    <div class="body-sub" id="bodyNsdr">
                         <h5 data-i="body_steps_label">操作步骤</h5>
                         <p data-i="ns0">1. 找安静环境，平躺</p>
                         <p data-i="ns1">2. 闭眼，深呼吸，放松身体。</p>
@@ -296,8 +306,8 @@
                     </div>
                 </div>
                 <div class="body-block">
-                    <h4 class="body-sub-toggle"><span data-i="body_478_title">二. 4-7-8呼吸法</span><span class="body-arrow-sm">▾</span></h4>
-                    <div class="body-sub">
+                    <h4 class="body-sub-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyBreathing"><span data-i="body_478_title">二. 4-7-8呼吸法</span><span class="body-arrow-sm">▾</span></h4>
+                    <div class="body-sub" id="bodyBreathing">
                         <h5 data-i="body_steps_label">操作步骤</h5>
                         <p data-i="bns0">1. 舌尖抵住上门牙后方的牙龈。</p>
                         <p data-i="bns1">2. 闭上嘴巴，用鼻子缓慢吸气4秒。</p>
@@ -316,11 +326,11 @@
                 </div>
             </div>
 
-            <h3 class="body-h3 body-toggle"><span data-i="body_active">快速激活大脑方法</span> <span class="body-arrow">▾</span></h3>
-            <div class="body-group">
+            <h3 class="body-h3 body-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyActiveGroup"><span data-i="body_active">快速激活大脑方法</span> <span class="body-arrow">▾</span></h3>
+            <div class="body-group" id="bodyActiveGroup">
                 <div class="body-block">
-                    <h4 class="body-sub-toggle"><span data-i="body_walk_title">一. 快走</span> <span class="body-arrow-sm">▾</span></h4>
-                    <div class="body-sub">
+                    <h4 class="body-sub-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyWalk"><span data-i="body_walk_title">一. 快走</span> <span class="body-arrow-sm">▾</span></h4>
+                    <div class="body-sub" id="bodyWalk">
                         <h5 data-i="body_steps_label">操作步骤</h5>
                         <p data-i="ws0">1.基础快走：抬头挺胸，手臂自然摆动，步幅适中，速度以能说话但不能唱歌为宜。</p>
                         <p data-i="ws1">2. 路线：走到走廊尽头可上楼或下楼循环路线</p>
@@ -340,18 +350,12 @@
     </section>
 <section id="skills" class="section">
         <div class="container">
-            <h2 class="section-title" data-i="skills_title">我的技能</h2>
-            <p class="section-intro" data-i="skills_intro">一些让生活更有温度与节奏的事。</p>
-            <div class="skills-grid">
-                <div class="skill-card"><div class="skill-icon">🏃</div><h3 data-i="skill_t0">跑步</h3><p data-i="skill_d0">用脚步丈量城市，保持身体与意志的韧性。</p></div>
-                <div class="skill-card"><div class="skill-icon">🚴</div><h3 data-i="skill_t1">骑车</h3><p data-i="skill_d1">两轮之上，感受风与自由，探索未知路径。</p></div>
-                <div class="skill-card"><div class="skill-icon">🚶</div><h3 data-i="skill_t2">散步</h3><p data-i="skill_d2">大自然里散步很放松。</p></div>
-                <div class="skill-card"><div class="skill-icon">🎾</div><h3 data-i="skill_t3">网球</h3><p data-i="skill_d3">在球场上挥洒汗水，专注与爆发的一瞬即永恒。</p></div>
-                <div class="skill-card"><div class="skill-icon">💻</div><h3 data-i="skill_t4">使用电子产品</h3><p data-i="skill_d4">善用工具提升效率，保持对科技的好奇与掌控。</p></div>
-                <div class="skill-card"><div class="skill-icon">📚</div><h3 data-i="skill_t5">阅读</h3><p data-i="skill_d5">书籍是认知的阶梯，持续输入、持续内化。</p></div>
-                <div class="skill-card"><div class="skill-icon">🎮</div><h3 data-i="skill_t6">游戏</h3><p data-i="skill_d6">人生就是最真实的游戏。</p></div>
-                <div class="skill-card"><div class="skill-icon">🪞</div><h3 data-i="skill_t7">内省</h3><p data-i="skill_d7">善于将心剖开审视，追本溯源。</p></div>
-                <div class="skill-card"><div class="skill-icon">🔄</div><h3 data-i="skill_t8">自我迭代</h3><p data-i="skill_d8">学习强化，每日精进。复利思维驱动长期成长。</p></div>
+            <h2 class="section-title" data-i="skills_title">我怎样生活</h2>
+            <p class="section-intro" data-i="skills_intro">在身体、认知与创造之间，过一种稳定向上的生活。</p>
+            <div class="skills-grid life-grid">
+                <div class="skill-card"><div class="skill-icon">🌿</div><h3 data-i="life_vitality_title">保持生命力</h3><p data-i="life_vitality_desc">运动、亲近自然，也认真休息。让身体始终有承载生活的力量。</p></div>
+                <div class="skill-card"><div class="skill-icon">🔭</div><h3 data-i="life_curiosity_title">保持好奇</h3><p data-i="life_curiosity_desc">阅读、观察、思考，也不断内省。持续认识自己，也认识世界。</p></div>
+                <div class="skill-card"><div class="skill-icon">✍️</div><h3 data-i="life_creation_title">持续创造</h3><p data-i="life_creation_desc">用写作、视频、访谈和个人项目，把想法带入现实，在反馈中继续生长。</p></div>
             </div>
         </div>
 
@@ -359,27 +363,59 @@
 
     <section id="moments" class="section">
         <div class="container">
-            <h2 class="section-title" data-i="moments_title">朋友圈</h2>
-            <p class="section-intro" data-i="moments_intro">从 2023 到 2026，四年来的心路与足迹。点击查看全文与图片。</p>
+            <h2 class="section-title" data-i="moments_title">微信朋友圈</h2>
+            <p class="section-intro" data-i="moments_intro">从 2023 到 2026，九个关于阅读、生活、关系与自我认识的片段。点击查看全文与图片。</p>
             <div class="moments-grid" id="momentsGrid"></div>
+        </div>
+    </section>
+
+    <section id="growthEdges" class="section growth-section">
+        <div class="container">
+            <h2 class="section-title" data-i="growth_title">我的局限</h2>
+            <p class="section-intro" data-i="growth_intro">认识自己，也包括看见那些尚未改变的部分。</p>
+            <div class="growth-grid">
+                <article class="growth-card">
+                    <span class="growth-number">01</span>
+                    <h3 data-i="growth_overthink_title">过度思考，迟于行动</h3>
+                    <p data-i="growth_overthink_desc">我习惯先把问题想清楚，却有时让思考代替了行动，错过在实践中获得答案的机会。</p>
+                </article>
+                <article class="growth-card">
+                    <span class="growth-number">02</span>
+                    <h3 data-i="growth_perfection_title">过度追求完美</h3>
+                    <p data-i="growth_perfection_desc">我很难满足于“足够好”，常在细节上投入过多，使完成一件事比原本更加困难。</p>
+                </article>
+                <article class="growth-card">
+                    <span class="growth-number">03</span>
+                    <h3 data-i="growth_acceptance_title">自我驱动不够稳定</h3>
+                    <p data-i="growth_acceptance_desc">我能在目标明确时投入很多，却还没有形成稳定、可持续的行动节奏。强烈推进之后，有时会转向逃避与停滞。</p>
+                </article>
+            </div>
         </div>
     </section>
 
     <section id="interview" class="section section-alt">
         <div class="container">
             <h2 class="section-title" data-i="interview_title">正在做的事</h2>
-            <p class="section-intro" data-i="interview_intro_full">访谈 · 用 23 个问题，开启一场真诚的对话。</p>
-                <button class="btn btn-outline interview-toggle" id="interviewToggle">展开 23 个问题 ▾</button>
+            <p class="section-intro" data-i="interview_intro_full">访谈 · 用 20 个问题，开启一场真诚的对话。</p>
+                <button class="btn btn-outline interview-toggle" id="interviewToggle">展开 20 个问题 ▾</button>
             <div class="interview-list interview-questions" id="interviewQuestions" style="display:none"></div>
         </div>
     </section>
 
     <!-- 朋友圈全文弹窗 -->
-    <div class="moments-modal" id="momentsModal">
+    <div class="moments-modal" id="momentsModal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="朋友圈详情" data-i-aria="moments_modal_aria">
         <div class="moments-modal-bg"></div>
         <div class="moments-modal-content">
-            <button class="moments-modal-close" id="momentsModalClose">&times;</button>
+            <button class="moments-modal-close" id="momentsModalClose" type="button" aria-label="关闭朋友圈详情" data-i-aria="moments_close_aria">&times;</button>
             <div class="moments-modal-body" id="momentsModalBody"></div>
+        </div>
+    </div>
+
+    <div class="avatar-modal" id="avatarModal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="头像预览" data-i-aria="avatar_preview_aria">
+        <div class="avatar-modal-bg" id="avatarModalBg"></div>
+        <div class="avatar-modal-content">
+            <button class="avatar-modal-close" id="avatarModalClose" type="button" aria-label="关闭头像预览" data-i-aria="avatar_close_aria">&times;</button>
+            <img src="images/avatar.jpg" alt="邹柳" data-i-alt="hero_name">
         </div>
     </div>
 
@@ -398,7 +434,7 @@
                 <button class="contact-item" id="emailCopy">
                     <span class="contact-icon">✉️</span>
                     <span>zouliu520@outlook.com</span>
-                    <span class="copy-tip" id="copyTip" data-i="copy_tip">已复制 ✓</span>
+                    <span class="copy-tip" id="copyTip" data-i="contact_copy_done">已复制 ✓</span>
                 </button>
             </div>
         </div>
@@ -409,7 +445,7 @@
     </footer>    
 
 
-    <script src="js/ui.js"></script><script src="js/moments.js"></script><script src="js/auth.js"></script>
+    <script src="js/ui.js"></script><script src="js/moments.js"></script>
     <script src="js/interview.js"></script>
 </body>
 </html>

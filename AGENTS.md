@@ -2,7 +2,7 @@
 
 ## 项目概览
 
-- **路径**: D:\AI\codex\ds\个人主页
+- **路径**: D:\AI\ChatgGPT\ChatGPT\个人网站\个人主页
 - **本地预览**: http://localhost:8080 (node server.js)
 - **线上地址**: https://liuzou-bb.github.io/zouliu-homepage/
 - **技术栈**: 纯静态 HTML + CSS + Vanilla JS，无框架、无构建工具
@@ -31,8 +31,7 @@
 └── images/
     ├── avatar.jpg          # 头像
     ├── 16PF.jpg/epq-r.jpg/neo-pi-r.jpg  # 人格测试量表截图
-    ├── 31问.txt → 已改为 访谈.txt        # 访谈问题源文件
-    └── 朋友圈文案/          # 按日期分文件夹，每文件夹含 .jpg + .txt
+    └── 朋友圈文案/          # 仅保留确认公开的图片素材
 ```
 
 ---
@@ -58,7 +57,7 @@
 
 ### 字典格式
 zh.js 和 en.js 都是 `var ZH/EN = { key: "value", ... }` 格式。
-两个文件的 key 数量必须完全一致（当前 263:263）。
+两个文件的 key 数量必须完全一致。
 
 ### 翻译方式 (5种)
 
@@ -108,13 +107,12 @@ zh.js 和 en.js 都是 `var ZH/EN = { key: "value", ... }` 格式。
 5. 语法检查 → 刷新验证
 
 ### 3. 修改朋友圈内容
-- 图片: 放入 `images/朋友圈文案/YYYY.M.D/` 文件夹
-- 数据: 修改 `js/moments.js` 中的 `momentsPosts` 数组
+- 图片: 只将确认公开的图片放入 `images/朋友圈文案/YYYY.M.D/` 文件夹
+- 数据: 修改 `js/moments.js` 中的 `momentsPosts` 数组；私人原稿保存在网站仓库外的私人归档
 - 每个帖子: `{ dir, title, body, titleEn, bodyEn, imgs: [...] }`
 - 删除帖子: 直接从数组中移除该对象，清理逗号
 
 ### 4. 修改访谈问题
-- 源文件: `images/访谈.txt`（纯文本，每行 `序号. 问题`）
 - 数据文件: `js/interview.js` — `interviewQuestions` 数组 + `renderInterview()`
 - 修改后需同时更新中英文，按钮文案中的数字也要改
 
@@ -131,7 +129,7 @@ zh.js 和 en.js 都是 `var ZH/EN = { key: "value", ... }` 格式。
 ### 启动服务器
 ```powershell
 Stop-Process -Name node -Force -ErrorAction SilentlyContinue
-Start-Process -FilePath "node" -ArgumentList "server.js" -WindowStyle Hidden -WorkingDirectory "D:\AI\codex\ds\个人主页"
+Start-Process -FilePath "node" -ArgumentList "server.js" -WindowStyle Hidden -WorkingDirectory "D:\AI\ChatgGPT\ChatGPT\个人网站\个人主页"
 ```
 
 ### 语法检查

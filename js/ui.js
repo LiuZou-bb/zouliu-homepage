@@ -8,6 +8,69 @@
 // —— 人格测试结论 ——
 
 
+// —— 响应式导航 ——
+(function () {
+    var toggle = document.getElementById('navToggle');
+    var menu = document.getElementById('primaryNav');
+    if (!toggle || !menu) return;
+
+    function setOpen(open) {
+        menu.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    toggle.addEventListener('click', function () {
+        setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+    menu.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () { setOpen(false); });
+    });
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+            setOpen(false);
+            toggle.focus();
+        }
+    });
+    window.addEventListener('resize', function () {
+        if (window.innerWidth > 1040) setOpen(false);
+    });
+})();
+
+
+// —— 头像点击放大 ——
+(function () {
+    var trigger = document.getElementById('avatarZoom');
+    var modal = document.getElementById('avatarModal');
+    var closeBtn = document.getElementById('avatarModalClose');
+    var bg = document.getElementById('avatarModalBg');
+    var lastFocus = null;
+
+    if (!trigger || !modal || !closeBtn || !bg) return;
+
+    function openAvatar() {
+        lastFocus = document.activeElement;
+        modal.classList.add('visible');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        closeBtn.focus();
+    }
+
+    function closeAvatar() {
+        modal.classList.remove('visible');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+    }
+
+    trigger.addEventListener('click', openAvatar);
+    closeBtn.addEventListener('click', closeAvatar);
+    bg.addEventListener('click', closeAvatar);
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('visible')) closeAvatar();
+    });
+})();
+
+
 // —— 人格卡片点击 →  ——
 (function () {
     var cards = document.querySelectorAll('.personality-card');
@@ -16,51 +79,74 @@
     var detailContent = document.getElementById('detailContent');
     var backBtn = document.getElementById('detailBack');
     var grid = document.getElementById('personalityGrid');
+    var activeCard = null;
 
     if (!cards.length || !detail) return;
 
-    cards.forEach(function (card) {
-        card.addEventListener('click', function () {
-            var test = card.getAttribute('data-test');
-            var cmap={'16PF':'16pf','EPQ-R':'epq','NEO-PI-R':'neo'};
-            var ckey='conclusion_'+cmap[test];
-            var text = (typeof DICT!=='undefined' && DICT[ckey]) ? DICT[ckey] : '';
-            if (!text) return;
-            var data = {text: text};
+    function renderPersonalityDetail(card) {
+        var test = card.getAttribute('data-test');
+        var cmap={'16PF':'16pf','EPQ-R':'epq','NEO-PI-R':'neo'};
+        var ckey='conclusion_'+cmap[test];
+        var text = (typeof DICT!=='undefined' && DICT[ckey]) ? DICT[ckey] : '';
+        if (!text) return false;
 
-            var img = card.querySelector('img');
-            detailImg.src = img.src;
-            detailImg.alt = img.alt;
+        var img = card.querySelector('img');
+        detailImg.src = img.src;
+        detailImg.alt = img.alt;
 
-            var lines = data.text.split('\n');
-            var html = '';
-            for (var i = 0; i < lines.length; i++) {
-                var line = lines[i].trim();
-                if (!line) continue;
-                if (line.indexOf('得分') === -1 && line.indexOf('整体') === -1 &&
-                    line.indexOf('特质表现') === -1 &&
-                    line.indexOf('Score') === -1 && line.indexOf('Overall') === -1 &&
-                    line.indexOf('Traits') === -1 && line.indexOf('percentile') === -1 &&
-                    line.indexOf('：') > 0 && line.length < 40 &&
-                    !line.match(/^\d/)) {
-                    html += '<h3>' + line + '</h3>';
-                } else {
-                    html += '<p>' + line + '</p>';
-                }
+        var lines = text.split('\n');
+        var html = '';
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i].trim();
+            if (!line) continue;
+            if (line.indexOf('得分') === -1 && line.indexOf('整体') === -1 &&
+                line.indexOf('特质表现') === -1 &&
+                line.indexOf('Score') === -1 && line.indexOf('Overall') === -1 &&
+                line.indexOf('Traits') === -1 && line.indexOf('percentile') === -1 &&
+                line.indexOf('：') > 0 && line.length < 40 &&
+                !line.match(/^\d/)) {
+                html += '<h3>' + line + '</h3>';
+            } else {
+                html += '<p>' + line + '</p>';
             }
-            var note = (typeof DICT!=='undefined' && DICT.personality_note) ? DICT.personality_note : '';
-            if (note) html += '<p class="personality-note">' + note + '</p>';
-            detailContent.innerHTML = html;
+        }
+        var note = (typeof DICT!=='undefined' && DICT.personality_note) ? DICT.personality_note : '';
+        if (note) html += '<p class="personality-note">' + note + '</p>';
+        detailContent.innerHTML = html;
+        return true;
+    }
+
+    window.refreshPersonalityDetail = function () {
+        if (activeCard && detail.classList.contains('visible')) {
+            renderPersonalityDetail(activeCard);
+        }
+    };
+
+    function openCard(card) {
+        activeCard = card;
+        if (!renderPersonalityDetail(card)) return;
             detail.classList.add('visible');
             grid.parentElement.parentElement.style.display = 'none';
             detail.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    cards.forEach(function (card) {
+        card.addEventListener('click', function () { openCard(card); });
+        card.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openCard(card);
+            }
         });
     });
 
     backBtn.addEventListener('click', function () {
+        var cardToFocus = activeCard;
         detail.classList.remove('visible');
+        activeCard = null;
         grid.parentElement.parentElement.style.display = '';
         document.getElementById('personality').scrollIntoView({ behavior: 'smooth' });
+        if (cardToFocus && typeof cardToFocus.focus === 'function') cardToFocus.focus();
     });
 })();
 
@@ -97,34 +183,50 @@
 
 // —— 身体快速使用手册折叠 ——
 (function () {
-    // 一级折叠：h3 → body-group
+    function activateOnKeyboard(toggle, action) {
+        toggle.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                action();
+            }
+        });
+    }
+
     document.querySelectorAll('.body-toggle').forEach(function (toggle) {
-        toggle.addEventListener('click', function () {
+        function activate() {
             var group = toggle.nextElementSibling;
             var isOpen = group.classList.contains('open');
-            // close all
-            document.querySelectorAll('.body-toggle').forEach(function (t) { t.classList.remove('open'); });
+            document.querySelectorAll('.body-toggle').forEach(function (t) {
+                t.classList.remove('open');
+                t.setAttribute('aria-expanded', 'false');
+            });
             document.querySelectorAll('.body-group').forEach(function (g) { g.classList.remove('open'); });
             if (!isOpen) {
                 toggle.classList.add('open');
+                toggle.setAttribute('aria-expanded', 'true');
                 group.classList.add('open');
-                // 等 DOM 更新后滚动到新展开的位置
                 setTimeout(function () {
                     toggle.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 50);
             }
-        });
+        }
+        toggle.addEventListener('click', activate);
+        activateOnKeyboard(toggle, activate);
     });
 
-    // 二级折叠：h4 → body-sub
     document.querySelectorAll('.body-sub-toggle').forEach(function (toggle) {
-        toggle.addEventListener('click', function (e) {
-            e.stopPropagation();
+        function activate() {
             var sub = toggle.nextElementSibling;
             var isOpen = sub.classList.contains('open');
             toggle.classList.toggle('open', !isOpen);
+            toggle.setAttribute('aria-expanded', !isOpen ? 'true' : 'false');
             sub.classList.toggle('open', !isOpen);
+        }
+        toggle.addEventListener('click', function (event) {
+            event.stopPropagation();
+            activate();
         });
+        activateOnKeyboard(toggle, activate);
     });
 })();
 // —— 理念区折叠面板（手风琴 + 返回自动收起） ——
@@ -145,6 +247,7 @@
             var s = document.getElementById(p.sectionId);
             var isOpen = s && s.classList.contains("visible");
             if (!b) return;
+            if (b.hasAttribute('aria-controls')) b.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
             if (isOpen) {
                 var ct = (typeof DICT !== "undefined" && DICT.phil_collapse) ? DICT.phil_collapse : "收起";
                 b.innerHTML = "<span class=\"btn-icon\">" + p.icon + "</span> " + ct;
@@ -159,7 +262,11 @@
             var s = document.getElementById(p.sectionId);
             var b = document.getElementById(p.btnId);
             if (s) s.classList.remove("visible");
-            if (b) { var lb = (typeof DICT !== "undefined" && DICT[p.labelKey]) ? DICT[p.labelKey] : p.fallback; b.innerHTML = '<span class="btn-icon">' + p.icon + '</span> ' + lb; }
+            if (b) {
+                var lb = (typeof DICT !== "undefined" && DICT[p.labelKey]) ? DICT[p.labelKey] : p.fallback;
+                b.innerHTML = '<span class="btn-icon">' + p.icon + '</span> ' + lb;
+                if (b.hasAttribute('aria-controls')) b.setAttribute('aria-expanded', 'false');
+            }
         });
     }
 
@@ -173,6 +280,7 @@
             closeAll();
             if (!isOpen) {
                 section.classList.add('visible');
+                if (btn.hasAttribute('aria-controls')) btn.setAttribute('aria-expanded', 'true');
                 var collapseText = (typeof DICT !== 'undefined' && DICT.phil_collapse) ? DICT.phil_collapse : '收起'; btn.innerHTML = '<span class="btn-icon">' + p.icon + '</span> ' + collapseText;
                 setTimeout(function () { section.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
             } else {
@@ -230,9 +338,12 @@
     var intimacyModal = document.createElement('div');
     intimacyModal.className = 'moments-modal';
     intimacyModal.id = 'intimacyModal';
+    intimacyModal.setAttribute('role', 'dialog');
+    intimacyModal.setAttribute('aria-modal', 'true');
+    intimacyModal.setAttribute('aria-hidden', 'true');
     intimacyModal.innerHTML = '<div class="moments-modal-bg"></div>' +
         '<div class="moments-modal-content" style="text-align:center;max-width:420px;">' +
-        '<button class="moments-modal-close" id="intimacyClose">&times;</button>' +
+        '<button class="moments-modal-close" id="intimacyClose" type="button" data-i-aria="dialog_close_aria" aria-label="关闭弹窗">&times;</button>' +
         '<div style="font-size:3rem;margin:20px 0 12px;">🔒</div>' +
         '<h3 id="intimacyTitle" style="font-size:1.15rem;color:var(--text);margin-bottom:8px;">' + ((typeof DICT!=='undefined'&&DICT.intimacy_title)?DICT.intimacy_title:'亲密度不够') + '</h3>' +
         '<p id="intimacyDesc" style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;">' + ((typeof DICT!=='undefined'&&DICT.intimacy_desc)?DICT.intimacy_desc:'梦是灵魂的密语，只对足够亲近的人敞开。') + '</p>' +
@@ -244,8 +355,10 @@
 
     var closeBtn = intimacyModal.querySelector('#intimacyClose');
     var bg = intimacyModal.querySelector('.moments-modal-bg');
+    var intimacyLastFocus = null;
 
     dreamBtn.addEventListener('click', function () {
+        intimacyLastFocus = dreamBtn;
         var t = document.getElementById('intimacyTitle');
         var d = document.getElementById('intimacyDesc');
         var p = document.getElementById('intimacyTip');
@@ -255,12 +368,16 @@
         if (p) p.textContent = (typeof DICT!=='undefined'&&DICT.intimacy_tip)?DICT.intimacy_tip:'当前亲密度不足以查看此内容';
         if (h) h.textContent = (typeof DICT!=='undefined'&&DICT.intimacy_hint)?DICT.intimacy_hint:'💡 多聊聊、多见见，亲密度自然会升';
         intimacyModal.classList.add('visible');
+        intimacyModal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
+        closeBtn.focus();
     });
 
     function closeIntimacy() {
         intimacyModal.classList.remove('visible');
+        intimacyModal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
+        if (intimacyLastFocus && typeof intimacyLastFocus.focus === 'function') intimacyLastFocus.focus();
     }
     closeBtn.addEventListener('click', closeIntimacy);
     bg.addEventListener('click', closeIntimacy);
@@ -268,4 +385,4 @@
         if (e.key === 'Escape' && intimacyModal.classList.contains('visible')) closeIntimacy();
     });
 })();
-
+
