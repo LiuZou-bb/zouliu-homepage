@@ -33,6 +33,8 @@ window.renderInterview = function() {
     window.interviewQuestions.forEach(function(q, i) {
         var div = document.createElement('div');
         div.className = 'interview-item' + (q.breakBefore ? ' interview-stage-gap' : '');
+        div.id = 'interviewQuestion' + (i + 1);
+        div.setAttribute('tabindex', '-1');
         div.textContent = (i + 1) + '. ' + (isEn ? q.en : q.zh);
         container.appendChild(div);
     });

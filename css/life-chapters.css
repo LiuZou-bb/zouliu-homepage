@@ -1,0 +1,107 @@
+/* One continuous annual gallery, not independently coloured panels. */
+[data-scene="life"] #skills { padding-top:0; }
+#moments.life-chapters { padding-top:40px;overflow:clip; }
+#moments.life-chapters>.container { width:100%;max-width:none;padding-inline:0; }
+#moments.life-chapters>.container>.section-title,
+#moments.life-chapters>.container>.section-intro { margin-inline:var(--gutter); }
+#moments.life-chapters>.container>.section-intro { max-width:46em; }
+.life-chapters .moments-timeline { display:block; }
+.life-chapters .life-year-nav { margin:0;padding:8px var(--gutter) 24px; }
+.life-chapters .life-year-spread { display:block;width:100%;padding:clamp(50px,7svh,90px) var(--gutter) clamp(46px,7svh,86px);border:0;background:transparent; }
+.life-chapters .life-year-spread[hidden] { display:none; }
+.life-chapters .moments-timeline[data-filter="all"] #momentsYear2024 { padding-top:clamp(50px,7svh,90px); }
+.life-year-heading { text-align:center;margin:0 auto clamp(28px,4svh,48px);clip-path:inset(0 0 calc((1 - var(--year-reveal,1))*100%) 0);opacity:calc(.25 + var(--year-reveal,1)*.75);transform:translateY(calc((1 - var(--year-reveal,1))*-14px)); }
+.life-chapter-number { font:400 11px/1.6 var(--type-number);letter-spacing:.16em;margin:0 0 18px; }
+.life-chapters .life-year-mark { display:block;margin:0;font:300 clamp(72px,10vw,132px)/1.05 var(--type-number);letter-spacing:-.055em; }
+.life-year-subtitle { font:400 clamp(20px,2.5vw,34px)/1.5 var(--type-art);margin:18px 0 0; }
+.life-year-gallery { display:grid;grid-template-columns:repeat(12,minmax(0,1fr));align-items:start;gap:clamp(12px,1.6vw,26px); }
+#moments .life-year-gallery[data-count="2"] { grid-template-columns:repeat(2,minmax(0,1fr)); }
+#moments .life-year-gallery[data-count="2"]>.life-exhibit { grid-column:auto;min-width:0; }
+.life-chapters .life-exhibit { grid-column:span 4;width:auto;margin:0;transform:perspective(1400px) translateY(var(--photo-rise,0px)) rotateX(var(--photo-tilt,0deg));transform-origin:50% 100%; }
+.life-chapters .life-exhibit:nth-of-type(3n+2) { margin-top:44px; }
+.life-chapters .life-exhibit:nth-of-type(3n) { margin-top:90px; }
+#moments .life-year-gallery[data-count="1"]>.life-exhibit { grid-column:4/10; }
+#moments .life-year-gallery[data-count="1"]>.life-exhibit--sequence { grid-column:1/-1; }
+.life-year-gallery[data-count="4"]>.life-exhibit { grid-column:span 3; }
+.life-exhibit-strip { display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:clamp(12px,1.6vw,26px); }
+.life-exhibit--sequence .life-exhibit-strip { grid-template-columns:repeat(3,minmax(0,1fr));align-items:start; }
+.life-chapters .life-exhibit-stage,
+.life-chapters .moments-timeline[data-filter="all"] #momentsYear2024 .life-exhibit-stage { aspect-ratio:3/4;overflow:hidden;border:0;background:var(--bg-alt); }
+.life-exhibit--sequence .life-exhibit-stage:nth-child(2) { margin-top:42px; }
+.life-exhibit--sequence .life-exhibit-stage:nth-child(3) { margin-top:20px; }
+.life-chapters .life-exhibit:nth-of-type(3n+2) .life-exhibit-stage { aspect-ratio:4/5; }
+.life-chapters .life-exhibit:nth-of-type(3n) .life-exhibit-stage { aspect-ratio:3/4; }
+.life-edge-defs { position:absolute;width:0;height:0;overflow:hidden;pointer-events:none; }
+.life-chapters .life-exhibit-caption { margin-top:14px;gap:8px 12px; }
+.life-chapters .life-exhibit-caption h4 { font:400 clamp(16px,1.7vw,25px)/1.5 var(--type-art);margin:0;overflow-wrap:anywhere; }
+.life-chapters .life-exhibit-count { font-size:10px; }
+/* The stable photograph footprint is the hit area, even as it rolls away to
+   reveal the excerpt. Captions and the chapter are not hover hit areas. */
+.life-chapters .life-exhibit-stage .life-exhibit-photo { height:100%;aspect-ratio:auto;transform:translateY(0); }
+.life-chapters .life-exhibit-stage .life-exhibit-note { position:absolute;inset:0;display:flex;padding:clamp(14px,2.6vw,40px);background:#f8f9fb;color:#151619;transform:translateY(100%); }
+.life-chapters .life-exhibit.is-selected .life-exhibit-photo { transform:none; }
+.life-chapters .life-exhibit.is-selected .life-exhibit-note { transform:translateY(100%); }
+.life-chapters .life-exhibit-stage.is-selected .life-exhibit-photo { transform:translateY(-100%); }
+.life-chapters .life-exhibit-stage.is-selected .life-exhibit-note { transform:translateY(0); }
+.life-chapters .life-exhibit.no-image .life-exhibit-note { transform:none; }
+.life-chapters .no-image .life-exhibit-note p { -webkit-line-clamp:5; }
+@media(any-hover:hover) and (any-pointer:fine) {
+ .life-backdrop { display:block; }
+ body.life-preview .life-chapters .life-exhibit:not(.is-selected) .life-exhibit-photo,
+ body.life-preview .life-chapters .life-exhibit:not(.is-selected) .life-exhibit-note { opacity:0!important; }
+}
+@media(max-width:767px) {
+ .life-chapters .life-year-spread { padding-block:44px 46px; }
+ .life-chapters .moments-timeline[data-filter="all"] #momentsYear2024 { padding-top:44px; }
+ .life-year-heading { margin-bottom:30px; }
+ .life-year-gallery { gap:14px; }
+ .life-chapters .life-year-gallery>.life-exhibit { margin:0; }
+ #moments .life-year-gallery[data-count="1"]>.life-exhibit { grid-column:1/-1;width:min(76%,430px);margin-inline:auto; }
+ #moments .life-year-gallery[data-count="1"]>.life-exhibit--sequence { width:100%; }
+ .life-chapters .life-exhibit:nth-of-type(2) { margin-top:24px; }
+ .life-chapters .life-exhibit:nth-of-type(3) { margin-top:48px; }
+ .life-chapters .life-exhibit:nth-of-type(4) { margin-top:20px; }
+ .life-exhibit--sequence .life-exhibit-strip { gap:8px; }
+ .life-exhibit--sequence .life-exhibit-stage:nth-child(2) { margin-top:28px; }
+ .life-chapters .life-exhibit-photo { height:100%;aspect-ratio:auto;object-fit:cover; }
+ .life-chapters .life-exhibit-note p { font-size:14px;line-height:1.65;-webkit-line-clamp:4; }
+ .life-chapters .life-exhibit-note span { margin-top:14px;font-size:11px; }
+ .life-chapters .no-image .life-exhibit-note { display:flex;position:absolute;inset:0;padding:16px;background:var(--bg-alt); }
+ .life-chapters .no-image .life-exhibit-note p { font-size:14px;-webkit-line-clamp:4; }
+ .life-chapters .life-exhibit-caption { display:block; }
+ .life-chapters .life-exhibit-caption time { font-size:10px; }
+ .life-chapters .life-exhibit-caption h4 { font-size:18px;margin-top:8px; }
+ .life-chapters .life-exhibit-count { display:block;margin-top:6px; }
+}
+@media(max-width:479px) {
+ .life-chapters .life-year-spread { padding-inline:18px; }
+ .life-year-subtitle { font-size:20px; }
+ .life-chapters .life-exhibit-caption h4 { font-size:17px; }
+}
+/* Every story fits in the year's single row; no minimum-width scroll track.
+   Compact captions keep the photographs together even on a 320px phone. */
+@media(max-width:767px) {
+ .life-chapters .life-year-gallery[data-count="3"],
+ .life-chapters .life-year-gallery[data-count="4"] { gap:clamp(6px,1.6vw,14px); }
+ .life-chapters .life-year-gallery[data-count="3"] { grid-template-columns:repeat(3,minmax(0,1fr)); }
+ .life-chapters .life-year-gallery[data-count="4"] { grid-template-columns:repeat(4,minmax(0,1fr)); }
+ .life-chapters .life-year-gallery[data-count="3"]>.life-exhibit,
+ .life-chapters .life-year-gallery[data-count="4"]>.life-exhibit { grid-column:auto;min-width:0;container-type:inline-size; }
+ .life-chapters .life-year-gallery .life-exhibit-note { padding:clamp(7px,8cqi,16px); }
+ .life-chapters .life-year-gallery .life-exhibit-note p { font-size:clamp(10px,8cqi,14px);line-height:1.55;-webkit-line-clamp:4; }
+ .life-chapters .life-year-gallery .life-exhibit-note span { font-size:clamp(9px,7cqi,11px);margin-top:8px; }
+ .life-chapters .life-year-gallery .life-exhibit-caption h4 { font-size:clamp(13px,10cqi,18px);line-height:1.5; }
+}
+@media(max-width:479px) {
+ .life-chapters .life-year-gallery[data-count="3"] .life-exhibit-caption h4,
+ .life-chapters .life-year-gallery[data-count="4"] .life-exhibit-caption h4 { display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden; }
+ .life-chapters .life-exhibit-caption time { font-size:9px;letter-spacing:-.04em;white-space:nowrap; }
+ .life-chapters .life-year-gallery .life-exhibit-count { font-size:9px; }
+ .life-chapters .life-year-gallery[data-count="4"] .life-exhibit-note p { -webkit-line-clamp:3; }
+ .life-chapters .life-year-gallery[data-count="4"] .life-exhibit-note span { margin-top:4px; }
+}
+html[data-motion="reduced"] .life-year-heading { clip-path:none;opacity:1;transform:none; }
+html[data-motion="reduced"] .life-chapters .life-exhibit { transform:none; }
+html[data-motion="reduced"] .life-chapters .life-exhibit-stage { aspect-ratio:3/4;overflow:hidden; }
+html[data-motion="reduced"] .life-chapters .life-exhibit-note { display:none; }
+html[data-motion="reduced"] .life-chapters .no-image .life-exhibit-note { display:flex;position:absolute;inset:0; }

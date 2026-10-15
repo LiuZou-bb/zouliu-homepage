@@ -1,0 +1,109 @@
+/* An expandable, local bookshelf. Shared selectors are always archive-scoped. */
+[data-scene="archive"] { background:var(--bg); }
+.archive-intro { max-width:42em; }
+#archive { padding-top:8px; }
+.archive-shelves { display:grid;gap:54px;width:min(1040px,100%);margin-inline:auto; }
+.archive-shelf-heading { display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:20px; }
+.archive-group-number { font:400 11px/1.5 var(--type-number);color:var(--text-secondary);letter-spacing:.1em; }
+.archive-section-title { font:400 28px/1.3 var(--type-art);margin:0; }
+.archive-group-description { font:400 13px/1.7 var(--type-reading);color:var(--text-secondary);margin:0 0 0 auto; }
+.archive-shelf-row { position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,5vw,64px);align-items:end;padding:0 clamp(10px,4vw,50px) 14px;isolation:isolate; }
+.archive-shelf-row::after { content:'';position:absolute;bottom:0;left:0;right:0;height:12px;border-radius:2px;background:linear-gradient(#8c6f53,#503d2e);box-shadow:0 9px 14px #21170c25,inset 0 1px #c6ac84;z-index:-1; }
+.archive-volume { display:block;min-width:0;width:100%;max-width:200px;margin-inline:auto;padding:0;background:none;border:0;cursor:pointer;text-align:center;perspective:1200px; }
+.archive-cover { position:relative;display:flex;flex-direction:column;align-items:center;justify-content:space-between;aspect-ratio:.72;min-width:0;width:100%;padding:10% 10% 8% 13%;border:1px solid #0002;border-radius:1px 6px 6px 1px;background:repeating-linear-gradient(0deg,transparent 0 2px,#ffffff04 2px 3px),repeating-linear-gradient(90deg,transparent 0 3px,#00000004 3px 4px),var(--volume-colour);color:var(--volume-ink);box-shadow:6px 5px 0 -2px #e0d7c4,7px 6px 0 -2px #756b59,10px 9px 16px #0003;transform:rotateY(-8deg);transform-origin:left center;transition:transform 600ms cubic-bezier(.22,.68,.2,1),box-shadow 600ms; }
+.archive-cover::before { content:'';position:absolute;inset:0 auto 0 0;width:7%;background:linear-gradient(90deg,#0005,#ffffff0a 50%,#0002);border-right:1px solid #0001; }
+.archive-cover::after { content:'';position:absolute;inset:5% 6% 5% 9%;border:1px solid currentColor;opacity:.2;pointer-events:none; }
+.archive-volume-number { font:400 clamp(7px,1vw,10px)/1.3 var(--type-number);letter-spacing:.14em;opacity:.8; }
+.archive-volume-title { display:block;font:400 clamp(16px,2.3vw,28px)/1.4 'Zou Serif',Georgia,serif;letter-spacing:.07em;text-wrap:balance; }
+.archive-cover-mark { display:block;width:60%;aspect-ratio:1;opacity:.8; }
+.archive-cover-mark svg { display:block;width:100%;height:100%; }
+.archive-volume-signature { font:400 clamp(7px,.9vw,10px)/1.4 var(--type-reading);letter-spacing:.2em;opacity:.75; }
+.archive-grow-note { text-align:center;color:var(--text-secondary);font-size:13px;margin:44px 0 0; }
+@media(hover:hover) and (pointer:fine) {
+ .archive-volume:hover .archive-cover { transform:translateY(-10px) rotateY(0);box-shadow:6px 5px 0 -2px #e0d7c4,7px 6px 0 -2px #756b59,12px 18px 25px #0003; }
+}
+.archive-volume:focus-visible { outline:2px solid var(--accent);outline-offset:10px;border-radius:4px; }
+/* The fifth home chapter keeps two shelves inside the existing fixed stage. */
+#homeExhibits .home-exhibit--dialogue .exhibit-composition { inset:8% 6% 13%; }
+#homeExhibits .home-exhibit--dialogue .exhibit-visual { display:flex;align-items:center;justify-content:center; }
+#homeExhibits .archive-shelves { width:min(850px,100%);gap:clamp(22px,4svh,44px);color:#eee4d3; }
+#homeExhibits .archive-shelf-heading { margin-bottom:12px; }
+#homeExhibits .archive-group-number { color:#d9c9ad99; }
+#homeExhibits .archive-section-title { font-size:clamp(17px,2.2vw,25px); }
+#homeExhibits .archive-shelf-row { padding-inline:clamp(8px,5vw,80px);gap:clamp(14px,4vw,42px); }
+#homeExhibits .archive-volume { max-width:min(155px,20svh); }
+#homeExhibits .archive-volume-title { font-size:clamp(14px,1.8vw,23px); }
+#homeExhibits .archive-volume .archive-cover { box-shadow:5px 4px 0 -2px #d1c5ac,6px 5px 0 -2px #655a48,10px 10px 18px #0005; }
+#homeExhibits .archive-home-link { color:inherit;text-decoration:none;border-bottom:1px solid #d9c9ad66;padding-bottom:3px; }
+/* Large open book, with the original twelve leaves and Y-axis cover rotation. */
+.archive-reader { position:fixed;inset:0;display:none;z-index:1500;isolation:isolate;background:#181917eF;color:#e9e3d7; }
+.archive-reader.visible { display:flex;flex-direction:column; }
+.archive-reader-backdrop { position:absolute;inset:0;z-index:-1; }
+.archive-reader-bar { position:relative;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px clamp(16px,4vw,56px);font:400 13px/1.5 var(--type-reading); }
+.archive-reader-bar p { margin:0; }
+.archive-reader-close { display:flex;gap:10px;align-items:center;min-height:44px;padding:0 12px;border:1px solid #e9e3d740;background:transparent;color:inherit;font:inherit;cursor:pointer; }
+.archive-reader-close span:first-child { font-size:23px;line-height:1; }
+.archive-reader-stage { display:flex;align-items:center;justify-content:center;flex:1;min-height:0;padding:16px clamp(12px,4vw,60px); }
+.archive-reader-mount { width:min(1080px,100%);height:min(640px,100%);perspective:2000px; }
+.archive-reader-motion { width:100%;height:100%;transform-style:preserve-3d; }
+.archive-reader .exhibit-book { width:100%;height:100%;max-height:none; }
+.archive-reader-front { padding:0;box-shadow:5px 10px 28px #0005; }
+.archive-reader-front .archive-cover { height:100%;aspect-ratio:auto;transform:none;border-radius:0 8px 8px 0;box-shadow:none;padding:10% 10% 8% 13%; }
+.archive-reader-front .archive-volume-title { font-size:clamp(23px,4.2vw,52px);max-width:9em; }
+.archive-reader-front .archive-volume-number { font-size:clamp(8px,1.2vw,12px); }
+.archive-reader-front .archive-cover-mark { width:min(60%,240px); }
+.archive-reader-front .archive-volume-signature { font-size:clamp(9px,1.3vw,14px); }
+.archive-reader .cover-back { border-color:var(--volume-colour);background:linear-gradient(270deg,var(--volume-colour),#c1b198 6%,#e8dfcc 10%); }
+.archive-reader .book-spread { pointer-events:none; }
+.archive-reader .is-book-open .book-spread { pointer-events:auto; }
+.archive-reader .archive-page { min-width:0;overflow:auto;position:relative;padding:clamp(18px,4vw,46px);padding-bottom:54px;scrollbar-width:thin;scrollbar-color:#9e947e transparent; }
+.archive-reader .archive-page--right { border-left:1px solid #6c5c4233;background:linear-gradient(90deg,#70635830,transparent 15%); }
+.archive-page-eyebrow { font:400 clamp(9px,1vw,12px)/1.6 var(--type-number);color:#76684e;letter-spacing:.1em;margin-bottom:26px; }
+.archive-page-title { font:400 clamp(21px,2.5vw,34px)/1.5 'Zou Serif',Georgia,serif;margin:0 0 24px;text-wrap:balance; }
+.archive-reader .archive-page p { font:400 clamp(12px,1.3vw,17px)/1.85 var(--type-reading);margin:0 0 20px; }
+.archive-reader .archive-page .archive-page-note { font-size:clamp(10px,1vw,12px);color:#786f60;margin-top:auto;padding-top:26px; }
+.archive-question { font:400 clamp(18px,2.3vw,30px)/1.8 'Zou Serif',Georgia,serif;word-break:normal;overflow-wrap:anywhere;margin:0; }
+.archive-page-folio { margin-top:auto;display:block;padding-top:30px;font:400 10px/1.5 var(--type-number);color:#8e806a; }
+.archive-mail { font-size:clamp(12px,1.3vw,17px);color:#4760aa;text-underline-offset:5px;margin-top:20px; }
+.archive-address { display:block;font-size:clamp(9px,1vw,12px);overflow-wrap:anywhere;margin-top:14px; }
+.archive-entry-image { display:block;max-width:100%;max-height:240px;object-fit:contain;margin-bottom:20px; }
+.archive-reader-pagination { min-height:65px;display:flex;align-items:center;justify-content:center;gap:24px;padding:12px 16px 22px; }
+.archive-reader-pagination button { min-height:40px;padding:8px 14px;border:1px solid #e9e3d733;background:none;color:inherit;font:400 12px/1.5 var(--type-reading);cursor:pointer; }
+.archive-reader-pagination button:disabled { opacity:.3;cursor:default; }
+.archive-reader-pagination [hidden] { display:none; }
+.archive-reader-pagination output { font:400 11px/1.5 var(--type-number); }
+.archive-reader .dialog-controls { top:auto;bottom:18px;right:18px; }
+.archive-reader .dialog-controls button { color:inherit;background:#292a27;border-color:#e9e3d733; }
+@media(max-width:767px) {
+ .archive-shelves { gap:40px; }
+ .archive-shelf-heading { gap:12px;margin-bottom:18px; }
+ .archive-group-description { flex-basis:100%;margin:0 0 0 28px; }
+ .archive-shelf-row { gap:clamp(10px,3vw,24px);padding-inline:8px; }
+ .archive-volume-title { font-size:clamp(13px,2.9vw,22px); }
+ #homeExhibits .home-exhibit--dialogue .exhibit-composition { inset:8% 5% 15%; }
+ #homeExhibits .archive-shelf-row { padding-inline:8px;gap:clamp(12px,4vw,24px); }
+ #homeExhibits .archive-volume { max-width:min(145px,18svh); }
+ .archive-reader-bar { padding-block:10px; }
+ .archive-reader-stage { padding:10px 10px; }
+ .archive-reader-mount { height:100%;max-height:620px; }
+ .archive-reader .archive-page { padding:20px 14px 30px; }
+ .archive-page-eyebrow { margin-bottom:18px; }
+ .archive-page-title { font-size:21px; }
+ .archive-question { font-size:clamp(15px,3.6vw,22px);line-height:1.8; }
+ .archive-reader .archive-page p { font-size:13px;line-height:1.85; }
+ .archive-reader-pagination { justify-content:flex-start;gap:12px;padding-left:16px;min-height:65px;padding-right:90px; }
+ .archive-reader-pagination button { padding:8px; }
+}
+@media(max-width:480px) {
+ .archive-volume-title { font-size:clamp(12px,3.4vw,17px);letter-spacing:.03em; }
+ .archive-section-title { font-size:23px; }
+ .archive-reader-bar { font-size:11px;gap:10px; }
+ .archive-reader-close { padding-inline:8px;font-size:11px; }
+ .archive-reader .archive-page { padding-inline:12px; }
+ .archive-reader .archive-page p { font-size:12px; }
+ .archive-page-title { font-size:18px; }
+ .archive-reader .dialog-controls { right:10px;bottom:24px; }
+}
+@media(prefers-reduced-motion:reduce) { .archive-cover { transition:none; } }
+html[data-motion="reduced"] .archive-cover { transition:none; }
+html[data-motion="reduced"] .archive-reader .book-cover,html[data-motion="reduced"] .archive-reader .book-leaf { display:none; }

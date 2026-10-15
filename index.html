@@ -4,15 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>邹柳 — 个人主页</title>
-    <link rel="stylesheet" href="css/styles.css?v=20260901-personality-zoom">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="js/zh.js?v=20260901-poems"></script>
-    <script src="js/en.js?v=20260901-poems"></script>
-    <script src="js/i18n.js"></script>
+    <link rel="stylesheet" href="css/styles.css?v=20260930-v2">
+    <link rel="preload" href="fonts/zou-sans-entry.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/exhibit-hand.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/exhibit-script.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="css/fonts.css?v=20261011-v6">
+    <link rel="stylesheet" href="css/exhibit-v4.css?v=20261013-library4">
+    <link rel="stylesheet" href="css/art-titles.css?v=20261011-v6">
+    <link rel="stylesheet" href="css/home-stage.css?v=20261011-v9">
+    <link rel="stylesheet" href="css/life-chapters.css?v=20261013-covers3">
+    <link rel="stylesheet" href="css/life-library.css?v=20261013-library4">
+    <link rel="stylesheet" href="css/dream-dialogue.css?v=20261014-dream4">
+    <meta name="description" content="邹柳的个人展览：关于自我、思考、生活与真实的对话。">
+    <script>
+        (function () {
+            try {
+                var savedTheme = localStorage.getItem('theme');
+                var dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.setAttribute('data-theme', savedTheme || (dark ? 'dark' : 'light'));
+            } catch (error) { /* The default light palette remains available. */ }
+        })();
+    </script>
+    <script src="js/zh.js?v=20261015-review-fix1"></script>
+    <script src="js/en.js?v=20261015-review-fix1"></script>
+    <script src="js/dream-dialogue-data.js?v=20261014-dream5"></script>
+    <script src="js/i18n.js?v=20261014-dialogue1"></script>
+    <noscript><style>.home-explore,.site-controls,.explore-cue{display:none}</style></noscript>
 </head>
 <body>
+    <a class="skip-link" href="#exhibitionMain" data-i="ex_skip">跳到内容</a>
+    <nav class="navbar" aria-label="章节导航" data-i-aria="ex_nav_aria">
+        <div class="container nav-inner">
+            <a href="#" class="logo" data-i="logo">邹柳</a>
+            <ul class="nav-links" id="primaryNav">
+                <li><a href="#about"><span data-i="ex_meet">认识</span></a></li>
+                <li><a href="#philosophy"><span data-i="ex_thoughts">思考</span></a></li>
+                <li><a href="#skills"><span data-i="nav_skills">生活</span></a></li>
+                <li><a href="#growthEdges"><span data-i="nav_growth">局限</span></a></li>
+                <li><a href="#books"><span data-i="ex_books">书</span></a></li>
+            </ul>
+            <div class="site-controls">
+    <button class="motion-toggle" id="motionToggle" type="button" aria-pressed="false" aria-label="减少动态效果" data-i-aria="ex_motion_aria"><span aria-hidden="true">◌</span><span data-i="ex_motion">动效</span></button>
     <button class="theme-toggle" id="themeToggle" aria-label="切换主题" data-i-aria="theme_aria">
         <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
@@ -22,50 +55,57 @@
         </svg>
     </button>
     <button class="lang-btn" id="langBtn">EN</button>
-    <nav class="navbar">
-        <div class="container nav-inner">
-            <a href="#" class="logo" data-i="logo">邹柳</a>
-            <button class="nav-toggle" id="navToggle" type="button" aria-controls="primaryNav" aria-expanded="false" aria-label="打开导航菜单" data-i-aria="nav_menu_aria">
-                <span></span><span></span><span></span>
-            </button>
-            <ul class="nav-links" id="primaryNav">
-                <li><a href="#about"><span data-i="nav_about">关于</span></a></li>
-                <li><a href="#personality"><span data-i="nav_personality">人格测试</span></a></li>
-                <li><a href="#philosophy"><span data-i="nav_philosophy">理念</span></a></li>
-                <li><a href="#body"><span data-i="nav_body">身体</span></a></li>
-                <li><a href="#skills"><span data-i="nav_skills">生活</span></a></li>
-                <li><a href="#moments"><span data-i="nav_moments">微信朋友圈</span></a></li>
-                <li><a href="#growthEdges"><span data-i="nav_growth">局限</span></a></li>
-                <li><a href="#interview"><span data-i="nav_interview">访谈</span></a></li>
-                <li><a href="#contact"><span data-i="nav_contact">联系</span></a></li>
-            </ul>
+            </div>
         </div>
     </nav>
 
-    <header class="hero">
-        <div class="container">
-            <button class="avatar avatar-button" id="avatarZoom" type="button" aria-label="放大头像" data-i-aria="avatar_zoom_aria">
-                <img src="images/avatar.jpg" alt="邹柳" class="avatar-img" data-i-alt="hero_name">
-            </button>
-            <h1>你好，我是 <span class="highlight" data-i="hero_name">邹柳</span></h1>
-            <p class="hero-desc" data-i="hero_desc">认识自己是认识世界的第一步。</p>
-            <p class="hero-subtitle">正如古希腊德尔斐神庙上的箴言：&ldquo;认识你自己（Gnothi Seauton）&rdquo;&mdash;&mdash;这不是一个命令，而是一条邀请：邀请你进入一场与自己最深邃、最诚实的对话。</p>
-            <div class="hero-actions">
-                <a href="#contact" class="btn btn-primary" data-i="hero_contact">联系我</a>
-                <a href="#personality" class="btn btn-secondary" data-i="hero_about">了解我</a>
+    <main id="exhibitionMain" tabindex="-1">
+    <div class="home-view" id="homeView">
+        <header class="hero">
+            <div class="container hero-layout">
+                <div class="exhibition-masthead"><span data-i="ex_label">个人展览</span><span>01 — 05</span></div>
+                <h1 tabindex="-1"><span data-i="cover_line1">认识自己，</span><span data-i="cover_line2">也认识世界。</span></h1>
+                <div class="cover-signature"><span data-i="hero_hi">你好，我是</span><strong data-i="hero_name">邹柳</strong></div>
+                <button class="avatar avatar-button hero-portrait" id="avatarZoom" type="button" aria-label="放大头像" data-i-aria="avatar_zoom_aria">
+                    <img src="images/avatar.jpg" alt="邹柳" class="avatar-img" width="1280" height="1706" decoding="async" data-i-alt="hero_name">
+                    <span aria-hidden="true">↗</span>
+                </button>
+                <p class="cover-note"><em>Gnothi Seauton</em><span data-i="cover_note">一场仍在发生的自我探索。</span></p>
             </div>
-        </div>
-    </header>
+        </header>
+        <section id="explore" class="home-explore" aria-labelledby="exploreTitle">
+            <div class="explore-atmosphere">
+                <div class="explore-backdrops" aria-hidden="true"><img class="explore-backdrop" alt=""><img class="explore-backdrop" alt=""></div>
+                <div class="explore-word"><h2 id="exploreTitle" data-i="v4_explore">探索</h2><span>01 — 05</span></div>
+            </div>
+            <div class="explore-stage">
+            <div class="explore-prologue"><p data-i="ex_choose">选择一个章节</p></div>
+            </div>
+            <div id="homeExhibits"></div>
+        </section>
+        <section id="contact" class="section home-contact">
+            <div class="container">
+                <h2 class="section-title" data-i="contact_title">联系我</h2>
+                <p class="contact-intro" data-i="contact_intro">若有共鸣，不妨来信。点击复制邮箱。</p>
+                <div class="contact-links">
+                    <button class="contact-item" id="emailCopy"><span class="contact-icon">✉️</span><span>zouliu520@outlook.com</span><span class="copy-tip" id="copyTip" data-i="contact_copy_done">已复制 ✓</span></button>
+                    <a class="contact-mail" href="mailto:zouliu520@outlook.com" data-i="ex_email">写一封邮件 ↗</a>
+                </div>
+            </div>
+        </section>
+    </div>
 
+    <div class="exhibit-scene" data-scene="meet">
+    <header class="scene-heading container"><a href="#" class="scene-home" data-i="ex_home">← 展览入口</a><p class="scene-kicker">01 / 05</p><h1 tabindex="-1" data-i="ex_meet">认识</h1><p data-i="ex_meet_short">我是谁，也仍在成为谁。</p><div class="scene-jumps"><a href="#about" data-i="nav_about">关于</a><a href="#personality" data-i="nav_personality">人格测试</a></div></header>
     <section id="about" class="section">
         <div class="container">
             <h2 class="section-title" data-i="about_title">关于我</h2>
             <div class="about-content">
-                <p><span data-i="about_p1">认识自己，也认识世界。</span></p>
+                <p><span data-i="about_p1">认识自己，是认识世界的第一步。</span></p>
                 <p><span data-i="about_p2">在感性与理性间寻求中庸一体之道。</span></p>
                 <p><span data-i="about_p3">想成为怎样的人：有能力，有自由，有深度，有好奇心，也有生命力。</span></p>
                 <p><span data-i="about_p4">想过怎样的生活：一种稳定向上的生活。</span></p>
-                <p><span data-i="about_p5">这不是一个固定的答案，这个网站记录的，是一条仍在发生的路。</span></p>
+                <p><span data-i="about_p5">这不是一个固定的答案，这是一条仍在发生的路。</span></p>
             </div>
         </div>
     </section>
@@ -77,29 +117,29 @@
             <div class="personality-grid" id="personalityGrid">
                 <div class="personality-card" data-test="16PF" role="button" tabindex="0">
                     <div class="personality-image">
-                        <img src="images/16PF.jpg" alt="16PF">
+                        <img src="images/EPQ-R.jpg" alt="16PF" width="1080" height="1620" loading="lazy" decoding="async">
                     </div>
                     <div class="personality-info">
                         <h3>16PF</h3>
-                        <p><span data-i="personality_card_16pf">卡特尔16种人格因素问卷</span></p>
+                        <p data-i="personality_16pf">卡特尔16种人格因素问卷</p>
                     </div>
                 </div>
                 <div class="personality-card" data-test="EPQ-R" role="button" tabindex="0">
                     <div class="personality-image">
-                        <img src="images/EPQ-R.jpg" alt="EPQ-R">
+                        <img src="images/16PF.jpg" alt="EPQ-R" width="2132" height="860" loading="lazy" decoding="async">
                     </div>
                     <div class="personality-info">
                         <h3>EPQ-R</h3>
-                        <p><span data-i="personality_card_epq">艾森克人格问卷修订版</span></p>
+                        <p data-i="personality_epq">艾森克人格问卷修订版</p>
                     </div>
                 </div>
                 <div class="personality-card" data-test="NEO-PI-R" role="button" tabindex="0">
                     <div class="personality-image">
-                        <img src="images/NEO-PI-R.jpg" alt="NEO-PI-R">
+                        <img src="images/NEO-PI-R.jpg" alt="NEO-PI-R" width="1080" height="2433" loading="lazy" decoding="async">
                     </div>
                     <div class="personality-info">
                         <h3>NEO-PI-R</h3>
-                        <p><span data-i="personality_card_neo">大五人格量表修订版</span></p>
+                        <p data-i="personality_neo">大五人格量表修订版</p>
                     </div>
                 </div>
             </div>
@@ -120,57 +160,76 @@
         </div>
     </section>
 
+    </div>
+    <div class="exhibit-scene" data-scene="thoughts">
+    <header class="scene-heading container"><a href="#" class="scene-home" data-i="ex_home">← 展览入口</a><p class="scene-kicker">02 / 05</p><h1 tabindex="-1" data-i="ex_thoughts">思考</h1><p data-i="ex_thoughts_short">理解世界的几个坐标。</p></header>
     <section id="philosophy" class="section section-alt">
         <div class="container">
-            <h2 class="section-title" data-i="philosophy_title">我的理念</h2>
-            <p class="section-intro" data-i="philosophy_intro">我理解世界的方式，亦是安放自己的坐标。</p>
-            <div class="philosophy-grid">
-                <div class="philosophy-card">
-                    <div class="philosophy-number">01</div>
-                    <h3 data-i="phil_fluid">World Is Fluid</h3>
-                    <p><span data-i="phil_fluid_desc">世界是流动的，来过，走过，没有永恒的停驻，只是一切融入一切的短暂生命。</span></p>
-                </div>
-                <div class="philosophy-card">
-                    <div class="philosophy-number">02</div>
-                    <h3 data-i="phil_compound">Growth Is Compound</h3>
-                    <p><span data-i="phil_compound_desc">缓慢而稳定的前进</span></p>
-                </div>
-                <div class="philosophy-card">
-                    <div class="philosophy-number">03</div>
-                    <h3 data-i="phil_practice">Practice Is the Only Standard</h3>
-                    <p><span data-i="phil_practice_desc">通过不断实践，认识，再实践，再认识的循环中接近真理。</span></p>
-                </div>
-                <div class="philosophy-card">
-                    <div class="philosophy-number">04</div>
-                    <h3 data-i="phil_learn">终身学习</h3>
-                    <p><span data-i="phil_learn_desc">书海无涯我逍遥游哇哈哈哈</span></p>
-                </div>
+            <div class="thought-principles" aria-labelledby="thoughtPrinciplesTitle">
+                <p id="thoughtPrinciplesTitle" class="thought-label" data-i="thought_principles">几条理念 · 在这里读完</p>
+                <article id="thought-entry-fluid" class="thought-entry" data-thought="fluid">
+                    <h2><span data-i="phil_fluid">世界是流动的</span></h2>
+                    <p class="thought-core"><span data-i="phil_fluid_desc">世界是流动的，来过，走过，没有永恒的停驻，只是一切融入一切的短暂生命。</span></p>
+                </article>
+                <article id="thought-entry-compound" class="thought-entry" data-thought="compound">
+                    <h2><span data-i="phil_compound">成长是复利的</span></h2>
+                    <p class="thought-core"><span data-i="phil_compound_desc">缓慢而稳定的前进</span></p>
+                </article>
+                <article id="thought-entry-practice" class="thought-entry" data-thought="practice">
+                    <h2><span data-i="phil_practice">实践是检验的唯一标准</span></h2>
+                    <p class="thought-core"><span data-i="phil_practice_desc">通过不断实践，认识，再实践，再认识的循环中接近真理。</span></p>
+                </article>
+                <article id="thought-entry-learn" class="thought-entry" data-thought="learn">
+                    <h2><span data-i="phil_learn">终身学习</span></h2>
+                    <p class="thought-core"><span data-i="phil_learn_desc">书海无涯我逍遥游哇哈哈哈</span></p>
+                </article>
             </div>
-            <div class="philosophy-more">
-                <button class="btn btn-outline" id="friendToggle" type="button" aria-controls="friend" aria-expanded="false">
-                    <span class="btn-icon">🤝</span> 我希望和这样的人交朋友
-                </button>
-                <button class="btn btn-outline" id="loveToggle" type="button" aria-controls="love" aria-expanded="false">
-                    <span class="btn-icon">❤️</span> 我对爱的理解
-                </button>
-                
-                
-                <button class="btn btn-outline" id="childhoodToggle" type="button" aria-controls="childhood" aria-expanded="false">
-                    <span class="btn-icon">🧒</span> 对童年塑造的理解
-                </button>
-                <button class="btn btn-outline" id="dreamToggle" type="button" aria-haspopup="dialog">
-                    <span class="btn-icon">🌙</span> 我梦的解析
-                </button>
-                <button class="btn btn-outline" id="sorryToggle" type="button" aria-controls="sorry" aria-expanded="false">
-                    <span class="btn-icon">💌</span> 想对你说
-                </button><div class="philosophy-divider">
-                    <span><span data-i="phil_wx_label">📡 公众号文章</span></span>
-                </div><a href="https://mp.weixin.qq.com/s/P7GhObsAs9v48y5Bc6jjAA" target="_blank" rel="noopener" class="btn btn-outline wx-link">
-                    <span data-i="phil_wx1">🧭 人生主线：别再跟着别人的剧本活了</span>
-                </a>
-                <a href="https://mp.weixin.qq.com/s?__biz=MzYzNDQ2MTMxMg==&mid=2247483696&idx=1&sn=c8054ce4a7166da204df7e17aceaa447" target="_blank" rel="noopener" class="btn btn-outline wx-link">
-                    <span data-i="phil_wx2">🤔 人与人的差距在哪？</span>
-                </a>
+            <div class="thought-entries" aria-labelledby="thoughtReadingTitle">
+                <p id="thoughtReadingTitle" class="thought-label" data-i="thought_reading">一些展开的话 · 点击标题阅读 ↗</p>
+                <article id="thought-entry-love" class="thought-entry" data-thought="love" data-thought-layout="left">
+                    <h2><a href="#love"><span data-i="thought_love_title">对爱的理解</span></a></h2>
+                    <p class="thought-core"><span data-i="thought_love_core">爱的唯一性，就是人的唯一性——扎根于灵魂，沉淀于经历。爱一个人，也是在理解那些使其成为自己的时刻。</span></p>
+                </article>
+                <article id="thought-entry-beauty" class="thought-entry" data-thought="beauty" data-thought-layout="right">
+                    <h2><a href="#beauty"><span data-i="thought_beauty_title">对美的理解</span></a></h2>
+                    <p class="thought-core"><span data-i="thought_beauty_core">美不只存在于令人愉悦的事物之中。世界万象与人的心灵相遇，我们在感知、理解与想象中感受情感、发现价值、赋予意义。</span></p>
+                </article>
+                <article id="thought-entry-childhood" class="thought-entry" data-thought="childhood" data-thought-layout="inset">
+                    <h2><a href="#childhood"><span data-i="thought_childhood_title">童年</span></a></h2>
+                    <p class="thought-core"><span data-i="thought_childhood_core">童年的世界很小。家庭、环境与被看待的方式，怎样成为我们面对世界的底色？长大后，我重新回望那个世界。</span></p>
+                </article>
+                <article id="thought-entry-dream" class="thought-entry" data-thought="dream" data-thought-layout="right">
+                    <h2><a id="dreamToggle" class="thought-title-button" href="#dream"><span data-i="thought_dream_title">梦的解析</span></a></h2>
+                    <p class="thought-core"><span data-i="thought_dream_core">梦把记忆、情绪与想象编织成另一种叙事。这里记录着18个让我情绪剧烈起伏且深刻的梦，含解析共计七千八百多字，祂引领我弥补不足走向完整。</span></p>
+                </article>
+                <article id="thought-entry-sorry" class="thought-entry" data-thought="sorry" data-thought-layout="left">
+                    <h2><a href="#sorry"><span data-i="phil_sorry">想对你说</span></a></h2>
+                    <p class="thought-core"><span data-i="thought_sorry_core">《对不起》&#10;《原谅》</span></p>
+                </article>
+                <article id="thought-entry-lifeDepth" class="thought-entry" data-thought="lifeDepth" data-thought-layout="right">
+                    <h2><a href="#lifeDepth"><span data-i="thought_depth_title">生命的厚度与长度</span></a></h2>
+                    <p class="thought-core"><span data-i="thought_depth_core">真正高质量的人生是在有限长度内保持合理密度，让体验、成长、休息形成平衡。</span></p>
+                </article>
+                <article id="thought-entry-technologyWealth" class="thought-entry" data-thought="technologyWealth" data-thought-layout="inset">
+                    <h2><a href="#technologyWealth"><span data-i="thought_technologyWealth_title">科技革命与财富</span></a></h2>
+                    <p class="thought-core"><span data-i="thought_technologyWealth_core">技术能力已经提升，社会应用却还停留在旧阶段。理解技术，也理解真实需求，帮助人们跨越这段距离并创造实际价值，是技术扩散留下的机会。</span></p>
+                </article>
+                <article id="thought-entry-aiEra" class="thought-entry" data-thought="aiEra" data-thought-layout="right">
+                    <h2><a href="#aiEra"><span data-i="thought_aiEra_title">对AI时代的理解</span></a></h2>
+                    <p class="thought-core"><span data-i="thought_aiEra_core">AI正在扩展人的创造能力，也让人重新思考自己的独特价值。当执行与生成变得更容易，什么问题值得解决、什么东西值得创造，可能成为更重要的判断。</span></p>
+                </article>
+                <article id="thought-entry-friend" class="thought-entry" data-thought="friend" data-thought-layout="inset">
+                    <h2><a href="#friend"><span data-i="thought_friend_title">交友</span></a></h2>
+                    <p class="thought-core"><span data-i="thought_friend_core">真诚坦荡，靠谱回应。亲近时尊重边界，各自成长，也分享沿途的收获——这是我期待的交友方式。</span></p>
+                </article>
+                <article id="thought-entry-essay1" class="thought-entry" data-thought="essay1" data-thought-layout="right">
+                    <h2><a href="https://mp.weixin.qq.com/s/P7GhObsAs9v48y5Bc6jjAA" target="_blank" rel="noopener"><span data-i="thought_essay1_title">人生主线</span><small data-i="thought_external">外部文章 ↗</small></a></h2>
+                    <p class="thought-core"><span data-i="thought_essay1_core">别再跟着别人的剧本活了。如果人生有一条主线，它是否一定要与别人相同？关于寻找自己的方向，而不是只完成外界交来的答案。</span></p>
+                </article>
+                <article id="thought-entry-essay2" class="thought-entry" data-thought="essay2" data-thought-layout="left">
+                    <h2><a href="https://mp.weixin.qq.com/s?__biz=MzYzNDQ2MTMxMg==&mid=2247483696&idx=1&sn=c8054ce4a7166da204df7e17aceaa447" target="_blank" rel="noopener"><span data-i="thought_essay2_title">人与人的差距</span><small data-i="thought_external">外部文章 ↗</small></a></h2>
+                    <p class="thought-core"><span data-i="thought_essay2_core">人与人的差距在哪？从这个问题出发，继续追问我们如何理解差距，以及怎样看待自己正在走的路。</span></p>
+                </article>
             </div>
         </div>
     </section>
@@ -181,37 +240,37 @@
             <h2 class="section-title" data-i="friend_page_title">我希望和这样的人交朋友</h2>
             <div class="friend-content">
                 <div class="friend-block">
-                    <h3><span data-i="friend_section1">板块一：基础要求</span></h3>
-                    <p data-i="fb0">1. 诚信负责：说到做到，有变动提前说，事事有交代。</p>
-                    <p data-i="fb1">2. 责任担当：遇事先解决再复盘，不甩锅不推诿。</p>
-                    <p data-i="fb2">3. 情绪稳定：就事论事，不宣泄情绪不人身攻击。</p>
-                    <p data-i="fb3">4. 共赢思维：愿意分享、双向付出，不搞单方面索取。</p>
-                    <p data-i="fb4">5. 底线原则：守规矩、有敬畏，凭本事不搞歪门邪道。</p>
-                    <p data-i="fb5">6. 真诚坦荡：当面沟通不藏事，不搞背后小动作。</p>
+                    <h3><span data-i="friend_section1">板块一｜相处的底色</span></h3>
+                    <p data-i="fb0">我珍惜说到做到的踏实感。计划有变时彼此说一声，比让对方一直猜更让人安心。</p>
+                    <p data-i="fb1">遇到麻烦，能一起想办法，也愿意看看自己能承担什么；这样的关系让我觉得我们站在同一边。</p>
+                    <p data-i="fb2">情绪不好是难免的。我更愿意在缓过来之后谈具体的事，不让一次争执变成对彼此的伤害。</p>
+                    <p data-i="fb3">好的相处不必计较每次付出是否对等，但我希望分享、支持与惦记，是可以双向流动的。</p>
+                    <p data-i="fb4">我在意诚实和底线。一起做事时，靠真实的努力获得结果，会让我更愿意信任这段关系。</p>
+                    <p data-i="fb5">有分歧时，我愿意听当面的真话，也希望自己能把心里的话认真说出来，少一点猜测。</p>
                 </div>
                 <div class="friend-block">
-                    <h3><span data-i="friend_section2">板块二：核心要求</span></h3>
-                    <p data-i="fc0">1. 主动学习：保持输入，不局限于课本，对新知识有好奇心。</p>
-                    <p data-i="fc1">2. 持续成长：有自己的成长节奏，能复盘迭代自我。</p>
-                    <p data-i="fc2">3. 辩证思维：理性全面看问题，能听不同意见。</p>
-                    <p data-i="fc3">4. 靠谱回应：约好的事不鸽、答应的事不沉，有进度会说一声。</p>
-                    <p data-i="fc4">5. 边界尊重：有边界也尊重别人，不绑架不越界。</p>
-                    <p data-i="fc5">6. 开放心态：包容新想法，敢试错能从挫折中成长。</p>
-                    <p data-i="fc6">7. 健康管理：规律作息，不长期透支身体；规律运动，保持稳定精力。</p>
-                    <p data-i="fc7">8. 时间管理：能掌控碎片化时间，做事时保持长时间专注状态。</p>
+                    <h3><span data-i="friend_section2">板块二｜愿意一起走近的人</span></h3>
+                    <p data-i="fc0">对世界仍有好奇的人很吸引我。我们可以交换最近读到、学到的东西，不必只聊熟悉的话题。</p>
+                    <p data-i="fc1">成长不必同速。我喜欢能各自向前，也偶尔停下来聊聊变化、困惑与新发现的关系。</p>
+                    <p data-i="fc2">观点不同也可以聊得很深。我愿意听见另一种解释，而不是把每次讨论都变成输赢。</p>
+                    <p data-i="fc3">一件约好的小事有回应，一段暂时忙碌的时间有交代，这些细节会慢慢积累成信任。</p>
+                    <p data-i="fc4">亲近不意味着没有边界。我希望彼此都能坦然说“不”，也能拥有独处和自己的生活。</p>
+                    <p data-i="fc5">一起接触新想法、尝试不熟悉的事，也容得下一次失败，是我期待的轻松与开放。</p>
+                    <p data-i="fc6">我欣赏愿意照顾身体的人。能聊聊作息、运动和精力，也能提醒彼此不必一直透支自己。</p>
+                    <p data-i="fc7">各自投入热爱的事情，再带着收获回来分享；能专注，也能相聚，是我喜欢的相处节奏。</p>
                 </div>
                 <div class="friend-block">
-                    <h3><span data-i="friend_section3">板块三：一票否决</span></h3>
-                    <p data-i="fv0">1. 习惯性失信：经常放鸽子、答应的事没下文还无所谓。</p>
-                    <p data-i="fv1">2. 遇事甩锅：有好处就抢、出问题就躲，从不反思。</p>
-                    <p data-i="fv2">3. 情绪攻击：一点就炸，冷暴力或当众撒气。</p>
-                    <p data-i="fv3">4. 极度自私：只想躺赢蹭好处，从不付出。</p>
-                    <p data-i="fv4">5. 无底线者：作弊抄袭造假，可能出卖朋友。</p>
-                    <p data-i="fv5">6. 两面派：背后挑拨煽动情绪，当面不沟通。</p>
+                    <h3><span data-i="friend_section3">板块三｜我会保持距离的关系</span></h3>
+                    <p data-i="fv0">如果承诺反复落空，又始终没有解释或改变，我会慢慢收回自己的信任。</p>
+                    <p data-i="fv1">遇事总把责任推给别人，会让我很难继续一起做事。我需要的是共同面对，而不是互相消耗。</p>
+                    <p data-i="fv2">持续的辱骂、冷暴力或情绪攻击，会让我选择离开。亲近不该成为伤害的理由。</p>
+                    <p data-i="fv3">一段长期只有一方索取、另一方付出的关系，会让我疲惫，也不再愿意靠近。</p>
+                    <p data-i="fv4">欺骗、作弊或利用朋友触碰了我的底线。我不愿用亲近替这些行为开脱。</p>
+                    <p data-i="fv5">比起背后的挑拨，我更愿意面对直接的分歧。若坦诚沟通始终不可能，我会保留距离。</p>
                 </div>
             </div>
             <div class="love-back">
-                <a href="#philosophy" class="btn btn-secondary" data-i="phil_back">← 返回理念</a>
+                <a href="#philosophy" class="btn btn-secondary" data-i="ex_reader_back">← 返回思考</a>
             </div>
         </div>
     </section>
@@ -232,7 +291,7 @@
                 <div class="love-block"><p data-i="love_unique_p1">形而上之美，被理性解构成形而下具象逻辑，那份诗意就此消散。</p><p data-i="love_unique_p2">人可以轻易喜欢任何人，不过是分泌激素本能；也能爱众生万物，只需拥有足够的慈悲。</p><p data-i="love_unique_p3">爱的唯一性，就是人的唯一性——扎根于灵魂，沉淀于经历。</p><p data-i="love_unique_p4">人真的无可替代吗？形而下看：基因有双胞胎复刻，容貌有路人撞脸相似，学识、能力、财富等外在特质，皆可被他人比肩甚至替代。</p><p data-i="love_unique_p5">唯独灵魂不可复刻。形而上往下看：自生命降生伊始，每一分每一秒都无限动态演化，你每次抉择、每番思考、每段亲身亲历，所有独属于你的生命轨迹交织累积，无人能够复制，最终塑成了独一无二的你🫵</p><p data-i="love_p9">人们如何爱唯一的人，在ta有缺时如同亲人父母般不离不弃，而非移情别恋，想必就是爱构成ta过往的独特经历，以及爱曾经或未来和ta一起创造的独特经历罢。</p></div>
             </div>
             <div class="love-back">
-                <a href="#philosophy" class="btn btn-secondary" data-i="phil_back">← 返回理念</a>
+                <a href="#philosophy" class="btn btn-secondary" data-i="ex_reader_back">← 返回思考</a>
             </div>
         </div>
     </section>
@@ -251,7 +310,7 @@
                 </div>
             </div>
             <div class="love-back">
-                <a href="#philosophy" class="btn btn-secondary" data-i="phil_back">← 返回理念</a>
+                <a href="#philosophy" class="btn btn-secondary" data-i="ex_reader_back">← 返回思考</a>
             </div>
         </div>
     </section>
@@ -278,81 +337,65 @@
                 </div>
             </div>
             <div class="love-back">
-                <a href="#philosophy" class="btn btn-secondary" data-i="phil_back">← 返回理念</a>
+                <a href="#philosophy" class="btn btn-secondary" data-i="ex_reader_back">← 返回思考</a>
             </div>
         </div>
     </section>
 
-        <section id="body" class="section section-alt">
+    <section id="beauty" class="section love-section thought-source-reader">
         <div class="container">
-            <h2 class="section-title" data-i="body_title">身体快速使用手册</h2>
-            <p class="section-intro" data-i="body_intro">身是心的容器。保持身体的最佳状态，才能承载更深的思考。</p>
-
-            <h3 class="body-h3 body-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyRestGroup"><span data-i="body_rest">高效休息方法</span> <span class="body-arrow">▾</span></h3>
-            <div class="body-group" id="bodyRestGroup">
-                <div class="body-block">
-                    <h4 class="body-sub-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyNsdr"><span data-i="body_nsdr_title">一. NSDR（非睡眠深度休息）</span><span class="body-arrow-sm">▾</span></h4>
-                    <div class="body-sub" id="bodyNsdr">
-                        <h5 data-i="body_steps_label">操作步骤</h5>
-                        <p data-i="ns0">1. 找安静环境，平躺</p>
-                        <p data-i="ns1">2. 闭眼，深呼吸，放松身体。</p>
-                        <p data-i="ns2">3. 从脚趾开始，依次将注意力移至全身各处直至头顶，呼气时感受部位放松，走神无需刻意纠正。</p>
-                        <p data-i="ns3">4. 结束后先活动手脚、伸懒腰，再慢慢睁眼起身。</p>
-                        <h5 data-i="body_effects_label">效果</h5>
-                        <p data-i="ne0">1. 快速恢复精力，不会出现睡醒发懵的情况，改善午后困倦。</p>
-                        <p data-i="ne1">2. 舒缓压力、平复焦虑，减少思绪内耗。</p>
-                        <p data-i="ne2">3. 放松肌肉，缓解久坐引发的肩颈、腰背僵硬酸痛。</p>
-                        <p data-i="ne3">4. 提升专注力，让思维更清晰。</p>
-                        <p data-i="ne4">5. 调节神经状态，帮助改善夜间睡眠。</p>
-                        <p data-i="ne5">6. 门槛低，零基础也能轻松练习。</p>
-                    </div>
-                </div>
-                <div class="body-block">
-                    <h4 class="body-sub-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyBreathing"><span data-i="body_478_title">二. 4-7-8呼吸法</span><span class="body-arrow-sm">▾</span></h4>
-                    <div class="body-sub" id="bodyBreathing">
-                        <h5 data-i="body_steps_label">操作步骤</h5>
-                        <p data-i="bns0">1. 舌尖抵住上门牙后方的牙龈。</p>
-                        <p data-i="bns1">2. 闭上嘴巴，用鼻子缓慢吸气4秒。</p>
-                        <p data-i="bns2">3. 屏住呼吸7秒。</p>
-                        <p data-i="bns3">4. 嘴巴撅嘴缓慢吹气8秒，。</p>
-                        <p data-i="bns4">5. 以上为1次完整呼吸，重复4-6次为一组。</p>
-                        <h5 data-i="body_effects_label">效果</h5>
-                        <p data-i="bne0">1. 快速平复情绪，缓解焦虑、紧张和恐慌发作。</p>
-                        <p data-i="bne1">2. 激活副交感神经，帮助快速入睡，改善失眠。</p>
-                        <p data-i="bne2">3. 降低皮质醇水平，减轻身体压力反应。</p>
-                        <p data-i="bne3">4. 调节心率，缓解心慌、胸闷等躯体症状。</p>
-                        <p data-i="bne4">5. 随时随地可做，无需任何工具，零门槛。</p>
-                        <p data-i="bne5">6. 长期练习可改善整体呼吸模式，提升心肺功能。</p>
-                        <p data-i="ne6">7.短暂停止思考。</p>
-                    </div>
-                </div>
-            </div>
-
-            <h3 class="body-h3 body-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyActiveGroup"><span data-i="body_active">快速激活大脑方法</span> <span class="body-arrow">▾</span></h3>
-            <div class="body-group" id="bodyActiveGroup">
-                <div class="body-block">
-                    <h4 class="body-sub-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyWalk"><span data-i="body_walk_title">一. 快走</span> <span class="body-arrow-sm">▾</span></h4>
-                    <div class="body-sub" id="bodyWalk">
-                        <h5 data-i="body_steps_label">操作步骤</h5>
-                        <p data-i="ws0">1.基础快走：抬头挺胸，手臂自然摆动，步幅适中，速度以能说话但不能唱歌为宜。</p>
-                        <p data-i="ws1">2. 路线：走到走廊尽头可上楼或下楼循环路线</p>
-                        <p data-i="ws2">3. 节奏：越快激活越快</p>
-                        <p data-i="ws3">4.tips：可以使用八步赶蝉+轻哼小调效果更加</p>
-                        <h5 data-i="body_effects_label">效果</h5>
-                        <p data-i="we0">1. 快速激活大脑，提升专注力和思维清晰度，效果持续1-2小时。</p>
-                        <p data-i="we1">2. 促进血液循环，缓解久坐导致的大脑缺氧和午后昏沉。</p>
-                        <p data-i="we2">3. 锻炼心肺功能，同时增强下肢肌肉力量。</p>
-                        <p data-i="we3">4. 释放压力，改善情绪，减少焦虑和精神疲劳。</p>
-                        <p data-i="we4">5. 上下楼梯结合能提升代谢效率，比单纯平地快走效果更好。</p>
-                        <p data-i="we5">6. 随时随地可进行，无需特殊场地和器材。</p>
-                    </div>
-                </div>
-            </div>
+            <h2 class="section-title" data-i="thought_beauty_page_title">美</h2>
+            <div class="love-content" data-i-inner="thought_beauty_body"><div class="love-block"><p>以前，我认为美是天地广阔、壮丽山河，是妖娆身段、倾城容颜。美似乎总与那些令人赏心悦目的事物联系在一起。直到我玩了《光与影：33号远征队》。开场时，人们在死亡中化作花瓣，随风飘散。一代又一代的人踏上远征，试图拯救他们的世界。生命在消逝，希望却仍在延续。那一刻，我感受到一种难以言说的美。死亡是残酷的，花瓣是美丽的；远征伴随着绝望，却又孕育着希望。画面、音乐与故事交织在一起，悲伤与震撼同时涌上心头。</p><p>我开始意识到，美或许不只是那些令人愉悦的事物。悲剧可以是美的，死亡可以呈现出美，甚至痛苦与绝望之中，也可能诞生震撼人心的美。于是，我认为：“美，就是那些能够引起我情绪剧烈波动的事物。“但愤怒、恐惧、厌恶，同样能够引起剧烈的情绪波动。目睹残忍的伤害，我们也会感到震撼，那显然不是美。</p></div>
+<h3>从人类的起源来看。</h3>
+<div class="love-block"><p>在漫长的演化过程中，人类祖先生活于自然之中。开阔的原野、充足的水源、繁茂的植被，可能意味着更好的生存机会。那些有利于生存与繁衍的环境特征，或许逐渐影响了人类的审美偏好。而人类又是群居的动物。合作、互助、照料同伴，提高了群体生存的可能性。我们会因他人的善举而感动，因残忍的伤害而愤怒，这些情绪也有着深刻的演化与社会根源。</p></div>
+<h3>美因人而异</h3>
+<div class="love-block"><p>山川自有其形，星辰自有其轨。它们不因人的赞美而存在，却因人的感知与理解，被赋予了各自不同的意义。同一轮明月，有人望见团圆，有人望见离别；同一场落雪，有人感受宁静，有人想起故人。美可以存在于眼前，也可以存在于脑海。即使是一颗从未抵达的星球，一段从未发生的故事一个只存在于想象中的世界，也足以让人心生向往。事物的存在不依赖我们的目光，而美的体验可以在感知、理解与想象中诞生。每个人都带着自己的经历、情感与记忆去认识世界，也因此拥有属于自己的美。</p><p>美是世界万象与人的心灵相遇，是我们在万物之中感受到的情感、发现的价值与赋予的意义。</p></div></div>
+            <div class="love-back"><a href="#philosophy" class="btn btn-secondary" data-i="ex_reader_back">← 返回思考</a></div>
         </div>
     </section>
+    <section id="technologyWealth" class="section love-section thought-source-reader">
+        <div class="container">
+            <h2 class="section-title" data-i="thought_technologyWealth_page_title">技术革命与财富</h2>
+            <div class="love-content" data-i-inner="thought_technologyWealth_body"><div class="love-block"><p>一项新技术出现，并不会立刻创造财富。从实验室里的技术，到改变社会生产方式，中间存在一个过程。技术首先被少部分人掌握：研究人员、开发者、领先企业。他们知道这个技术可以做什么。但大多数人仍然按照过去的方式工作。于是产生了一种落差：技术能力已经提升，但社会应用还停留在旧阶段，使用旧的生产方式。这个落差，就是机会。</p><p>历史上很多机会，本质都是技术扩散。互联网出现后，信息传播成本大幅降低。</p></div>
+<h3>技术降低旧稀缺，制造新稀缺</h3>
+<div class="love-block"><p>互联网降低了信息传播和交易成本，催生了电商等新的商业模式。但这些商业模式的出现，不代表所有人都能立即利用它们。例如，一家传统商店想开展线上业务，却不知道如何搭建网店、获取客户、管理订单。于是，掌握互联网技术和运营方法的人，可以帮助商家解决这些问题，并从中获得收入。云计算也是如此。企业可以通过云服务降低购买和维护服务器的成本，但仍然需要有人帮助它们完成系统迁移、部署和维护。人工智能同样存在这样的机会。今天，大模型已经具备很强的能力，但许多企业仍然不知道如何将AI应用于实际业务。如果有人能够帮助企业利用AI降低成本、提高效率，企业就有理由为这项服务付费。技术已经能够解决问题，但需要它的人还不会使用。帮助他们跨越这段距离，并创造实际价值，就是技术扩散落差带来的财富机会。</p></div>
+<h3>技术革命中的个人机会</h3>
+<div class="love-block"><p>OpenAI 联合创始人、前特斯拉 AI 总监 Andrej Karpathy在 2026 年 10 月 11 日于 X 翻出一条旧推文：<strong>人们对LLM能力的共同认知差距正在扩大。约60亿人没接触过LLM，十到二十亿人偶尔使用免费版的AI产品，类似搜索引擎与写作辅助工具，约两千万人使用前言模型花费几周或几个月去完成大小项目，最后是约五千名可以在内部使用前沿系统的人。</strong>对于普通人来说，最大的机会未必是成为技术创造者。更多时候，是成为技术和传统世界之间的连接者。因为新技术的发展，总需要有人完成：技术 → 产品；技术 → 行业应用；技术 → 普通人的实际需求很多行业并不是没有技术，而是不知道如何使用技术。能够理解技术，又理解真实需求的人，会成为重要角色。</p></div>
+<h3>财富机会，本质是理解价值如何迁移</h3>
+<div class="love-block"><p>寻找过去昂贵但正在变便宜的东西；未来因为变化而重新稀缺的东西；以及连接两者之间的机会。技术扩散的落差，就是时代变化留下的窗口。</p></div></div>
+            <div class="love-back"><a href="#philosophy" class="btn btn-secondary" data-i="ex_reader_back">← 返回思考</a></div>
+        </div>
+    </section>
+    <section id="aiEra" class="section love-section thought-source-reader">
+        <div class="container">
+            <h2 class="section-title" data-i="thought_aiEra_page_title">AI时代的三类人</h2>
+            <div class="love-content" data-i-inner="thought_aiEra_body"><div class="love-block"><p>每一次技术革命，本质上都是人类能力边界的一次扩展。蒸汽机扩大了人的体力，计算机扩大了人的计算能力，互联网扩大了人的信息获取能力。而人工智能正在扩展创造能力。但技术本身不会自动改变所有人的命运。同一个时代，不同的人面对同一种技术，会走向完全不同的方向。在我看来，AI时代的人大致可以分为三类。</p></div>
+<h3>第一类：创造AI的人</h3>
+<div class="love-block"><p>他们站在技术革命的源头。他们研究算法，制造芯片，建设算力基础设施，训练大型模型。他们创造的是新的生产工具。就像工业革命时期发明和改进蒸汽机的人，互联网时代创造网络基础设施的人，他们改变的是整个社会的生产方式。这一类人的数量注定很少，因为他们需要极高的技术积累和资源支持。但他们决定了时代向哪里发展。</p></div>
+<h3>第二类：使用AI的人</h3>
+<div class="love-block"><p>这是目前大多数人的位置。他们拥有AI，并利用AI提高自己的效率。他们使用AI写文章、生成图片、辅助编程、整理信息。每一次技术革命，大多数人最初都是工具使用者。如果只是把AI当成一个效率工具，那么本质上仍然是在旧时代的规则里竞争。过去，人们竞争的是：谁记得更多知识；谁掌握更多技能；谁完成任务更快。而AI正在快速削弱这些优势。因为大量标准化的知识处理和执行工作，都可以被机器完成。所以未来真正的差距，可能不再是“谁会使用工具”，而是“谁知道应该创造什么”。</p></div>
+<h3>第三类：AI原住民</h3>
+<div class="love-block"><p>他们不是简单地使用AI，而是与AI共同创造。他们拥有一种更重要的能力：元创造力。过去，人需要学习如何完成任务。未来，人更需要知道：什么问题值得解决？什么东西值得创造？什么方向值得投入？AI可以生成无数答案，但它无法替代人的价值判断。它可以告诉你如何制作一个游戏，却无法决定这个游戏为什么存在。它可以生成无数图片，却无法决定哪一张真正触动人。它可以写出大量文字，却无法决定什么思想值得传播。未来稀缺的，可能不是生产内容的能力，而是发现价值的能力。</p></div>
+<h3>AI时代，人和机器的分工</h3>
+<div class="love-block"><p>人工智能的发展，并不是简单地让机器取代人。更准确地说，是重新划分人与机器的边界。机器越来越擅长：计算；执行；生成；优化。而人应该越来越重视：观察世界；理解自己；发现问题；创造意义。过去，人努力成为一台更优秀的机器。学习更多知识，提高效率，减少错误。但AI出现后，人可能需要重新寻找自己的独特价值。因为机器可以模拟能力，却很难替代一个真实的人对于世界的感受、经历和判断。</p></div>
+<h3>未来属于谁？</h3>
+<div class="love-block"><p>未来不会只属于最懂技术的人，也不会只属于最会使用工具的人。真正拥有优势的人，可能是那些能够连接技术与现实世界的人。他们理解技术的发展，也理解人的需求。他们能够发现别人没有看到的问题，并利用AI把想法变成现实。人必须重新思考：什么才是真正属于人的能力。</p></div></div>
+            <div class="love-back"><a href="#philosophy" class="btn btn-secondary" data-i="ex_reader_back">← 返回思考</a></div>
+        </div>
+    </section>
+    <section id="lifeDepth" class="section thought-short-reader">
+        <div class="container">
+            <h2 class="section-title" data-i="thought_depth_title">生命的厚度与长度</h2>
+            <div class="thought-reading" data-i-inner="thought_depth_body"></div>
+            <div class="love-back"><a href="#philosophy" class="btn btn-secondary" data-i="ex_reader_back">← 返回思考</a></div>
+        </div>
+    </section>
+    </div>
+    <div class="exhibit-scene" data-scene="life">
+    <header class="scene-heading container"><a href="#" class="scene-home" data-i="ex_home">← 展览入口</a><p class="scene-kicker">03 / 05</p><h1 tabindex="-1" data-i="nav_skills">生活</h1><p data-i="ex_life_short">想法落在日常的地方。</p></header>
 <section id="skills" class="section">
         <div class="container">
-            <h2 class="section-title" data-i="skills_title">我怎样生活</h2>
+            <h2 class="section-title" data-i="skills_title">我想活出怎样的人生</h2>
             <p class="section-intro" data-i="skills_intro">在身体、认知与创造之间，过一种稳定向上的生活。</p>
             <div class="skills-grid life-grid">
                 <div class="skill-card"><div class="skill-icon">🌿</div><h3 data-i="life_vitality_title">保持生命力</h3><p data-i="life_vitality_desc">运动、亲近自然，也认真休息。让身体始终有承载生活的力量。</p></div>
@@ -362,15 +405,16 @@
         </div>
 
     </section>
-
-    <section id="moments" class="section">
+    <section id="moments" class="section life-chapters">
         <div class="container">
             <h2 class="section-title" data-i="moments_title">微信朋友圈</h2>
-            <p class="section-intro" data-i="moments_intro">从 2023 到 2026，九个关于阅读、生活、关系与自我认识的片段。点击查看全文与图片。</p>
+            <p class="section-intro" data-i="moments_intro">从 2023 到 2026，10 个关于阅读、生活、关系与自我认识的片段。点击查看全文与图片。</p>
             <div class="moments-grid" id="momentsGrid"></div>
         </div>
     </section>
-
+    </div>
+    <div class="exhibit-scene" data-scene="limits">
+    <header class="scene-heading container"><a href="#" class="scene-home" data-i="ex_home">← 展览入口</a><p class="scene-kicker">04 / 05</p><h1 tabindex="-1" data-i="nav_growth">局限</h1><p data-i="growth_intro">认识自己，也包括看见那些尚未改变的部分。</p></header>
     <section id="growthEdges" class="section growth-section">
         <div class="container">
             <h2 class="section-title" data-i="growth_title">我的局限</h2>
@@ -395,20 +439,95 @@
         </div>
     </section>
 
+    </div>
+    <div class="exhibit-scene" data-scene="written-book">
+    <header class="scene-heading container"><a href="#" class="scene-home" data-i="ex_home">← 展览入口</a><p class="scene-kicker">05 / 05 · 01</p><h1 tabindex="-1" data-i="book_written">有字之书</h1><p data-i="book_written_intro">书籍凝结着人类文明的智慧，每一次将书中的道理付诸实践，都让我受益匪浅。
+RPG 游戏让我成为另一段人生的主角，亲历平凡的日常，也走过跌宕起伏的旅程。
+观影时，我喜欢独自一人，让情绪随着故事自然流淌。</p></header>
+    <section id="books" class="section book-shelf">
+        <div class="container">
+            <p class="book-eyebrow" data-i="book_written">有字之书</p>
+            <h2 class="section-title" data-i="book_shelf_title">读过的书，留下的回声。</h2>
+            <div id="lifeLibrary">
+                <div class="library-toolbar">
+                    <div class="library-groups" role="group" data-i-aria="library_groups_aria" aria-label="选择记录类别">
+                        <button type="button" data-library-group="reading" aria-pressed="true" aria-controls="lifeLibraryGrid" data-i="library_reading">读过的书</button>
+                        <button type="button" data-library-group="games" aria-pressed="false" aria-controls="lifeLibraryGrid" data-i="library_games">玩过的游戏</button>
+                        <button type="button" data-library-group="movies" aria-pressed="false" aria-controls="lifeLibraryGrid" data-i="library_movies">看过的电影</button>
+                        <button type="button" data-library-group="anime" aria-pressed="false" aria-controls="lifeLibraryGrid" data-i="library_anime">追过的番</button>
+                        <button type="button" data-library-group="music" aria-pressed="false" aria-controls="lifeLibraryGrid" data-i="library_music">喜欢听的歌</button>
+                    </div>
+                </div>
+                <section class="library-favorites" aria-labelledby="libraryFavoritesTitle" hidden>
+                    <div class="library-favorites-heading">
+                        <h3 id="libraryFavoritesTitle" data-i="library_favorites">最喜 Top 3</h3>
+                        <p data-i="library_favorites_hint">点选作品，查看相关记录。</p>
+                    </div>
+                    <p class="library-favorites-disclaimer" data-i="library_favorites_disclaimer">仅表示当下最喜欢的，不代表过去和未来。</p>
+                    <ol class="library-favorites-list"></ol>
+                </section>
+                <div class="library-controls">
+                    <label class="library-search" for="librarySearch">
+                        <span data-i="library_search_label">搜索当前类别</span>
+                        <input id="librarySearch" type="search" autocomplete="off" spellcheck="false" aria-controls="lifeLibraryGrid" data-i-placeholder="library_search_placeholder" placeholder="搜索作品、作者或歌手">
+                    </label>
+                    <label class="library-category" for="libraryCategory" hidden>
+                        <span data-i="library_category_label">分类</span>
+                        <select id="libraryCategory" aria-controls="lifeLibraryGrid"></select>
+                    </label>
+                </div>
+                <p class="library-context">先收下这些读过的书，读后感慢慢补充。</p>
+                <div class="library-results">
+                    <p class="library-status" role="status" aria-live="polite" aria-atomic="true"></p>
+                    <button class="library-clear" type="button" data-i="library_clear" hidden>清除筛选</button>
+                </div>
+                <ul id="lifeLibraryGrid" class="library-grid"></ul>
+                <p class="library-empty" data-i="library_empty" hidden>没有找到匹配的记录，换个关键词或分类试试。</p>
+                <noscript><p data-i="library_noscript">请启用 JavaScript 查看书籍和游戏记录。</p></noscript>
+            </div>
+            <a href="#interview" class="book-reader-link" id="libraryStoryLink" hidden><span data-i="book_other_half">翻到另一半，听你的故事</span> ↗</a>
+        </div>
+    </section>
+    </div>
+    <div class="exhibit-scene" data-scene="unwritten-book">
+    <header class="scene-heading container"><a href="#" class="scene-home" data-i="ex_home">← 展览入口</a><p class="scene-kicker">05 / 05 · 02</p><h1 tabindex="-1" data-i="book_unwritten">无字之书</h1><p data-i="book_unwritten_intro">每个人的记忆与经历里，都藏着一本独一无二的无字之书。那些看似平凡的相遇、选择、挣扎与成长，塑造了今天的我们。愿我们放慢脚步，翻开彼此的人生——你来讲述，我来倾听。</p></header>
     <section id="interview" class="section section-alt">
         <div class="container">
-            <h2 class="section-title" data-i="interview_title">正在做的事</h2>
-            <p class="section-intro" data-i="interview_intro_full">访谈 · 用 20 个问题，开启一场真诚的对话。</p>
+            <div class="book-invitation">
+                <h2 data-i="book_invite_title">每个人，都是一本独一无二的书。</h2>
+                <div class="book-invitation-body" data-i-inner="book_invite_body"><p>只是很多时候，我们活得太匆忙。</p>
+<p>忙着赶路，忙着成为别人期待的样子，却渐渐忘记了——自己曾经历过多少值得珍藏的瞬间。</p>
+<p>你是否还记得？</p>
+<p>第一次离开熟悉地方时的勇气，某个人曾给予你的温暖，某一次失败后的重新站起，某个深夜里，只有自己知道的坚持。</p>
+<p>那些看似普通的片段，其实早已悄悄改变了你。</p>
+<p>我们总觉得，精彩的人生属于少数人。</p>
+<p>但当我们真正回望，会发现每个人的人生，都有属于自己的高光与转折。</p>
+<p>只是这本书没有文字。</p>
+<p>它藏在你的记忆里，藏在你的经历里，藏在那些只有你知道的瞬间里。</p>
+<p>而这样的书，还有千千万万本。</p>
+<p>我们每天与无数人擦肩而过，却很少真正走进彼此的人生。</p>
+<p>每个人都曾拥有热烈的青春、难忘的相遇，也曾在命运的路口做出自己的选择。</p>
+<p>如果有机会，我想听听你人生中的某一页。</p>
+<p>你曾看过怎样的风景，遇见过怎样的人，又是怎样一路走来，成为今天的自己。</p>
+<p>你来讲述，我来倾听。</p>
+<p>让那些没有文字的故事，在一次相遇中，被重新翻开。</p></div>
+            </div>
+            <h2 class="section-title" data-i="interview_title">一起聊聊</h2>
+            <p class="section-intro" data-i="interview_intro_full">用20个问题，开启一场真诚的对话。</p>
                 <button class="btn btn-outline interview-toggle" id="interviewToggle">展开 20 个问题 ▾</button>
             <div class="interview-list interview-questions" id="interviewQuestions" style="display:none"></div>
         </div>
     </section>
 
+    </div>
+    </main>
+    <div id="sceneStatus" class="sr-only" role="status" aria-live="polite"></div>
+
     <!-- 朋友圈全文弹窗 -->
     <div class="moments-modal" id="momentsModal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="朋友圈详情" data-i-aria="moments_modal_aria">
         <div class="moments-modal-bg"></div>
+        <button class="moments-modal-close" id="momentsModalClose" type="button" aria-label="关闭朋友圈详情" data-i-aria="moments_close_aria">&times;</button>
         <div class="moments-modal-content">
-            <button class="moments-modal-close" id="momentsModalClose" type="button" aria-label="关闭朋友圈详情" data-i-aria="moments_close_aria">&times;</button>
             <div class="moments-modal-body" id="momentsModalBody"></div>
         </div>
     </div>
@@ -433,73 +552,69 @@
 
 
 
-    <section id="contact" class="section">
-        <div class="container">
-            <h2 class="section-title" data-i="contact_title">联系我</h2>
-            <p class="contact-intro" data-i="contact_intro">若有共鸣，不妨来信。点击复制邮箱。</p>
-            <div class="contact-links">
-                <button class="contact-item" id="emailCopy">
-                    <span class="contact-icon">✉️</span>
-                    <span>zouliu520@outlook.com</span>
-                    <span class="copy-tip" id="copyTip" data-i="contact_copy_done">已复制 ✓</span>
-                </button>
+    <dialog id="dream" class="dream-window" aria-labelledby="dreamTitle">
+        <div class="dream-sheet">
+            <svg class="dream-star-chart" viewBox="0 0 560 660" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <g fill="none" stroke="currentColor" stroke-width=".65">
+                    <path d="M378 20a218 218 0 0 1 182 198M405 22a190 190 0 0 1 155 163M0 474a220 220 0 0 1 185 186M0 510a182 182 0 0 1 150 150"/>
+                    <path d="m397 52 42 31 49-8 27 57M31 461l43 41-14 49 48 32"/>
+                </g>
+                <g fill="currentColor"><circle cx="397" cy="52" r="1.6"/><circle cx="439" cy="83" r="2"/><circle cx="488" cy="75" r="1.5"/><circle cx="515" cy="132" r="1.8"/><circle cx="31" cy="461" r="1.6"/><circle cx="74" cy="502" r="1.8"/><circle cx="60" cy="551" r="1.5"/><circle cx="108" cy="583" r="2"/></g>
+            </svg>
+            <header class="dream-window-header">
+                <span id="dreamArchive" class="dream-archive">梦境私藏</span>
+                <div class="dream-window-controls">
+                    <svg class="dream-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true" focusable="false"><rect x="5.5" y="10" width="13" height="10" rx="2"/><path d="M8.5 10V7a3.5 3.5 0 0 1 7 0v3M12 14v3"/></svg>
+                    <button id="dreamLanguage" type="button" aria-label="切换语言">EN</button>
+                </div>
+            </header>
+            <div class="dream-frontispiece">
+                <svg class="dream-emblem" viewBox="0 0 100 78" fill="none" aria-hidden="true" focusable="false">
+                    <g stroke="currentColor"><ellipse cx="50" cy="40" rx="42" ry="27" stroke-width=".55" opacity=".4" transform="rotate(-18 50 40)"/><circle cx="50" cy="39" r="30" stroke-width=".6" opacity=".3"/><path d="M56 17a24 24 0 1 0 23 30 20 20 0 0 1-23-30Z" stroke-width="1.6"/><path d="m77 10 1.7 5.3L84 17l-5.3 1.7L77 24l-1.7-5.3L70 17l5.3-1.7Z" stroke-width=".8"/><path d="M14 34v6m-3-3h6M88 52v4m-2-2h4" stroke-width=".8"/></g><circle cx="20" cy="62" r="1.3" fill="currentColor"/>
+                </svg>
+                <h2 id="dreamTitle" tabindex="-1" data-i="thought_dream_title">梦的解析</h2>
+                <div class="dream-title-ornament" aria-hidden="true"><span>◆</span></div>
+            </div>
+            <div class="dream-conversation">
+                <div id="dreamDialogueContent" class="dream-dialogue-content">
+                    <p id="dreamGreeting" class="dream-greeting" hidden></p>
+                    <p id="dreamCaption" class="dream-caption" hidden></p>
+                    <div id="dreamDialogueBody" class="dream-dialogue-body" tabindex="-1">
+                        <p>亲密度不足，暂时无法查看。<br>多多交流，亲密度自然会上涨。</p>
+                    </div>
+                    <div id="dreamFeedback" class="dream-feedback" hidden>
+                        <aside id="dreamSecret" class="dream-secret" role="status" aria-live="polite" aria-atomic="true" hidden>
+                            <h3 id="dreamSecretTitle" class="dream-secret-title">恭喜你，发现了彩蛋。</h3>
+                            <div id="dreamSecretBody"></div>
+                        </aside>
+                    </div>
+                </div>
+                <div id="dreamChoices" class="dream-choices" role="group"></div>
             </div>
         </div>
-    </section>
+    </dialog>
 
     <footer class="footer">
-        <div class="container"><p data-i="footer">&copy; 2026 邹柳. 路漫漫其修远，虚心学习，小心求证。</p></div>
+        <div class="container"><p data-i="footer">© 2026 邹柳. 路漫漫其修远，虚心学习，小心求证。</p></div>
     </footer>    
 
 
-    <script src="js/ui.js?v=20260901-personality-zoom"></script><script src="js/moments.js"></script>
-    <script src="js/interview.js"></script>
+    <script src="js/personality.js?v=20261011-v9"></script>
+    <script src="js/life-library-data.js?v=20261013-library4"></script>
+    <script src="js/life-library-media.js?v=20261013-notes2"></script>
+    <script src="js/library-notes.js?v=20261013-library4"></script>
+    <script src="js/life-library.js?v=20261013-library4"></script>
+    <script src="js/image-sizes.js?v=20261013-notes2"></script>
+    <script src="js/thought-entries.js?v=20261014-window1"></script>
+    <script src="js/exhibit-motion.js?v=20261013-notes2"></script>
+    <script src="js/photo-mesh.js?v=20261011-v7"></script>
+    <script src="js/dream-dialogue.js?v=20261014-dream5b"></script>
+    <script src="js/exhibition.js?v=20261014-window1"></script>
+    <script src="js/ui.js?v=20261014-dream1"></script><script src="js/moments.js?v=20261013-notes2"></script>
+    <script src="js/life-exhibit.js?v=20261015-review-fix1"></script>
+    <script src="js/home-exhibit.js?v=20261015-review-fix1"></script>
+    <script src="js/art-glyphs.js?v=20261011-v6"></script>
+    <script src="js/art-titles.js?v=20261011-v7"></script>
+    <script src="js/interview.js?v=20260930-v2"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

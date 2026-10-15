@@ -1,11 +1,82 @@
-/**
- * ============================================================
- * 核心原则：永远不读取图片内容。
- * 不对任何图片进行内容读取、分析或处理。
- * ============================================================
- */
+// UI interactions; questionnaire records are owned by personality.js.
 
-// —— 人格测试结论 ——
+function scrollSiteElementIntoView(element, block) {
+    if (!element) return;
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced';
+    element.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: block || 'start' });
+}
+
+// Animate complete compositions; remove animation state after settling.
+(function () {
+    var preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var hero = document.querySelector('.hero-layout');
+    var observer;
+    var running = new Map();
+
+    function durationFor(element, token) {
+        var value = getComputedStyle(element).getPropertyValue(token).trim();
+        return parseFloat(value) * (value.endsWith('ms') ? 1 : 1000) || 1200;
+    }
+
+    function settle(element) {
+        var state = running.get(element);
+        if (!state) return;
+        clearTimeout(state.timer);
+        element.removeEventListener('animationend', state.finish);
+        element.removeEventListener('animationcancel', state.finish);
+        element.classList.remove(state.className);
+        running.delete(element);
+    }
+
+    function animate(element, className, token) {
+        var state = { className: className };
+        state.finish = function (event) {
+            if (!event || event.target === element) settle(element);
+        };
+        running.set(element, state);
+        element.addEventListener('animationend', state.finish);
+        element.addEventListener('animationcancel', state.finish);
+        state.timer = setTimeout(state.finish, durationFor(element, token) + 250);
+        element.classList.add(className);
+    }
+
+    function skipEntry() { if (hero) settle(hero); }
+
+    function start() {
+        if (window.Exhibition) return;
+        if (preference.matches) return;
+        if (hero) animate(hero, 'is-entering', '--motion-entry');
+        if (!('IntersectionObserver' in window)) return;
+        observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                observer.unobserve(entry.target);
+                animate(entry.target, 'is-revealing', '--motion-reveal');
+            });
+        }, { threshold: 0, rootMargin: '0px 0px -48px 0px' });
+        document.querySelectorAll('.section > .container, .footer > .container').forEach(function (group) {
+            observer.observe(group);
+        });
+    }
+
+    document.addEventListener('pointerdown', skipEntry, { capture: true, passive: true });
+    document.addEventListener('touchstart', skipEntry, { capture: true, passive: true });
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' || event.key === 'Tab') skipEntry();
+    }, true);
+    window.addEventListener('pagehide', function () {
+        Array.from(running.keys()).forEach(settle);
+    });
+    function onPreferenceChange() {
+        if (!preference.matches) return;
+        if (observer) observer.disconnect();
+        Array.from(running.keys()).forEach(settle);
+    }
+    if (preference.addEventListener) preference.addEventListener('change', onPreferenceChange);
+    else if (preference.addListener) preference.addListener(onPreferenceChange);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
+    else start();
+})();
 
 
 // —— 响应式导航 ——
@@ -52,14 +123,19 @@
         modal.classList.add('visible');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
+        if (window.ImageTransition) window.ImageTransition.open(modal.querySelector('img'), trigger.querySelector('img'));
         closeBtn.focus();
     }
 
     function closeAvatar() {
+        function finish() {
         modal.classList.remove('visible');
         modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
         if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+        }
+        if (window.ImageTransition) window.ImageTransition.close(modal.querySelector('img'), trigger.querySelector('img'), finish);
+        else finish();
     }
 
     trigger.addEventListener('click', openAvatar);
@@ -91,51 +167,34 @@
     if (!cards.length || !detail) return;
 
     function renderPersonalityDetail(card) {
-        var test = card.getAttribute('data-test');
-        var cmap={'16PF':'16pf','EPQ-R':'epq','NEO-PI-R':'neo'};
-        var ckey='conclusion_'+cmap[test];
-        var text = (typeof DICT!=='undefined' && DICT[ckey]) ? DICT[ckey] : '';
-        if (!text) return false;
-
-        var img = card.querySelector('img');
-        detailImg.src = img.src;
-        detailImg.alt = img.alt;
-
-        var lines = text.split('\n');
-        var html = '';
-        for (var i = 0; i < lines.length; i++) {
-            var line = lines[i].trim();
-            if (!line) continue;
-            if (line.indexOf('得分') === -1 && line.indexOf('整体') === -1 &&
-                line.indexOf('特质表现') === -1 &&
-                line.indexOf('Score') === -1 && line.indexOf('Overall') === -1 &&
-                line.indexOf('Traits') === -1 && line.indexOf('percentile') === -1 &&
-                line.indexOf('：') > 0 && line.length < 40 &&
-                !line.match(/^\d/)) {
-                html += '<h3>' + line + '</h3>';
-            } else {
-                html += '<p>' + line + '</p>';
-            }
-        }
-        var note = (typeof DICT!=='undefined' && DICT.personality_note) ? DICT.personality_note : '';
-        if (note) html += '<p class="personality-note">' + note + '</p>';
-        detailContent.innerHTML = html;
-        return true;
+        if (window.PersonalityRecords) return window.PersonalityRecords.render(card.dataset.test, detailImg, detailContent);
+        return false;
     }
 
     window.refreshPersonalityDetail = function () {
         if (activeCard && detail.classList.contains('visible')) {
             renderPersonalityDetail(activeCard);
+            if (lightbox && lightbox.classList.contains('visible')) lightboxImage.alt = detailImg.alt;
         }
     };
 
     function openCard(card) {
+        if (window.Exhibition && !window.Exhibition.isApplyingRoute()) {
+            window.Exhibition.navigate('personality/' + card.getAttribute('data-test'), { trigger: card });
+            return;
+        }
         activeCard = card;
         if (!renderPersonalityDetail(card)) return;
             detail.classList.add('visible');
             grid.parentElement.parentElement.style.display = 'none';
-            detail.scrollIntoView({ behavior: 'smooth' });
+            if (!window.Exhibition) scrollSiteElementIntoView(detail);
     }
+    window.showPersonalityDetail = openCard;
+    window.closePersonalityDetail = function () {
+        detail.classList.remove('visible');
+        activeCard = null;
+        grid.parentElement.parentElement.style.display = '';
+    };
 
     cards.forEach(function (card) {
         card.addEventListener('click', function () { openCard(card); });
@@ -155,16 +214,21 @@
         lightbox.classList.add('visible');
         lightbox.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
+        if (window.ImageTransition) window.ImageTransition.open(lightboxImage, detailImg);
         lightboxClose.focus();
     }
 
     function closeDetailImage() {
         if (!lightbox || !lightboxImage) return;
+        function finish() {
         lightbox.classList.remove('visible');
         lightbox.setAttribute('aria-hidden', 'true');
         lightboxImage.removeAttribute('src');
         document.body.style.overflow = '';
         if (lightboxLastFocus && typeof lightboxLastFocus.focus === 'function') lightboxLastFocus.focus();
+        }
+        if (window.ImageTransition) window.ImageTransition.close(lightboxImage, detailImg, finish);
+        else finish();
     }
 
     if (detailImageZoom && lightbox && lightboxClose) {
@@ -194,11 +258,12 @@
     }
 
     backBtn.addEventListener('click', function () {
+        if (window.Exhibition) { window.Exhibition.returnTo('personality'); return; }
         var cardToFocus = activeCard;
         detail.classList.remove('visible');
         activeCard = null;
         grid.parentElement.parentElement.style.display = '';
-        document.getElementById('personality').scrollIntoView({ behavior: 'smooth' });
+        scrollSiteElementIntoView(document.getElementById('personality'));
         if (cardToFocus && typeof cardToFocus.focus === 'function') cardToFocus.focus();
     });
 })();
@@ -212,6 +277,9 @@
         navigator.clipboard.writeText('zouliu520@outlook.com').then(function () {
             tip.classList.add('show');
             setTimeout(function () { tip.classList.remove('show'); }, 2000);
+        }).catch(function () {
+            var mail = document.querySelector('.contact-mail');
+            if (mail) mail.focus();
         });
     });
 })();
@@ -220,68 +288,22 @@
 (function () {
     var toggle = document.getElementById('themeToggle');
     var html = document.documentElement;
-    var saved = localStorage.getItem('theme');
+    var saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (_) { /* Storage is optional. */ }
     var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     html.setAttribute('data-theme', saved || (prefersDark ? 'dark' : 'light'));
 
     toggle.addEventListener('click', function () {
         var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         html.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
+        if (window.Exhibition) window.Exhibition.refresh();
+        try { localStorage.setItem('theme', next); } catch (_) { /* Theme still changes in this session. */ }
     });
 })();
 
 
 
 
-// —— 身体快速使用手册折叠 ——
-(function () {
-    function activateOnKeyboard(toggle, action) {
-        toggle.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                action();
-            }
-        });
-    }
-
-    document.querySelectorAll('.body-toggle').forEach(function (toggle) {
-        function activate() {
-            var group = toggle.nextElementSibling;
-            var isOpen = group.classList.contains('open');
-            document.querySelectorAll('.body-toggle').forEach(function (t) {
-                t.classList.remove('open');
-                t.setAttribute('aria-expanded', 'false');
-            });
-            document.querySelectorAll('.body-group').forEach(function (g) { g.classList.remove('open'); });
-            if (!isOpen) {
-                toggle.classList.add('open');
-                toggle.setAttribute('aria-expanded', 'true');
-                group.classList.add('open');
-                setTimeout(function () {
-                    toggle.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 50);
-            }
-        }
-        toggle.addEventListener('click', activate);
-        activateOnKeyboard(toggle, activate);
-    });
-
-    document.querySelectorAll('.body-sub-toggle').forEach(function (toggle) {
-        function activate() {
-            var sub = toggle.nextElementSibling;
-            var isOpen = sub.classList.contains('open');
-            toggle.classList.toggle('open', !isOpen);
-            toggle.setAttribute('aria-expanded', !isOpen ? 'true' : 'false');
-            sub.classList.toggle('open', !isOpen);
-        }
-        toggle.addEventListener('click', function (event) {
-            event.stopPropagation();
-            activate();
-        });
-        activateOnKeyboard(toggle, activate);
-    });
-})();
 // —— 理念区折叠面板（手风琴 + 返回自动收起） ——
 // Called by i18n.js after language switch
 
@@ -290,8 +312,7 @@
         { btnId: 'friendToggle', sectionId: 'friend', icon: '🤝', labelKey: 'phil_friend', fallback: '我希望和这样的人交朋友' },
         { btnId: 'loveToggle',   sectionId: 'love',   icon: '❤️', labelKey: 'phil_love', fallback: '我对爱的理解' },
         { btnId: 'childhoodToggle', sectionId: 'childhood', icon: '🧒', labelKey: 'phil_childhood', fallback: '对童年塑造的理解' },
-        { btnId: 'sorryToggle', sectionId: 'sorry', icon: '💌', labelKey: 'phil_sorry', fallback: '想对你说' },
-        { btnId: 'dreamToggle',  sectionId: 'dream',  icon: '🌙', labelKey: 'phil_dream', fallback: '我梦的解析' }
+        { btnId: 'sorryToggle', sectionId: 'sorry', icon: '💌', labelKey: 'phil_sorry', fallback: '想对你说' }
     ];
 
     window.refreshPhilButtons = function() {
@@ -299,7 +320,7 @@
             var b = document.getElementById(p.btnId);
             var s = document.getElementById(p.sectionId);
             var isOpen = s && s.classList.contains("visible");
-            if (!b) return;
+            if (!b || b.classList.contains('thought-title-button')) return;
             if (b.hasAttribute('aria-controls')) b.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
             if (isOpen) {
                 var ct = (typeof DICT !== "undefined" && DICT.phil_collapse) ? DICT.phil_collapse : "收起";
@@ -315,7 +336,7 @@
             var s = document.getElementById(p.sectionId);
             var b = document.getElementById(p.btnId);
             if (s) s.classList.remove("visible");
-            if (b) {
+            if (b && !b.classList.contains('thought-title-button')) {
                 var lb = (typeof DICT !== "undefined" && DICT[p.labelKey]) ? DICT[p.labelKey] : p.fallback;
                 b.innerHTML = '<span class="btn-icon">' + p.icon + '</span> ' + lb;
                 if (b.hasAttribute('aria-controls')) b.setAttribute('aria-expanded', 'false');
@@ -329,13 +350,14 @@
         if (!btn || !section) return;
 
         btn.addEventListener('click', function () {
+            if (window.Exhibition) { window.Exhibition.navigate(p.sectionId); return; }
             var isOpen = section.classList.contains('visible');
             closeAll();
             if (!isOpen) {
                 section.classList.add('visible');
                 if (btn.hasAttribute('aria-controls')) btn.setAttribute('aria-expanded', 'true');
                 var collapseText = (typeof DICT !== 'undefined' && DICT.phil_collapse) ? DICT.phil_collapse : '收起'; btn.innerHTML = '<span class="btn-icon">' + p.icon + '</span> ' + collapseText;
-                setTimeout(function () { section.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+                setTimeout(function () { scrollSiteElementIntoView(section); }, 100);
             } else {
                 window.location.hash = '#philosophy';
             }
@@ -346,27 +368,20 @@
     document.querySelectorAll('#friend .btn-secondary, #love .btn-secondary, #childhood .btn-secondary, #sorry .btn-secondary').forEach(function (back) {
         back.addEventListener('click', function (e) {
             e.preventDefault();
+            if (window.Exhibition) { window.Exhibition.returnTo('philosophy'); return; }
             closeAll();
-            document.getElementById('philosophy').scrollIntoView({ behavior: 'smooth' });
+            scrollSiteElementIntoView(document.getElementById('philosophy'));
         });
     });
 })();
 
-// —— 滚动动画 ——
-(function () {
-    var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-            if (entry.isIntersecting) entry.target.classList.add('animate');
-        });
-    }, { threshold: 0.15 });
-    document.querySelectorAll('.skill-card, .personality-card, .philosophy-card, .section-title, .about-content, .contact-item, .love-content h3, .love-block, .childhood-block p:first-child').forEach(function (el) { observer.observe(el); });
-})();
-
 // —— 导航高亮 ——
 (function () {
+    if (!('IntersectionObserver' in window)) return;
     var sections = document.querySelectorAll('section[id]');
     var links = document.querySelectorAll('.nav-links a');
     var observer = new IntersectionObserver(function (entries) {
+        if (window.Exhibition) return;
         entries.forEach(function (entry) {
             if (entry.isIntersecting) {
                 links.forEach(function (link) {
@@ -381,61 +396,4 @@
 
 
 
-
-// —— 梦的解析彩蛋 ——
-(function () {
-    var dreamBtn = document.getElementById('dreamToggle');
-    if (!dreamBtn) return;
-
-    // Create intimacy modal
-    var intimacyModal = document.createElement('div');
-    intimacyModal.className = 'moments-modal';
-    intimacyModal.id = 'intimacyModal';
-    intimacyModal.setAttribute('role', 'dialog');
-    intimacyModal.setAttribute('aria-modal', 'true');
-    intimacyModal.setAttribute('aria-hidden', 'true');
-    intimacyModal.innerHTML = '<div class="moments-modal-bg"></div>' +
-        '<div class="moments-modal-content" style="text-align:center;max-width:420px;">' +
-        '<button class="moments-modal-close" id="intimacyClose" type="button" data-i-aria="dialog_close_aria" aria-label="关闭弹窗">&times;</button>' +
-        '<div style="font-size:3rem;margin:20px 0 12px;">🔒</div>' +
-        '<h3 id="intimacyTitle" style="font-size:1.15rem;color:var(--text);margin-bottom:8px;">' + ((typeof DICT!=='undefined'&&DICT.intimacy_title)?DICT.intimacy_title:'亲密度不够') + '</h3>' +
-        '<p id="intimacyDesc" style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;">' + ((typeof DICT!=='undefined'&&DICT.intimacy_desc)?DICT.intimacy_desc:'梦是灵魂的密语，只对足够亲近的人敞开。') + '</p>' +
-        '<p id="intimacyTip" style="color:var(--text-secondary);font-size:0.85rem;margin-top:8px;">' + ((typeof DICT!=='undefined'&&DICT.intimacy_tip)?DICT.intimacy_tip:'当前亲密度不足以查看此内容') + '</p>' +
-        '<div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border);">' +
-        '<span id="intimacyHint" style="font-size:0.8rem;color:var(--text-secondary);">' + ((typeof DICT!=='undefined'&&DICT.intimacy_hint)?DICT.intimacy_hint:'💡 多聊聊、多见见，亲密度自然会升') + '</span>' +
-        '</div></div>';
-    document.body.appendChild(intimacyModal);
-
-    var closeBtn = intimacyModal.querySelector('#intimacyClose');
-    var bg = intimacyModal.querySelector('.moments-modal-bg');
-    var intimacyLastFocus = null;
-
-    dreamBtn.addEventListener('click', function () {
-        intimacyLastFocus = dreamBtn;
-        var t = document.getElementById('intimacyTitle');
-        var d = document.getElementById('intimacyDesc');
-        var p = document.getElementById('intimacyTip');
-        var h = document.getElementById('intimacyHint');
-        if (t) t.textContent = (typeof DICT!=='undefined'&&DICT.intimacy_title)?DICT.intimacy_title:'亲密度不够';
-        if (d) d.textContent = (typeof DICT!=='undefined'&&DICT.intimacy_desc)?DICT.intimacy_desc:'梦是灵魂的密语，只对足够亲近的人敞开。';
-        if (p) p.textContent = (typeof DICT!=='undefined'&&DICT.intimacy_tip)?DICT.intimacy_tip:'当前亲密度不足以查看此内容';
-        if (h) h.textContent = (typeof DICT!=='undefined'&&DICT.intimacy_hint)?DICT.intimacy_hint:'💡 多聊聊、多见见，亲密度自然会升';
-        intimacyModal.classList.add('visible');
-        intimacyModal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-        closeBtn.focus();
-    });
-
-    function closeIntimacy() {
-        intimacyModal.classList.remove('visible');
-        intimacyModal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-        if (intimacyLastFocus && typeof intimacyLastFocus.focus === 'function') intimacyLastFocus.focus();
-    }
-    closeBtn.addEventListener('click', closeIntimacy);
-    bg.addEventListener('click', closeIntimacy);
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && intimacyModal.classList.contains('visible')) closeIntimacy();
-    });
-})();
 

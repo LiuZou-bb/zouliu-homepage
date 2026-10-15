@@ -1,5 +1,6 @@
 // 这里只保留确认公开的内容。私人原稿和未选素材不进入网站仓库。
 var momentsPosts = [
+    {dir:'2024.9.16', title:'踏上了自我认识之路', body:'三个月时间，解剖自己。（踏上了自我认识之路）', titleEn:'Setting Out on the Path of Self-Knowledge', bodyEn:'Three months spent taking myself apart. (Setting out on the path of self-knowledge.)', imgs:['images/朋友圈文案/2024.9.16/2024.9.16 13：23.jpg']},
     {dir:'2023.11.12', title:'悟道：出心关得见我', body:'七年求索，经历过倨傲、迷茫，也经历过一次次叩心之苦。2023年11月11日，阴云见皓日，出心关得见我，方知我是我。\n\n感谢一路所见、所经、所闻的人与事，也感谢无数次将我拉出泥沼的自己。路漫漫其修远，此后虚心学习，小心求证，不负卿，不负我。', titleEn:'Awakening: Emerging from the Heart to Find Myself', bodyEn:'Seven years of searching brought arrogance, confusion, and the pain of questioning myself. On November 11, 2023, the clouds finally opened: I emerged from the heart’s enclosure and found myself.\n\nI am grateful for everyone and everything along the way—and for every former version of me that pulled me out of the mire. The road remains long. I will keep learning with humility and testing with care.', imgs:['images/朋友圈文案/2023.11.12/2023.11.12 22：48.jpg']},
     {dir:'2024.11.16', title:'我与地坛', body:'我与地坛\n​第一次知道这篇文章是在小学，他的名气太大了，大到我根本不想好好看，第一次认真阅读是在高中后的课余，我细细的品味史铁生每个字的用意，带入他所有的情感，认真写下自己的读书笔记，仅仅因为她很喜欢这本书。地坛有两片海，银杏海与人海，本想像史铁生一样静静的坐着，体会他的情感，却因为没有坐的地方而失败。我读不懂地坛，也听不懂她喜欢的歌，更不懂她。', titleEn:'The Temple of Earth and I', bodyEn:'I first heard of this essay in elementary school—its reputation was so immense I didn\'t want to read it seriously. My first careful reading was in high school, savoring every word of Shi Tiesheng, inhabiting all his emotions, writing careful notes—only because she loved this book. The Temple of Earth has two seas: a sea of ginkgo and a sea of people. I wanted to sit quietly like Shi Tiesheng and feel what he felt, but failed—there was nowhere to sit. I couldn\'t understand the Temple of Earth, nor the songs she loved, nor her.', imgs:['images/朋友圈文案/2024.11.16/2024.11.16 20：32 (2).jpg','images/朋友圈文案/2024.11.16/2024.11.16 20：32 (3).jpg','images/朋友圈文案/2024.11.16/2024.11.16 20：32.jpg']},
     {dir:'2025.11.1', title:'未来于当下的思考', body:'今日心理课程解决了两个问题。一个困扰长久的问题：我之于世界的锚点为何？——我即我世界的锚点。一个近期的问题：看不清的未来该怎么走？——当下过怎样的生活，未来就过怎样的生活。\n\n配图是不知道什么时候拍下的。我走，我走走走……✌️', titleEn:'Thoughts on the Future in the Present', bodyEn:'Today’s psychology class helped me answer two questions. What anchors me to the world?—I am the anchor of my world. How should I move toward a future I cannot yet see?—The life I live now is the life I am building for the future.\n\nI do not remember when the photo was taken. I walk, and keep walking… ✌️', imgs:['images/朋友圈文案/2025.11.1/2025.11.1 22：35.jpg']},
@@ -19,6 +20,11 @@ var momentsPosts = [
     var modalBg = modal ? modal.querySelector('.moments-modal-bg') : null;
     var modalLastFocus = null;
     var lightboxLastFocus = null;
+    var activePost = null;
+    var detailClosing = false;
+    var detailPositions = new Map();
+    var albumIndex = 0;
+    var activeLead = 0;
 
     if (!grid || !modal || !modalBody || !modalClose || !modalBg) return;
 
@@ -64,118 +70,21 @@ var momentsPosts = [
         return 0;
     }
 
-    window.renderMoments = function () {
-        grid.innerHTML = '';
-        grid.className = 'moments-timeline';
 
-        var yearSubtitles = {
-            '2023': DICT.moment_2023,
-            '2024': DICT.moment_2024,
-            '2025': DICT.moment_2025,
-            '2026': DICT.moment_2026
-        };
-        var yearGroups = {};
-
-        momentsPosts.slice().sort(compareDates).forEach(function (post) {
-            var year = post.dir.split('.')[0];
-            if (!yearGroups[year]) yearGroups[year] = [];
-            yearGroups[year].push(post);
-        });
-
-        Object.keys(yearGroups).sort().forEach(function (year) {
-            var posts = yearGroups[year];
-            var groupId = 'momentsYear' + year;
-            var yearHeader = document.createElement('div');
-            yearHeader.className = 'moments-year-header';
-            yearHeader.setAttribute('role', 'button');
-            yearHeader.setAttribute('tabindex', '0');
-            yearHeader.setAttribute('aria-expanded', 'false');
-            yearHeader.setAttribute('aria-controls', groupId);
-            yearHeader.innerHTML = '<span class="moments-year-dot"></span>' +
-                '<span class="moments-year-label">' + year + '</span>' +
-                '<span class="moments-year-subtitle"></span>' +
-                '<span class="moments-year-count">' + posts.length + ' ' + DICT.moment_unit + '</span>' +
-                '<span class="moments-year-arrow">▾</span>';
-            yearHeader.querySelector('.moments-year-subtitle').textContent = yearSubtitles[year] || '';
-            grid.appendChild(yearHeader);
-
-            var yearGroup = document.createElement('div');
-            yearGroup.className = 'moments-year-group';
-            yearGroup.id = groupId;
-            grid.appendChild(yearGroup);
-
-            function toggleYear() {
-                var open = yearGroup.classList.contains('open');
-                yearHeader.classList.toggle('open', !open);
-                yearGroup.classList.toggle('open', !open);
-                yearHeader.setAttribute('aria-expanded', !open ? 'true' : 'false');
-            }
-
-            yearHeader.addEventListener('click', toggleYear);
-            activateWithKeyboard(yearHeader, toggleYear);
-
-            posts.forEach(function (post) {
-                var entry = document.createElement('div');
-                entry.className = 'moments-entry';
-                entry.setAttribute('role', 'button');
-                entry.setAttribute('tabindex', '0');
-                entry.setAttribute('aria-haspopup', 'dialog');
-                entry.setAttribute('aria-label', postText(post, 'title'));
-
-                var dateDiv = document.createElement('div');
-                dateDiv.className = 'moments-entry-date';
-                dateDiv.textContent = post.dir;
-                entry.appendChild(dateDiv);
-
-                var card = document.createElement('div');
-                card.className = 'moments-entry-card';
-                var titleDiv = document.createElement('div');
-                titleDiv.className = 'moments-entry-title';
-                titleDiv.textContent = postText(post, 'title');
-                card.appendChild(titleDiv);
-
-                var preview = document.createElement('div');
-                preview.className = 'moments-entry-preview';
-                var textDiv = document.createElement('div');
-                textDiv.className = 'moments-entry-text';
-                textDiv.textContent = postText(post, 'body');
-                preview.appendChild(textDiv);
-
-                if (post.imgs.length) {
-                    var gallery = document.createElement('div');
-                    gallery.className = 'moments-entry-gallery moments-entry-gallery-' + Math.min(post.imgs.length, 3);
-                    post.imgs.forEach(function (src, imageIndex) {
-                        var thumb = document.createElement('img');
-                        thumb.className = 'moments-entry-thumb';
-                        thumb.src = src;
-                        thumb.alt = postText(post, 'title') + ' · ' + DICT.moment_img_alt + (imageIndex + 1);
-                        thumb.loading = 'lazy';
-                        thumb.decoding = 'async';
-                        gallery.appendChild(thumb);
-                    });
-                    preview.appendChild(gallery);
-                }
-                card.appendChild(preview);
-
-                if (post.imgs.length) {
-                    var meta = document.createElement('div');
-                    meta.className = 'moments-entry-meta';
-                    meta.textContent = '🖼 ' + post.imgs.length + ' ' + DICT.moment_img_unit;
-                    card.appendChild(meta);
-                }
-
-                entry.appendChild(card);
-                function openEntry() { openModal(post, entry); }
-                entry.addEventListener('click', openEntry);
-                activateWithKeyboard(entry, openEntry);
-                yearGroup.appendChild(entry);
-            });
-        });
-    };
-
-    function openModal(post, trigger) {
+    function openModal(post, trigger, preserveFocus) {
+        activePost = post;
         modalLastFocus = trigger || document.activeElement;
         modalBody.innerHTML = '';
+        detailClosing = false;
+        if(!preserveFocus){var clickedImage=trigger&&(trigger.matches('img')?trigger:trigger.querySelector('img'));activeLead=clickedImage?post.imgs.indexOf(clickedImage.getAttribute('src')):0;if(activeLead<0)activeLead=0;}
+        var lead;
+        if(post.imgs.length){
+            lead=document.createElement('img');lead.className='moment-lead';lead.src=post.imgs[activeLead];lead.alt=postText(post,'title');lead.width=1280;lead.height=960;lead.decoding='async';
+            lead.setAttribute('role','button');lead.tabIndex=0;
+            setPublicImageSize(lead,post.imgs[activeLead]);
+            lead.addEventListener('click',function(){openLightbox(activeLead,lead);});activateWithKeyboard(lead,function(){openLightbox(activeLead,lead);});modalBody.append(lead);
+        }
+        var date = document.createElement('p'); date.className = 'moment-date'; date.textContent = post.dir; modalBody.appendChild(date);
 
         var heading = document.createElement('h3');
         heading.textContent = postText(post, 'title');
@@ -197,8 +106,10 @@ var momentsPosts = [
                 image.setAttribute('role', 'button');
                 image.setAttribute('tabindex', '0');
                 image.loading = 'lazy';
-                image.addEventListener('click', function () { openLightbox(src, image); });
-                activateWithKeyboard(image, function () { openLightbox(src, image); });
+                image.decoding = 'async'; image.width = 1280; image.height = 960;
+                setPublicImageSize(image,src);
+                image.addEventListener('click', function () { openLightbox(index, image); });
+                activateWithKeyboard(image, function () { openLightbox(index, image); });
                 images.appendChild(image);
             });
             modalBody.appendChild(images);
@@ -207,14 +118,45 @@ var momentsPosts = [
         modal.classList.add('visible');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
-        modalClose.focus();
+        if (!preserveFocus) { modalBody.parentElement.scrollTop=detailPositions.get(post.dir)||0;modalClose.focus(); }
+        return lead;
     }
+    window.refreshMomentDetail = function(){
+        if(!activePost||!modal.classList.contains('visible'))return;
+        var y=modalBody.parentElement.scrollTop;
+        var trigger=grid.querySelector('[data-post-id="'+activePost.dir+'"] a');
+        openModal(activePost,trigger,true);modalBody.parentElement.scrollTop=y;
+        if(lightbox.classList.contains('visible')){lightboxLastFocus=modalBody.querySelectorAll('.moments-thumb')[albumIndex];renderAlbum();}
+    };
+    window.showMomentDetail = function (id, imageIndex, initial, requestedTrigger) {
+        var post = momentsPosts.find(function (item) { return item.dir === id; });
+        if (!post) return;
+        var trigger = requestedTrigger || grid.querySelector('[data-post-id="'+id+'"] a') || document.querySelector('.cover-photo[href="#moments/'+id+'"]');
+        var lead=openModal(post, trigger);
+        if(lead&&!initial&&!Number.isInteger(imageIndex)&&window.ImageTransition)window.ImageTransition.open(lead,trigger);
+        if (Number.isInteger(imageIndex) && post.imgs.length) openLightbox(Math.min(Math.max(imageIndex, 0), post.imgs.length - 1), modalBody.querySelectorAll('.moments-thumb')[imageIndex]);
+    };
+    window.closeMomentDetail = function () {
+        if(activePost)detailPositions.set(activePost.dir,modalBody.parentElement.scrollTop);
+        activePost = null;
+        modal.classList.remove('visible'); modal.setAttribute('aria-hidden', 'true');
+    };
 
     function closeModal() {
+        if(detailClosing)return;
+        detailClosing=true;
+        if(activePost)detailPositions.set(activePost.dir,modalBody.parentElement.scrollTop);
+        function finish(){
+        detailClosing=false;
+        if (window.Exhibition) { window.Exhibition.returnTo('moments'); return; }
+        activePost = null;
         modal.classList.remove('visible');
         modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
         if (modalLastFocus && typeof modalLastFocus.focus === 'function') modalLastFocus.focus();
+        }
+        var lead=modalBody.querySelector('.moment-lead');
+        if(lead&&window.ImageTransition)window.ImageTransition.close(lead,modalLastFocus,finish);else finish();
     }
 
     modalClose.addEventListener('click', closeModal);
@@ -238,23 +180,55 @@ var momentsPosts = [
     var lightboxImage = document.createElement('img');
     lightbox.appendChild(lightboxImage);
     document.body.appendChild(lightbox);
+    lightbox.setAttribute('data-i-aria', 'album_label');
+    var albumControls = document.createElement('div'); albumControls.className = 'album-controls';
+    var previous = document.createElement('button'); previous.type = 'button'; previous.textContent = '←'; previous.dataset.iAria = 'album_prev';
+    var position = document.createElement('span'); position.className = 'album-position'; position.setAttribute('aria-live', 'polite');
+    var next = document.createElement('button'); next.type = 'button'; next.textContent = '→'; next.dataset.iAria = 'album_next';
+    albumControls.append(previous, position, next); lightbox.appendChild(albumControls);
 
-    function openLightbox(src, trigger) {
+    function renderAlbum() {
+        if (!activePost || !activePost.imgs.length) return;
+        lightboxImage.src = activePost.imgs[albumIndex];
+        lightboxImage.alt = postText(activePost, 'title') + ' · ' + DICT.moment_img_alt + (albumIndex + 1);
+        lightbox.setAttribute('aria-label', DICT.album_label);
+        previous.setAttribute('aria-label', DICT.album_prev); next.setAttribute('aria-label', DICT.album_next);
+        previous.disabled = albumIndex === 0; next.disabled = albumIndex === activePost.imgs.length - 1;
+        position.textContent = (albumIndex + 1) + ' / ' + activePost.imgs.length;
+    }
+    function moveAlbum(delta) {
+        if (!activePost) return;
+        if(window.ImageTransition)window.ImageTransition.cancel(lightboxImage);
+        albumIndex = Math.max(0, Math.min(activePost.imgs.length - 1, albumIndex + delta));
+        renderAlbum();
+        if (window.Exhibition) window.Exhibition.updateDetailRoute('moments/' + activePost.dir + '/image/' + (albumIndex + 1));
+    }
+    previous.addEventListener('click', function () { moveAlbum(-1); });
+    next.addEventListener('click', function () { moveAlbum(1); });
+
+    function openLightbox(index, trigger) {
         lightboxLastFocus = trigger || document.activeElement;
-        lightboxImage.src = src;
-        lightboxImage.alt = trigger ? trigger.alt : '';
+        albumIndex = index;
+        renderAlbum();
         lightbox.classList.add('visible');
         lightbox.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
+        if (window.Exhibition) window.Exhibition.updateDetailRoute('moments/' + activePost.dir + '/image/' + (albumIndex + 1));
+        if (window.ImageTransition) window.ImageTransition.open(lightboxImage, trigger);
         lightboxClose.focus();
     }
 
     function closeLightbox() {
+        var returnThumb = modalBody.querySelectorAll('.moments-thumb')[albumIndex] || lightboxLastFocus;
+        function finish(){
         lightbox.classList.remove('visible');
         lightbox.setAttribute('aria-hidden', 'true');
         lightboxImage.removeAttribute('src');
         document.body.style.overflow = modal.classList.contains('visible') ? 'hidden' : '';
-        if (lightboxLastFocus && typeof lightboxLastFocus.focus === 'function') lightboxLastFocus.focus();
+        if (window.Exhibition && activePost) window.Exhibition.updateDetailRoute('moments/' + activePost.dir);
+        if (returnThumb && typeof returnThumb.focus === 'function') returnThumb.focus({ preventScroll: true });
+        }
+        if (window.ImageTransition) window.ImageTransition.close(lightboxImage, returnThumb,finish);else finish();
     }
 
     lightboxClose.addEventListener('click', closeLightbox);
@@ -262,6 +236,9 @@ var momentsPosts = [
         if (event.target === lightbox) closeLightbox();
     });
     document.addEventListener('keydown', function (event) {
+        if (lightbox.classList.contains('visible') && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
+            event.preventDefault(); moveAlbum(event.key === 'ArrowRight' ? 1 : -1); return;
+        }
         if (event.key !== 'Escape') return;
         if (lightbox.classList.contains('visible')) {
             closeLightbox();
@@ -270,5 +247,5 @@ var momentsPosts = [
         }
     });
 
-    window.renderMoments();
+    // life-exhibit.js owns the listing; this file owns public data and existing readers.
 })();

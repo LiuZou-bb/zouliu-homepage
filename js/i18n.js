@@ -8,7 +8,6 @@ var DICT = ZH; // default
 // Special-case selectors: elements that need non-textContent handling
 // 'tn' = first textNode only  'h' = innerHTML  'btn' = lang button
 var MAP = [
-    ['.hero h1', 'hero_hi', 'tn'],
     ['.hero-subtitle', 'hero_sub', 'h'],
     ['#langBtn', null, 'btn']
 ];
@@ -70,16 +69,21 @@ function applyI18n() {
             el.innerHTML = DICT[key];
         }
     });
+    if (window.DreamDialogue) window.DreamDialogue.refresh();
 }
 
 // Init
 (function() {
-    var saved = localStorage.getItem('lang');
+    var saved = null;
+    try { saved = localStorage.getItem('lang'); } catch (_) { /* Default language remains available. */ }
     DICT = (saved === 'en') ? EN : ZH;
 })();
 
 document.addEventListener('DOMContentLoaded', function() {
     applyI18n();
+    if (window.LifeLibrary) window.LifeLibrary.refresh();
+    if (window.PersonalityRecords) window.PersonalityRecords.refresh();
+    if (window.HomeExhibit) window.HomeExhibit.render();
     if (typeof refreshPhilButtons === 'function') refreshPhilButtons();
     if (typeof renderMoments === 'function') renderMoments();
     if (typeof renderInterview === 'function') renderInterview();
@@ -87,14 +91,24 @@ document.addEventListener('DOMContentLoaded', function() {
     var lb = document.getElementById('langBtn');
     if (lb) {
         lb.addEventListener('click', function() {
+            var scrollPosition = window.scrollY;
+            var viewPosition = window.Exhibition && window.Exhibition.capturePosition();
             DICT = (DICT === EN) ? ZH : EN;
-            localStorage.setItem('lang', DICT === EN ? 'en' : 'zh');
+            try { localStorage.setItem('lang', DICT === EN ? 'en' : 'zh'); } catch (_) { /* Language still changes in this session. */ }
             applyI18n();
+            if (window.LifeLibrary) window.LifeLibrary.refresh();
+            if (window.PersonalityRecords) window.PersonalityRecords.refresh();
+            if (window.HomeExhibit) window.HomeExhibit.render();
             if (typeof window.refreshPersonalityDetail === 'function') window.refreshPersonalityDetail();
             if (typeof refreshPhilButtons === 'function') refreshPhilButtons();
             if (typeof renderMoments === 'function') renderMoments();
             if (typeof renderInterview === 'function') renderInterview();
             if (typeof refreshInterviewToggle === 'function') refreshInterviewToggle();
+            if (window.Exhibition) window.Exhibition.refresh();
+            if(viewPosition && window.Exhibition)window.Exhibition.restorePosition(viewPosition);
+            else window.scrollTo({ top: scrollPosition, behavior: 'instant' });
+            if(window.ExhibitMotion)window.ExhibitMotion.refresh();
+            if(window.ArtTitles)window.ArtTitles.refresh();
         });
     }
 });
