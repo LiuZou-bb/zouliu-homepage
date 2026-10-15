@@ -276,7 +276,12 @@
             if(window.ArtTitles)window.ArtTitles.refresh();
             document.querySelectorAll('.dialog-language').forEach(function (button) {
                 button.textContent = typeof EN !== 'undefined' && DICT === EN ? '中' : 'EN';
-                button.setAttribute('aria-label', text('ex_language'));
+                button.lang = typeof EN !== 'undefined' && DICT === EN ? 'zh' : 'en';
+            });
+            document.querySelectorAll('.dialog-controls [data-i-aria]').forEach(function (button) {
+                var label = text(button.dataset.iAria);
+                button.setAttribute('aria-label', label);
+                button.title = label;
             });
             if (current) {
                 var status = document.getElementById('sceneStatus');
@@ -291,11 +296,28 @@
             var controls = document.createElement('div'); controls.className = 'dialog-controls';
             var language = document.createElement('button'); language.type = 'button'; language.className = 'dialog-language';
             language.textContent = typeof EN !== 'undefined' && DICT === EN ? '中' : 'EN'; language.setAttribute('aria-label', text('ex_language'));
+            language.dataset.iAria = 'ex_language'; language.title = text('ex_language');
+            language.lang = typeof EN !== 'undefined' && DICT === EN ? 'zh' : 'en';
             language.addEventListener('click', function () { document.getElementById('langBtn').click(); });
-            var theme = document.createElement('button'); theme.type = 'button'; theme.textContent = '◐';
+            var theme = document.createElement('button'); theme.type = 'button'; theme.className = 'dialog-theme';
             theme.dataset.iAria = 'theme_aria'; theme.setAttribute('aria-label', text('theme_aria'));
+            theme.title = text('theme_aria');
+            document.querySelectorAll('#themeToggle svg').forEach(function (source) {
+                var icon = source.cloneNode(true);
+                icon.setAttribute('aria-hidden', 'true'); icon.setAttribute('focusable', 'false');
+                icon.setAttribute('stroke-width', '1.6'); icon.setAttribute('stroke-linecap', 'round'); icon.setAttribute('stroke-linejoin', 'round');
+                theme.appendChild(icon);
+            });
             theme.addEventListener('click', function () { document.getElementById('themeToggle').click(); });
-            controls.append(theme, language); dialog.appendChild(controls);
+            controls.append(theme, language);
+            var close = dialog.querySelector('.moments-modal-close,.avatar-modal-close,.img-lightbox-close');
+            if (close) {
+                close.classList.add('dialog-close');
+                close.title = text(close.dataset.iAria);
+                close.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"/></svg>';
+                controls.appendChild(close);
+            }
+            dialog.appendChild(controls);
         });
         articles.forEach(function (id) {
             var toolbar = document.createElement('div');

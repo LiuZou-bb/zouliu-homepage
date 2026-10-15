@@ -4,7 +4,7 @@
     var root = document.documentElement, entries = [], frame = 0, remembered = new Map();
     var NS = 'http://www.w3.org/2000/svg';
     var heroStart=0,heroDone=false,heroVisible=false,heroLanguage='',heroReduced=false,heroDuration=1600;
-    var exploreHeld=false,explorePassed=false,exploreWheelTime=0;
+    var exploreHeld=false,explorePassed=false,exploreWheelTime=0,exploreHeldUntil=0;
     function clamp(n) { return Math.max(0, Math.min(1, n)); }
     function reduced() { return root.dataset.motion === 'reduced' || matchMedia('(prefers-reduced-motion: reduce)').matches; }
     function svg(tag) { return document.createElementNS(NS, tag); }
@@ -194,11 +194,11 @@
         else if(scrollY>stop+8){exploreHeld=false;explorePassed=true;}
         if(delta<0){exploreHeld=false;return;}
         if(exploreHeld){
-            if(distinct){exploreHeld=false;explorePassed=true;return;}
+            if(distinct||now>=exploreHeldUntil){exploreHeld=false;explorePassed=true;return;}
             event.preventDefault();return;
         }
         if(!explorePassed&&scrollY<=stop+1&&scrollY+delta>=stop){
-            event.preventDefault();scrollTo({top:stop,behavior:'instant'});exploreHeld=true;schedule();
+            event.preventDefault();scrollTo({top:stop,behavior:'instant'});exploreHeld=true;exploreHeldUntil=now+450;schedule();
         }
     }
     window.ArtTitles={refresh:refresh,update:schedule,finish:finishVisible};
@@ -207,8 +207,8 @@
     document.addEventListener('DOMContentLoaded',refresh,{once:true});
     document.addEventListener('exhibition:route',function(){if(document.getElementById('homeView').hidden)heroVisible=false;refresh();});
     // A wheel gesture no longer completes the hero prematurely. At the next
-    // scene, stop on the complete word and absorb gesture inertia;
-    // only the following distinct notch releases it toward the perimeter.
+    // scene, briefly stop on the complete word. Continuous input can then
+    // release it toward the perimeter without waiting for a silent interval.
     addEventListener('wheel',holdExplore,{passive:false,capture:true});
     document.addEventListener('keydown',function(event){if(event.key==='Escape'||event.key==='Tab')finishVisible();});
     document.addEventListener('focusin',function(event){if(event.target.matches('a:focus-visible,button:focus-visible')&&event.target.closest('.art-ready'))finishVisible();});

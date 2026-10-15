@@ -374,8 +374,32 @@ body.life-preview .life-exhibit:not(.is-selected) .life-exhibit-photo,body.life-
 .footer .container p { text-align:left; }
 .scene-next { display:flex;justify-content:space-between;align-items:center;margin-top:48px;padding-block:26px;border-top:1px solid var(--border);color:var(--text);text-decoration:none;font:450 28px var(--type-display); }
 .scene-next span:first-child { font:12px var(--type-reading);color:var(--text-secondary); }
-.dialog-controls { position:absolute;top:18px;right:78px;z-index:5;display:flex;gap:6px; }
-.dialog-controls button { min-width:44px;height:44px;font:13px var(--type-reading);border:1px solid var(--border);color:var(--text);background:var(--card-bg);cursor:pointer; }
+/* One quiet reading toolstrip; the existing close buttons keep their handlers. */
+.dialog-controls {
+  position:fixed;top:max(16px,env(safe-area-inset-top));right:max(20px,env(safe-area-inset-right));z-index:5;
+  display:flex;align-items:center;gap:0;padding:4px;border:1px solid var(--border);border-radius:999px;
+  background:var(--card-bg);background:color-mix(in srgb,var(--card-bg) 90%,transparent);
+  box-shadow:0 4px 20px #0000000d,0 1px 3px #00000008;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+}
+.dialog-controls button {
+  position:relative;inset:auto;float:none;display:inline-flex;align-items:center;justify-content:center;flex:0 0 44px;
+  width:44px;min-width:44px;height:44px;margin:0;padding:0;border:0;border-radius:50%;appearance:none;
+  font:500 12px/1 var(--type-reading);letter-spacing:.04em;color:var(--text-secondary);background:transparent;box-shadow:none;
+  cursor:pointer;transform:none;transition:color var(--motion-ui),background-color var(--motion-ui);
+}
+.dialog-controls svg { width:18px;height:18px;flex-shrink:0;pointer-events:none; }
+.dialog-controls .dialog-close { margin-left:8px; }
+.dialog-controls .dialog-close::before { content:'';position:absolute;left:-5px;top:14px;bottom:14px;width:1px;background:var(--border);pointer-events:none; }
+.dialog-controls .dialog-close svg { width:16px;height:16px; }
+.dialog-controls button:focus-visible { outline:2px solid var(--accent);outline-offset:1px;color:var(--text);background:var(--bg-alt); }
+.dialog-controls button:active { transform:none;color:var(--text);background:var(--bg-alt); }
+@media(hover:hover) and (pointer:fine) {
+  .dialog-controls button:hover { color:var(--text);background:var(--bg-alt); }
+}
+@media(max-width:767px) {
+  .dialog-controls { top:max(12px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right)); }
+}
+html[data-motion="reduced"] .dialog-controls button { transition:none; }
 @keyframes sceneArrival { from{opacity:.6} to{opacity:1} }
 .scene-arriving { animation:sceneArrival var(--motion-scene) var(--ease-exhibit); }
 .exhibition-ready #exhibitionMain { outline:none; }
