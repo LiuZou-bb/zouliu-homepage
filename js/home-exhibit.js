@@ -33,20 +33,26 @@
         if(window.setPublicImageSize)window.setPublicImageSize(img,src);box.append(img);return box;
     }
     function bookSurface(page,index,sample,folio){
-        var side=el('a','book-page book-page--'+page[0]+' book-page--'+(sample?'preview':'intro'));
-        side.href='#'+page[1];side.dataset.bookSet=String(index);
+        var catalogue=sample&&!index,side=el(catalogue?'div':'a','book-page book-page--'+page[0]+' book-page--'+(sample?'preview':'intro'));
+        if(!catalogue)side.href='#'+page[1];side.dataset.bookSet=String(index);
         side.addEventListener('click',function(event){if(bookState!=='open'||bookTurning||bookDragging||bookPage!==index||performance.now()<bookClickUntil)event.preventDefault();});
         var questions=window.interviewQuestions||[],heading=sample?t(index?'book_question_sample':'book_reading_sample'):t(page[2]);
         if(sample&&index)heading=heading.replace('{count}',String(questions.length));
         var title=el('h4','',heading),copy=el('div','book-page-copy'+(sample?' book-sample-copy':''));
         title.id='homeBookTitle-'+index+'-'+(sample?'preview':'intro');side.setAttribute('aria-labelledby',title.id);
-        if(!sample)t(page[3]).split('\n').forEach(function(paragraph){copy.append(el('p','',paragraph));});
+        if(!sample){
+            title.append(el('span','book-enter-hint',t('book_enter_hint')+' ↗'));
+            t(page[3]).split('\n').forEach(function(paragraph){copy.append(el('p','',paragraph));});
+        }
         else if(!index){
-            var entries=window.LifeLibraryData&&window.LifeLibraryData.reading||[];
-            entries.filter(function(entry){return ['how-to-read-a-book','the-courage-to-be-disliked'].includes(entry.id);}).slice(0,2).forEach(function(entry){
-                var note=window.LibraryNotes&&window.LibraryNotes[entry.id],item=el('div','book-sample-item');
-                item.dataset.bookId=entry.id;item.append(el('h5','',DICT===EN?entry.titleEn||entry.title:entry.title));
-                if(note)item.append(el('p','',DICT===EN?note.noteEn||note.note:note.note));copy.append(item);
+            copy.classList.add('book-catalogue');
+            ['reading','games','movies','anime','music'].forEach(function(group,n){
+                var item=el('a','book-catalogue-link');item.href='#books';item.dataset.bookGroup=group;
+                item.append(el('small','',String(n+1).padStart(2,'0')),el('span','',t('library_'+group)),el('span','book-catalogue-arrow','↗'));
+                item.addEventListener('click',function(event){
+                    if(bookState!=='open'||bookTurning||bookDragging||bookPage!==0||performance.now()<bookClickUntil){event.preventDefault();return;}
+                    if(window.LifeLibrary)window.LifeLibrary.selectGroup(group);
+                });copy.append(item);
             });
         }else questions.slice(0,2).forEach(function(question,n){
             var item=el('div','book-sample-item book-question-item');item.dataset.question=String(n+1);
@@ -86,14 +92,23 @@
     }
     function measureBook(){
         var article=slides[4],reader=article&&article.querySelector('.book-reader');if(!reader||!reader.clientHeight)return;
-        var narrow=matchMedia('(max-width:600px)').matches,availableHeight=Math.max(1,reader.clientHeight-44),windowRatio=narrow?.66:1;
+        var narrow=matchMedia('(max-width:600px)').matches,availableHeight=Math.max(1,reader.clientHeight-44),windowRatio=narrow?.66:1,ratio=narrow?1.22:1.5;
         // Show a whole spread on wider screens. A phone keeps the left page
         // readable and exposes the spine plus 32% of the facing page.
-        var height=Math.min(availableHeight,Math.max(1,reader.clientWidth-48)/(1.5*windowRatio)),width=height*1.5;
+        var height=Math.min(availableHeight,Math.max(1,reader.clientWidth-48)/(ratio*windowRatio)),width=height*ratio;
         bookMetrics={narrow:narrow,width:width,windowWidth:width*windowRatio};
         var viewport=reader.querySelector('.book-window'),object=reader.querySelector('.exhibit-book');
-        viewport.style.width=bookMetrics.windowWidth+'px';viewport.style.height=height+'px';object.style.width=width+'px';object.style.height=height+'px';object.style.setProperty('--book-height',height+'px');
-        reader.querySelector('.book-gesture-hint').textContent=t(matchMedia('(max-width:767px)').matches||matchMedia('(pointer:coarse)').matches?'book_swipe_hint':'book_wheel_hint');positionBook();
+        viewport.style.width=bookMetrics.windowWidth+'px';viewport.style.height=height+'px';object.style.width=width+'px';object.style.height=height+'px';object.style.setProperty('--book-height',height+'px');object.style.setProperty('--book-page-width',width*.5+'px');
+        reader.querySelector('.book-gesture-hint').textContent=t('book_swipe_hint');positionBook();fitBookCopy();
+    }
+    function fitBookCopy(){
+        var article=slides[4];if(!article)return;
+        article.querySelectorAll('.book-page-copy').forEach(function(copy){
+            var scale=1;copy.style.setProperty('--book-copy-fit','1');
+            for(var n=0;n<6&&copy.clientHeight>0&&copy.scrollHeight>copy.clientHeight+1;n++){
+                scale*=Math.min(.95,Math.sqrt(copy.clientHeight/copy.scrollHeight)*.97);copy.style.setProperty('--book-copy-fit',scale.toFixed(4));
+            }
+        });
     }
     function positionBook(){
         var article=slides[4];if(!article||!bookMetrics)return;
@@ -103,11 +118,15 @@
         object.querySelector('.book-reading-leaf').style.transform='translateZ(3px) rotateY('+(-180*bookTurn)+'deg)';
         article.classList.toggle('is-book-turning',busy);article.dataset.bookPage=String(bookPage);article.dataset.bookTurn=bookTurn.toFixed(4);
         object.querySelector('.book-spread').inert=bookProgress<1||bookTurning;
-        article.querySelectorAll('.book-page').forEach(function(page){var hidden=bookProgress<1||busy||Number(page.dataset.bookSet)!==bookPage;page.tabIndex=hidden||m.narrow&&page.classList.contains('book-page--preview')?-1:0;page.setAttribute('aria-hidden',String(hidden));});
+        article.querySelectorAll('.book-page').forEach(function(page){
+            var hidden=bookProgress<1||busy||Number(page.dataset.bookSet)!==bookPage,preview=page.classList.contains('book-page--preview');
+            page.tabIndex=hidden||page.tagName!=='A'||m.narrow&&preview?-1:0;page.setAttribute('aria-hidden',String(hidden));
+            page.querySelectorAll('.book-catalogue-link').forEach(function(link){link.tabIndex=hidden||m.narrow?-1:0;});
+        });
     }
     function setBookPage(index){
         if(bookState!=='open'||bookTurning||active!==4||view.hidden)return false;
-        var target=index===1?1:0,from=bookTurn,article=slides[4],moveFocus=Array.from(article.querySelectorAll('.book-page')).includes(document.activeElement);
+        var target=index===1?1:0,from=bookTurn,article=slides[4],moveFocus=Array.from(article.querySelectorAll('.book-page')).some(function(page){return page.contains(document.activeElement);});
         bookDragging=false;bookPage=target;
         if(Math.abs(from-target)<.001){bookTurn=target;positionBook();return false;}
         bookTurning=true;positionBook();
@@ -129,9 +148,6 @@
         cancelAnimationFrame(bookTurnFrame);bookTurnFrame=0;bookTurning=false;bookDragging=false;bookTurn=bookPage;touchStart=null;positionBook();
     }
     function canTurnBook(direction){return bookState==='open'&&(direction>0?bookPage===0:bookPage===1);}
-    function bookCopyCanScroll(target,delta){
-        var copy=target.closest('.book-page-copy');return copy&&copy.scrollHeight>copy.clientHeight+1&&(delta>0?copy.scrollTop+copy.clientHeight<copy.scrollHeight-1:copy.scrollTop>1);
-    }
     function paintBook(progress){
         var article=slides[4];if(!article)return;bookProgress=clamp(progress);
         var object=article.querySelector('.exhibit-book'),open=clamp(bookProgress/.26);
@@ -252,7 +268,6 @@
         if(event.defaultPrevented||view.hidden||event.ctrlKey||event.target.closest('.navbar,[role="dialog"],input,textarea,select'))return;
         var horizontal=active===4&&bookState==='open'&&Math.abs(event.deltaX)>Math.abs(event.deltaY);
         var delta=(horizontal?event.deltaX:event.deltaY)*(event.deltaMode===1?16:event.deltaMode===2?innerHeight:1);if(!delta||(!horizontal&&Math.abs(delta)<Math.abs(event.deltaX)))return;
-        if(active===4&&bookCopyCanScroll(event.target,delta))return;
         var direction=Math.sign(delta),now=performance.now(),gap=now-lastWheel,newGesture=gap>160||direction!==wheelDirection;lastWheel=now;wheelDirection=direction;
         // Accumulate small trackpad deltas, then rearm after the entrance.
         // A continuous two-finger scroll must not require a silent interval.
@@ -326,7 +341,6 @@
             e.preventDefault();if(bookTurning||performance.now()<transitionUntil)return;
             bookDragging=true;bookClickUntil=performance.now()+700;bookTurn=reduced()?touchStart.turn:clamp(touchStart.turn+dx/Math.max(1,bookMetrics.width*.5));positionBook();return;
         }
-        if(bookCopyCanScroll(touchStart.target,dy)){touchStart.copyScrolled=true;return;}
         if((dy>0&&(active<4||bookState!=='open'))||(dy<0&&active>0))e.preventDefault();
     },{passive:false});
     host.addEventListener('touchend',function(e){
@@ -336,7 +350,6 @@
             var threshold=Math.max(32,bookMetrics.width*.5*.18),target=Math.abs(dx)>threshold?(dx>0?1:0):bookPage;
             if(bookDragging||Math.abs(dx)>threshold){bookClickUntil=performance.now()+700;setBookPage(target);}return;
         }
-        if(gesture.copyScrolled||bookCopyCanScroll(gesture.target,dy))return;
         if(Math.abs(dy)>45||Math.abs(dx)>45)step(Math.abs(dy)>Math.abs(dx)?Math.sign(dy):Math.sign(dx));
     },{passive:true});
     host.addEventListener('touchcancel',function(){touchStart=null;if(bookDragging)setBookPage(bookPage);},{passive:true});
@@ -352,5 +365,6 @@
         if(direction){e.preventDefault();align();step(direction);}
         if(e.key==='Escape'){select(active,true);if(active===4)finishBook();}
     });
+    if(document.fonts)document.fonts.ready.then(measureBook);
     addEventListener('pagehide',cancel);document.addEventListener('DOMContentLoaded',function(){if(!slides.length)render();},{once:true});
 })();

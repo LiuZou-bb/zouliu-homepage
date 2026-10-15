@@ -200,7 +200,10 @@
     search.addEventListener('input', function (event) { if (!event.isComposing) { state().query = search.value; renderResults(); } });
     search.addEventListener('compositionend', function () { state().query = search.value; renderResults(); });
     categorySelect.addEventListener('change', function () { state().category = categorySelect.value; renderResults(); });
-    window.LifeLibrary = { refresh: render };
+    window.LifeLibrary = { refresh: render, selectGroup: function (key) {
+        if (['reading','games','movies','anime','music'].indexOf(key) < 0) return;
+        group = key; render();
+    } };
     addEventListener('scroll', scheduleDock, { passive: true });
     addEventListener('resize', scheduleDock, { passive: true });
     document.addEventListener('exhibition:route', updateDock);
