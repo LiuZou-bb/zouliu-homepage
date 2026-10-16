@@ -120,6 +120,8 @@ function scrollSiteElementIntoView(element, block) {
 
     function openAvatar() {
         lastFocus = document.activeElement;
+        var image = modal.querySelector('img');
+        if (!image.getAttribute('src')) image.src = image.dataset.src;
         modal.classList.add('visible');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';

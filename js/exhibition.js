@@ -37,6 +37,7 @@
     var lastDepth = null;
     var scrollFrame = 0;
     var positionTimer = 0;
+    var routeRevision = 0;
 
     function capturePosition() {
         if (current && current.index === -1 && window.HomeExhibit) return { y:window.scrollY, home:window.HomeExhibit.capture() };
@@ -147,6 +148,23 @@
     function applyRoute(options) {
         options = options || {};
         var next = parseRoute();
+        next.openDream = next.openDream || options.openDream;
+        var revision = ++routeRevision;
+        var resource = next.openDream ? 'dream' : next.index === 0 ? 'meet' : next.index === 2 ? 'life' : next.index === 4 ? 'books' : null;
+        if (window.SiteResources && !window.SiteResources.ready(resource)) {
+            main.setAttribute('aria-busy', 'true');
+            var loadingStatus = document.getElementById('sceneStatus');
+            if (loadingStatus) loadingStatus.textContent = text('ex_loading');
+            window.SiteResources.ensure(resource).then(function () {
+                if (revision === routeRevision) applyRoute(Object.assign({}, options, {openDream:next.openDream}));
+            }).catch(function () {
+                if (revision !== routeRevision) return;
+                main.removeAttribute('aria-busy');
+                if (loadingStatus) loadingStatus.textContent = text('ex_load_failed');
+            });
+            return;
+        }
+        main.removeAttribute('aria-busy');
         if (current && current.key === next.key && !options.force) {
             if (next.openDream && window.DreamDialogue) window.DreamDialogue.open();
             return;
@@ -346,7 +364,7 @@
         root.classList.add('exhibition-ready');
         refreshMotion();
         applyRoute({ initial: true });
-        if (current.index === -1 && window.ExhibitMotion) window.ExhibitMotion.enter();
+        if (current && current.index === -1 && window.ExhibitMotion) window.ExhibitMotion.enter();
     }
     document.addEventListener('click', function (event) {
         var link = event.target.closest('a[href^="#"]');

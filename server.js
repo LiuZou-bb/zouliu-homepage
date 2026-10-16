@@ -4,7 +4,7 @@ const path = require('path');
 
 const PORT = Number(process.env.PORT || 8080);
 const ROOT = __dirname;
-const MIME = { '.html':'text/html','.js':'application/javascript','.css':'text/css','.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.json':'application/json','.txt':'text/plain','.svg':'image/svg+xml','.woff2':'font/woff2','.mp4':'video/mp4','.webm':'video/webm' };
+const MIME = { '.html':'text/html','.js':'application/javascript','.css':'text/css','.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.webp':'image/webp','.json':'application/json','.txt':'text/plain','.svg':'image/svg+xml','.woff2':'font/woff2','.mp4':'video/mp4','.webm':'video/webm' };
 const TEXT = ['.html','.js','.css','.json','.txt','.svg'];
 
 http.createServer((req, res) => {

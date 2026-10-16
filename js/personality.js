@@ -2,17 +2,17 @@
 (function () {
     'use strict';
     var catalogue = {
-        '16PF': { image: 'images/EPQ-R.jpg', title: 'personality_card_16pf', name: 'personality_16pf', intro: 'record_16pf_intro', points: [
+        '16PF': { image: 'images/optimized/epq-r-7dc9095815dc.webp', title: 'personality_card_16pf', name: 'personality_16pf', intro: 'record_16pf_intro', points: [
             { title: 'record_16pf_1', body: 'record_16pf_1_body', scores: ['record_warmth', 'record_dominance'], values: ['3 / 4', '3.5 / 4'] },
             { title: 'record_16pf_2', body: 'record_16pf_2_body', scores: ['record_change', 'record_independence'], values: ['3.4 / 4', '3.3 / 4'] },
             { title: 'record_16pf_3', body: 'record_16pf_3_body', scores: ['record_liveliness', 'record_tension'], values: ['1.9 / 4', '1.2 / 4'] }
         ] },
-        'EPQ-R': { image: 'images/16PF.jpg', title: 'personality_card_epq', name: 'personality_epq', intro: 'record_epq_intro', points: [
+        'EPQ-R': { image: 'images/optimized/16pf-d11d75228c75.webp', title: 'personality_card_epq', name: 'personality_epq', intro: 'record_epq_intro', points: [
             { title: 'record_epq_1', body: 'record_epq_1_body', scores: ['record_e'], values: ['E = 11 · 52%'] },
             { title: 'record_epq_2', body: 'record_epq_2_body', scores: ['record_n'], values: ['N = 10 · 41%'] },
             { title: 'record_epq_3', body: 'record_epq_3_body', scores: ['record_p', 'record_l'], values: ['P = 7 · 30%', 'L = 11 · 55%'] }
         ] },
-        'NEO-PI-R': { image: 'images/NEO-PI-R.jpg', title: 'personality_card_neo', name: 'personality_neo', intro: 'record_neo_intro', totals: [
+        'NEO-PI-R': { image: 'images/optimized/neo-pi-r-c511cf38eb6f.webp', title: 'personality_card_neo', name: 'personality_neo', intro: 'record_neo_intro', totals: [
             ['record_o', 'O', 132, 68], ['record_c', 'C', 100, 62], ['record_a', 'A', 102, 53], ['record_e', 'E', 91, 47], ['record_n', 'N', 50, 26]
         ], points: [
             { title: 'record_neo_1', body: 'record_neo_1_body', scores: ['record_values', 'record_aesthetics','record_ideas','record_actions'], values: ['27 · 84%', '25 · 78%','25 · 78%','16 · 50%'] },
