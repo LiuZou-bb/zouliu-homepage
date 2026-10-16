@@ -40,13 +40,25 @@ body.library-docked .navbar { visibility: hidden; pointer-events: none; }
 .library-duration { font-variant-numeric: tabular-nums; }
 .library-reading-status--finished { color: var(--accent); }
 .library-grid.library-grid--text { display: block; }
-.library-grid.library-grid--text.library-grid--posters { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 32px; }
+.library-grid.library-grid--text.library-grid--posters { display:block; }
+.library-category-section { min-width:0; }
+.library-category-section + .library-category-section { margin-top:clamp(56px,7vw,88px); }
+.library-category-heading { margin:24px 0 8px;font:400 22px/1.6 'Zou Serif',serif;color:var(--text); }
+.library-category-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 32px;list-style:none;padding:0;margin:0; }
 .library-grid--posters .library-record--poster { height:100%;grid-template-columns:2em 52px minmax(0,1fr);align-items:start;gap:8px 12px; }
 .library-grid--posters .library-record--poster .library-index { grid-column:1;grid-row:1/3; }
 .library-grid--posters .library-record--poster .library-record-poster { grid-column:2;grid-row:1/3; }
 .library-grid--posters .library-record--poster .library-record-content { grid-column:3;grid-row:1; }
 .library-grid--posters .library-record--poster .library-record-meta { grid-column:3;grid-row:2; }
-@media(max-width:600px) { .library-grid.library-grid--text.library-grid--posters { grid-template-columns:minmax(0,1fr); } }
+@media(max-width:600px) {
+    .library-category-grid { column-gap:20px; }
+    .library-category-heading { font-size:20px; }
+    .library-grid--posters .library-record--poster { grid-template-columns:1.8em minmax(0,1fr);gap:10px 8px;padding:20px 0; }
+    .library-grid--posters .library-record--poster .library-index { grid-column:1;grid-row:1; }
+    .library-grid--posters .library-record--poster .library-record-poster { grid-column:2;grid-row:1;width:52px;height:78px; }
+    .library-grid--posters .library-record--poster .library-record-content { grid-column:1/-1;grid-row:2; }
+    .library-grid--posters .library-record--poster .library-record-meta { grid-column:1/-1;grid-row:3;font-size:13px; }
+}
 .library-record { display: grid; grid-template-columns: 2.5em minmax(0, 1.5fr) minmax(0, 1fr); align-items: baseline; gap: 16px; padding: 24px 0; border-bottom: 1px solid var(--border); }
 .library-record .library-index { margin: 0; }
 .library-record .library-title { font-family: var(--type-reading); font-size: 17px; }

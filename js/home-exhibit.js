@@ -284,10 +284,11 @@
         if(index===4){measureBook();if(!instant){bookPage=0;bookTurn=0;bookState='closed';paintBook(0);if(reduced())finishBook();}}schedule();
     }
     function aligned(){return !view.hidden&&Math.abs(host.getBoundingClientRect().top-navHeight())<5;}
+    function canLeaveStage(){return active===chapters.length-1&&bookState==='open'&&bookPage===1&&!waitingForArtwork&&!bookTurning&&!bookDragging&&performance.now()>=Math.max(transitionUntil,bookInputUntil);}
     function align(){engaged=true;stagePinned=true;resizePinnedUntil=performance.now()+250;scrollTo({top:Math.max(0,host.getBoundingClientRect().top+scrollY-navHeight()),behavior:'instant'});schedule();}
     function step(direction){
         if(waitingForArtwork||performance.now()<transitionUntil)return;
-        if(active===4&&(bookTurning||bookDragging))return;
+        if(active===4&&(bookTurning||bookDragging||performance.now()<bookInputUntil||bookState==='closing'))return;
         if(active===4&&canTurnBook(direction)){setBookPage(direction>0?1:0);return;}
         if(active===4&&direction>0&&bookState!=='open'){if(bookState!=='opening')startBook();return;}
         if(active===4&&direction<0&&closeBook())return;
@@ -335,7 +336,7 @@
         if(slides.length){
             var boundary=Math.max(0,host.getBoundingClientRect().top+scrollY-navHeight());
             if(Math.abs(scrollY-boundary)<5)engaged=true;
-            if((performance.now()<resizePinnedUntil)||(active<4&&location.hash!=='#contact'&&scrollY>boundary+1)||(engaged&&active>0&&scrollY<boundary-1))scrollTo({top:boundary,behavior:'instant'});
+            if((performance.now()<resizePinnedUntil)||(!canLeaveStage()&&location.hash!=='#contact'&&scrollY>boundary+1)||(engaged&&active>0&&scrollY<boundary-1))scrollTo({top:boundary,behavior:'instant'});
             stagePinned=Math.abs(scrollY-boundary)<5;
         }
         var isReduced=reduced();if(isReduced!==lastReduced&&slides.length){lastReduced=isReduced;if(isReduced){select(active,true);if(active===4)finishBook();}}
@@ -361,24 +362,32 @@
     if(window.visualViewport)window.visualViewport.addEventListener('resize',syncViewport,{passive:true});syncViewport();
     host.addEventListener('touchstart',function(e){
         if(e.touches.length!==1){if(bookDragging)settleBookPage();touchStart=null;return;}
-        var p=e.touches[0];touchStart={x:p.clientX,y:p.clientY,turn:bookTurn,axis:null,target:e.target};
+        var p=e.touches[0],now=performance.now();
+        touchStart={x:p.clientX,y:p.clientY,turn:bookTurn,axis:null,blocked:waitingForArtwork||now<transitionUntil||active===4&&(bookTurning||now<bookInputUntil||bookState==='opening'||bookState==='closing')};
     },{passive:true});
     host.addEventListener('touchmove',function(e){
         if(!aligned()||!touchStart||e.touches.length!==1)return;
         var dy=touchStart.y-e.touches[0].clientY,dx=touchStart.x-e.touches[0].clientX;
         if(!touchStart.axis&&Math.max(Math.abs(dx),Math.abs(dy))>8)touchStart.axis=Math.abs(dx)>Math.abs(dy)*1.2?'horizontal':'vertical';
-        if(active===4&&bookState==='open'&&touchStart.axis==='horizontal'){
-            e.preventDefault();if(bookTurning||performance.now()<transitionUntil)return;
-            bookDragging=true;bookClickUntil=performance.now()+700;bookTurn=reduced()?touchStart.turn:clamp(touchStart.turn+dx/Math.max(1,bookMetrics.width*.5));positionBook();return;
+        if(touchStart.blocked){e.preventDefault();return;}
+        if(active===4&&bookState==='open'&&touchStart.axis){
+            var horizontal=touchStart.axis==='horizontal',distance=horizontal?dx:dy;
+            if(!horizontal&&dy>0&&canLeaveStage()){touchStart.leaving=true;return;}
+            e.preventDefault();
+            if(!horizontal&&!bookDragging&&!canTurnBook(Math.sign(distance)))return;
+            touchStart.span=horizontal?bookMetrics.width*.5:host.clientHeight*.5;
+            bookDragging=true;bookClickUntil=performance.now()+700;bookTurn=reduced()?touchStart.turn:clamp(touchStart.turn+distance/Math.max(1,touchStart.span));positionBook();return;
         }
-        if((dy>0&&(active<4||bookState!=='open'))||(dy<0&&active>0))e.preventDefault();
+        if(touchStart.axis==='horizontal'||(dy>0&&!canLeaveStage())||(dy<0&&active>0))e.preventDefault();
     },{passive:false});
     host.addEventListener('touchend',function(e){
         if(!touchStart||!aligned()){if(bookDragging)settleBookPage();touchStart=null;return;}
         var gesture=touchStart,p=e.changedTouches[0],dy=gesture.y-p.clientY,dx=gesture.x-p.clientX;touchStart=null;
-        if(active===4&&bookState==='open'&&(gesture.axis==='horizontal'||Math.abs(dx)>Math.abs(dy)*1.2)){
-            var threshold=Math.max(32,bookMetrics.width*.5*.18),target=Math.abs(dx)>threshold?(dx>0?1:0):bookPage;
-            if(bookDragging||Math.abs(dx)>threshold){bookClickUntil=performance.now()+700;setBookPage(target);}return;
+        if(gesture.blocked||gesture.leaving)return;
+        var horizontal=gesture.axis?gesture.axis==='horizontal':Math.abs(dx)>Math.abs(dy)*1.2,distance=horizontal?dx:dy;
+        if(active===4&&bookState==='open'&&(horizontal||bookDragging||canTurnBook(Math.sign(distance)))){
+            var span=gesture.span||(horizontal?bookMetrics.width*.5:host.clientHeight*.5),threshold=Math.max(horizontal?32:45,span*.18),target=Math.abs(distance)>threshold?(distance>0?1:0):bookPage;
+            if(bookDragging||Math.abs(distance)>threshold){bookClickUntil=performance.now()+700;setBookPage(target);}return;
         }
         if(Math.abs(dy)>45||Math.abs(dx)>45)step(Math.abs(dy)>Math.abs(dx)?Math.sign(dy):Math.sign(dx));
     },{passive:true});

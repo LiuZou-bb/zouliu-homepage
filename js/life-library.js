@@ -15,6 +15,7 @@
     function el(tag, cls, value) { var node = document.createElement(tag); node.className = cls; if (value !== undefined) node.textContent = value; return node; }
     function duration(record) { return record.hours === null ? t('library_time_unknown') : record.hours + ' ' + t('library_hours') + (record.minutes ? ' ' + record.minutes + ' ' + t('library_minutes') : ''); }
     function hasSearch() { return group !== 'reading' && group !== 'games'; }
+    function groupCategories() { return group === 'movies' ? movieCategories : group === 'anime' ? animeCategories : []; }
     function appendNote(host, entry, cls) {
         var record = window.LibraryNotes && window.LibraryNotes[entry.id];
         if (!record) return;
@@ -87,9 +88,9 @@
         var item = el('li', 'library-item'), article = el('article', 'library-record');
         article.dataset.libraryId = entry.id;
         var content = el('div', 'library-record-content');
-        content.append(el('h3', 'library-title', localized(entry, 'title')));
+        content.append(el(groupCategories().length ? 'h4' : 'h3', 'library-title', localized(entry, 'title')));
         if (entry.partial) content.append(el('small', 'library-partial', t('library_partial')));
-        var meta = group === 'music' ? entry.artist : [entry.years, entry.category && t(categoryKey(entry.category)), entry.note].filter(Boolean).join(' · ');
+        var meta = group === 'music' ? entry.artist : [entry.years, entry.note].filter(Boolean).join(' · ');
         var sequence = group === 'music' ? window.LifeLibraryData.music.length - index : index + 1;
         article.append(el('small', 'library-index', String(sequence).padStart(2, '0')));
         if (entry.image) {
@@ -136,7 +137,7 @@
         list.replaceChildren(fragment);
     }
     function renderControls(entries) {
-        var filter = state(), categories = group === 'movies' ? movieCategories : group === 'anime' ? animeCategories : [];
+        var filter = state(), categories = groupCategories();
         host.querySelector('.library-search').hidden = !hasSearch();
         host.querySelector('.library-controls').hidden = !hasSearch() && !categories.length;
         if (!hasSearch()) { filter.query = ''; filter.category = ''; }
@@ -176,8 +177,22 @@
         host.querySelector('.library-empty').hidden = Boolean(shown.length);
         var grid = host.querySelector('.library-grid'), fragment = document.createDocumentFragment(), isText = group !== 'reading' && group !== 'games';
         grid.classList.toggle('library-grid--text', isText);
-        grid.classList.toggle('library-grid--posters', group === 'movies' || group === 'anime');
-        shown.forEach(function (entry) { var index = entries.indexOf(entry); fragment.append(isText ? textRecord(entry, index) : card(entry, index)); }); grid.replaceChildren(fragment);
+        var categories = groupCategories();
+        grid.classList.toggle('library-grid--posters', Boolean(categories.length));
+        if (categories.length) {
+            categories.forEach(function (category) {
+                var records = shown.filter(function (entry) { return entry.category === category; });
+                if (!records.length) return;
+                var section = el('li', 'library-category-section'), heading = el('h3', 'library-category-heading', t(categoryKey(category)));
+                heading.id = 'library-category-' + group + '-' + category;
+                var list = el('ul', 'library-category-grid'); list.setAttribute('aria-labelledby', heading.id);
+                records.forEach(function (entry) { list.append(textRecord(entry, entries.indexOf(entry))); });
+                section.append(heading, list); fragment.append(section);
+            });
+        } else {
+            shown.forEach(function (entry) { var index = entries.indexOf(entry); fragment.append(isText ? textRecord(entry, index) : card(entry, index)); });
+        }
+        grid.replaceChildren(fragment);
     }
     host.addEventListener('click', function (event) {
         var button = event.target.closest('button'); if (!button || !host.contains(button)) return;
