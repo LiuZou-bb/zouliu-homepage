@@ -1,7 +1,7 @@
 /* Load a chapter once, before the router reveals or measures its contents. */
 (function () {
     'use strict';
-    var revision = '20261016-preload-replay1', files = new Map(), pending = new Map(), ready = new Set();
+    var revision = '20261016-image-budget1', files = new Map(), pending = new Map(), ready = new Set();
     var groups = {
         meet: { scripts: ['personality.js'] },
         life: { styles: ['life-chapters.css'], scripts: ['moments.js', 'life-exhibit.js'] },

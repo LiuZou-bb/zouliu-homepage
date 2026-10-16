@@ -375,14 +375,20 @@ body.life-preview .life-exhibit:not(.is-selected) .life-exhibit-photo,body.life-
 .study-ink { stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:0; }
 .study-correction { stroke:currentColor;stroke-width:1;opacity:.35; }
 .study-point { fill:currentColor; }
-.growth-study.is-prepared .study-ink { transition:stroke-dashoffset 1700ms var(--ease-exhibit); }
-.growth-study.is-prepared .study-point { transition:opacity 400ms 1200ms; }
+.growth-study.is-prepared .study-ink { transition:stroke-dashoffset 3400ms var(--ease-exhibit); }
+.growth-study.is-prepared .study-point { transition:opacity 800ms 2400ms; }
 .growth-study.is-resetting .study-ink,.growth-study.is-resetting .study-point { transition:none!important; }
 .growth-study.is-prepared:not(.is-drawn) .study-ink { stroke-dashoffset:1; }
 .growth-study.is-prepared:not(.is-drawn) .study-point { opacity:0; }
+/* Reveal the disconnected rhythm strokes together from left to right. */
+.growth-study--rhythm.is-prepared .study-ink { stroke-dashoffset:0;clip-path:inset(-2px -2px -2px -2px) fill-box;transition:clip-path 3400ms var(--ease-exhibit); }
+.growth-study--rhythm.is-prepared:not(.is-drawn) .study-ink { stroke-dashoffset:0;clip-path:inset(-2px 100% -2px -2px) fill-box; }
+.growth-study--rhythm.is-prepared .study-point { transition-delay:3400ms; }
+html[data-motion="reduced"] .growth-study--rhythm .study-ink { clip-path:none!important; }
 html[data-motion="reduced"] .growth-study .study-ink { stroke-dashoffset:0!important; }
 html[data-motion="reduced"] .growth-study .study-point { opacity:1!important; }
 @media(prefers-reduced-motion:reduce) {
+  .growth-study--rhythm .study-ink { clip-path:none!important; }
   .growth-study .study-ink { stroke-dashoffset:0!important; }
   .growth-study .study-point { opacity:1!important; }
 }

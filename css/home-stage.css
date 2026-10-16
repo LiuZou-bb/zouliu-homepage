@@ -3,7 +3,9 @@
 .home-explore,.explore-atmosphere { transition:background-color 1200ms ease; }
 .home-explore { overflow-anchor:none; }
 .home-explore .explore-atmosphere { height:calc(var(--exhibit-viewport-height,100svh) - var(--nav-height));margin-bottom:calc(var(--nav-height) - var(--exhibit-viewport-height,100svh)); }
-#homeExhibits { position:relative;z-index:1;height:calc(var(--exhibit-viewport-height,100svh) - var(--nav-height));min-height:420px;overflow:clip;isolation:isolate;touch-action:pan-y; }
+/* Reserve stage swipes before the compositor starts scrolling. Pinch zoom
+   remains native; the stage handles vertical entry and exit below. */
+#homeExhibits { position:relative;z-index:1;height:calc(var(--exhibit-viewport-height,100svh) - var(--nav-height));min-height:420px;overflow:clip;isolation:isolate;touch-action:pinch-zoom; }
 #homeExhibits .home-exhibit { position:absolute;inset:0;min-height:0;height:100%;visibility:hidden;pointer-events:none;z-index:auto; }
 #homeExhibits .home-exhibit.is-active { pointer-events:auto;z-index:auto; }
 #homeExhibits .home-exhibit-link { position:absolute;inset:0;top:0;height:100%;min-height:0;width:100%;padding:0; }

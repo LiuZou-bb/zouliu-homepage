@@ -40,84 +40,84 @@
     reading.push(sociology, toads);
     var suppliedBookCovers = {
         "the-crescent-moon": [
-                "images/optimized/the-crescent-moon-9afeeea24c49.webp",
-                1024,
-                1500
+                "images/optimized/the-crescent-moon-2ec36bb09260.webp",
+                796,
+                1166
         ],
         "invitation-to-sociology": [
-                "images/optimized/invitation-to-sociology-178ac46a2d5b.webp",
-                1280,
-                1926
+                "images/optimized/invitation-to-sociology-59c0981d37c6.webp",
+                1105,
+                1663
         ],
         "don-quixote": [
-                "images/optimized/don-quixote-76cdad6f8d42.webp",
-                800,
-                800
+                "images/optimized/don-quixote-d39da57798ac.webp",
+                602,
+                602
         ],
         "sophies-world": [
-                "images/optimized/sophies-world-98d5249eedea.webp",
-                293,
-                428
+                "images/optimized/sophies-world-a904a90c84da.webp",
+                281,
+                410
         ],
         "the-craft-of-writing": [
-                "images/optimized/the-craft-of-writing-34c5fb69e339.webp",
-                302,
-                431
+                "images/optimized/the-craft-of-writing-db3a56c3d494.webp",
+                301,
+                430
         ],
         "me-and-the-temple-of-earth": [
-                "images/optimized/me-and-the-temple-of-earth-d93f0eb3ca0b.webp",
+                "images/optimized/me-and-the-temple-of-earth-74083d16eb86.webp",
                 287,
                 439
         ],
         "thinking-fast-and-slow": [
-                "images/optimized/thinking-fast-and-slow-1b41c7a48494.webp",
-                292,
-                431
+                "images/optimized/thinking-fast-and-slow-11180b2c5203.webp",
+                221,
+                326
         ],
         "introduction-to-jungian-psychology": [
-                "images/optimized/introduction-to-jungian-psychology-407af3c17c4b.webp",
-                295,
-                406
+                "images/optimized/introduction-to-jungian-psychology-fc31021b8331.webp",
+                247,
+                340
         ],
         "economics-in-one-lesson": [
-                "images/optimized/economics-in-one-lesson-9274a6ec89a2.webp",
-                299,
-                414
+                "images/optimized/economics-in-one-lesson-37b765c59722.webp",
+                248,
+                343
         ],
         "the-kite-runner": [
-                "images/optimized/the-kite-runner-63179f763397.webp",
-                304,
-                424
+                "images/optimized/the-kite-runner-6d350041c727.webp",
+                275,
+                384
         ],
         "the-courage-to-be-disliked": [
-                "images/optimized/the-courage-to-be-disliked-ed0da8426373.webp",
-                306,
-                456
+                "images/optimized/the-courage-to-be-disliked-ee72002e129b.webp",
+                266,
+                396
         ],
         "stray-birds": [
-                "images/optimized/stray-birds-aeb6aae68304.webp",
-                310,
-                424
+                "images/optimized/stray-birds-aab436cec69e.webp",
+                273,
+                373
         ],
         "counselling-for-toads": [
-                "images/optimized/counselling-for-toads-96e72fce9efd.webp",
-                304,
-                447
+                "images/optimized/counselling-for-toads-02b9cb954c57.webp",
+                267,
+                393
         ],
         "introduction-to-psychology": [
-                "images/optimized/introduction-to-psychology-c787a532baeb.webp",
-                800,
-                800
+                "images/optimized/introduction-to-psychology-98c97920f0f3.webp",
+                593,
+                593
         ],
         "social-psychology": [
-                "images/optimized/social-psychology-2096f065d400.webp",
-                600,
-                800
+                "images/optimized/social-psychology-9a486f13286c.webp",
+                400,
+                533
         ],
         "think-again": [
-                "images/optimized/think-again-d58d1645f63e.webp",
-                330,
-                495
+                "images/optimized/think-again-f3a2855e1481.webp",
+                225,
+                338
         ]
 };
     reading.forEach(function (entry) {
@@ -190,9 +190,9 @@
     games.sort(function (a, b) { return (b.hours + b.minutes / 60) - (a.hours + a.minutes / 60); });
     // BEGIN optimized computed image paths
     var computedAssets = {
-        "how-to-read-a-book.jpg": "images/optimized/how-to-read-a-book-a34906002c0e.webp",
-        "relationship-bridge-to-the-soul.jpg": "images/optimized/relationship-bridge-to-the-soul-687ea151c9f1.webp",
-        "white-nights.jpg": "images/optimized/white-nights-b35b0fa66b99.webp",
+        "how-to-read-a-book.jpg": "images/optimized/how-to-read-a-book-4d85b3fce949.webp",
+        "relationship-bridge-to-the-soul.jpg": "images/optimized/relationship-bridge-to-the-soul-daf1515eb188.webp",
+        "white-nights.jpg": "images/optimized/white-nights-1eefc6c8abb3.webp",
         "game-library-01.png": "images/optimized/game-library-01-7e305a02b03f.webp",
         "game-library-03.png": "images/optimized/game-library-03-9fb81d9e53f3.webp",
         "game-library-02.png": "images/optimized/game-library-02-4d4e0b5482d7.webp"
