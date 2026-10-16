@@ -2,6 +2,8 @@
 (function () {
     'use strict';
     var root=document.documentElement,blocks=[],frame=0,rebuilding=false;
+    var studies=Array.from(document.querySelectorAll('.growth-study'));
+    studies.forEach(function(study){study.classList.add('is-prepared');});
     function reduced(){return root.dataset.motion==='reduced'||matchMedia('(prefers-reduced-motion: reduce)').matches;}
     function duration(token){var value=getComputedStyle(root).getPropertyValue(token).trim();return parseFloat(value)*(value.endsWith('ms')?1:1000)||650;}
     function clamp(n){return Math.max(0,Math.min(1,n));}
@@ -64,6 +66,13 @@
                 var eased=amount*amount*(3-2*amount);
                 line.copy.style.transform='translateY('+((1-eased)*line.distance).toFixed(3)+'px)';
             });
+        });
+        // Each unfinished drawing is revealed once as it enters the viewport.
+        // Text stays readable before, during, and without the animation.
+        studies.forEach(function(study){
+            if(study.classList.contains('is-drawn')||!study.getClientRects().length)return;
+            var r=study.getBoundingClientRect();
+            if(reduced()||(r.top<innerHeight*.82&&r.bottom>0))study.classList.add('is-drawn');
         });
         if(window.HomeExhibit)window.HomeExhibit.refresh();
     }
