@@ -377,6 +377,7 @@ body.life-preview .life-exhibit:not(.is-selected) .life-exhibit-photo,body.life-
 .study-point { fill:currentColor; }
 .growth-study.is-prepared .study-ink { transition:stroke-dashoffset 1700ms var(--ease-exhibit); }
 .growth-study.is-prepared .study-point { transition:opacity 400ms 1200ms; }
+.growth-study.is-resetting .study-ink,.growth-study.is-resetting .study-point { transition:none!important; }
 .growth-study.is-prepared:not(.is-drawn) .study-ink { stroke-dashoffset:1; }
 .growth-study.is-prepared:not(.is-drawn) .study-point { opacity:0; }
 html[data-motion="reduced"] .growth-study .study-ink { stroke-dashoffset:0!important; }

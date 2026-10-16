@@ -299,7 +299,7 @@
     search.addEventListener('input', function (event) { if (!event.isComposing) { state().query = search.value; renderResults(); } });
     search.addEventListener('compositionend', function () { state().query = search.value; renderResults(); });
     categorySelect.addEventListener('change', function () { state().category = categorySelect.value; renderResults(); });
-    window.LifeLibrary = { refresh: render, selectGroup: function (key) {
+    window.LifeLibrary = { refresh: render, preloadPriority: ensurePriorityCovers, selectGroup: function (key) {
         if (['reading','games','movies','anime','music'].indexOf(key) < 0) return;
         group = key; render();
     } };

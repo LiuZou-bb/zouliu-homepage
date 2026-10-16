@@ -1,7 +1,7 @@
 /* Load a chapter once, before the router reveals or measures its contents. */
 (function () {
     'use strict';
-    var revision = '20261016-library-priority1', files = new Map(), pending = new Map(), ready = new Set();
+    var revision = '20261016-preload-replay1', files = new Map(), pending = new Map(), ready = new Set();
     var groups = {
         meet: { scripts: ['personality.js'] },
         life: { styles: ['life-chapters.css'], scripts: ['moments.js', 'life-exhibit.js'] },
@@ -39,12 +39,31 @@
         }).catch(function (error) { pending.delete(key); throw error; });
         pending.set(key, promise); return promise;
     }
-    var selectedBookGroup = null;
+    var selectedBookGroup = null, homePreload = null, bookPreload = null;
+    function preloadHomeImages() {
+        var home = document.getElementById('homeView');
+        if (!home || home.hidden || document.body.dataset.activeScene !== 'home' || !window.HomeExhibit || homePreload) return;
+        var avatar = home.querySelector('.avatar-img');
+        homePreload = (avatar ? avatar.decode().catch(function () {}) : Promise.resolve())
+            .then(function () { return window.HomeExhibit.preloadImages(); })
+            .then(function () { return ensure('life'); })
+            .then(function () { return window.LifeExhibit.preloadImages(); })
+            .catch(function () { homePreload = null; });
+    }
+    function preloadBookImages() {
+        if (bookPreload) return bookPreload;
+        bookPreload = ensure('books').then(function () { return window.LifeLibrary.preloadPriority(); })
+            .catch(function () { bookPreload = null; });
+        return bookPreload;
+    }
     window.SiteResources = {
         ensure: ensure,
+        preloadBookImages: preloadBookImages,
         ready: function (key) { return !groups[key] || ready.has(key); },
         selectBookGroup: function (key) { selectedBookGroup = key; if (ready.has('books')) window.LifeLibrary.selectGroup(key); }
     };
+    document.addEventListener('DOMContentLoaded', preloadHomeImages, { once: true });
+    document.addEventListener('exhibition:route', preloadHomeImages);
     // The existing dialogue binds its own clicks once loaded; keep the first
     // activation on the directory and preserve its address and focus contract.
     var openingDream = false;

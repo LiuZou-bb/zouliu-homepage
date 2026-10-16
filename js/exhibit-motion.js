@@ -3,6 +3,7 @@
     'use strict';
     var root=document.documentElement,blocks=[],frame=0,rebuilding=false;
     var studies=Array.from(document.querySelectorAll('.growth-study'));
+    var limitsActive=false;
     studies.forEach(function(study){study.classList.add('is-prepared');});
     function reduced(){return root.dataset.motion==='reduced'||matchMedia('(prefers-reduced-motion: reduce)').matches;}
     function duration(token){var value=getComputedStyle(root).getPropertyValue(token).trim();return parseFloat(value)*(value.endsWith('ms')?1:1000)||650;}
@@ -67,7 +68,7 @@
                 line.copy.style.transform='translateY('+((1-eased)*line.distance).toFixed(3)+'px)';
             });
         });
-        // Each unfinished drawing is revealed once as it enters the viewport.
+        // Each drawing reveals on scroll, once per visit to the limits chapter.
         // Text stays readable before, during, and without the animation.
         studies.forEach(function(study){
             if(study.classList.contains('is-drawn')||!study.getClientRects().length)return;
@@ -98,11 +99,22 @@
         if(block&&event.target.matches(':focus-visible')){clear(block.element);blocks=blocks.filter(function(b){return b!==block;});}
     }
     function cancelAll(){if(frame)cancelAnimationFrame(frame);frame=0;if(window.HomeExhibit)window.HomeExhibit.cancel();}
+    function routeChanged(){
+        var entering=document.body.dataset.activeScene==='limits';
+        if(entering&&!limitsActive)studies.forEach(function(study){
+            study.classList.add('is-resetting');study.classList.remove('is-drawn');
+            // Commit the empty stroke before restoring its transition.
+            getComputedStyle(study.querySelector('.study-ink')).strokeDashoffset;
+            getComputedStyle(study.querySelector('.study-point')).opacity;
+            study.classList.remove('is-resetting');
+        });
+        limitsActive=entering;refresh();
+    }
     window.ExhibitMotion={refresh:refresh,enter:schedule,cancelAll:cancelAll,update:schedule,reduced:reduced,duration:duration};
     addEventListener('scroll',schedule,{passive:true});
     var resizeTimer;addEventListener('resize',function(){clearTimeout(resizeTimer);resizeTimer=setTimeout(refresh,120);},{passive:true});
     document.addEventListener('focusin',finishFocused);
     document.addEventListener('DOMContentLoaded',refresh,{once:true});
     if(document.fonts){document.fonts.ready.then(refresh);document.fonts.addEventListener('loadingdone',refresh);}
-    document.addEventListener('exhibition:route',refresh);addEventListener('pagehide',cancelAll);
+    document.addEventListener('exhibition:route',routeChanged);addEventListener('pagehide',cancelAll);
 })();
